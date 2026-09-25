@@ -26,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 486103376793150804}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 1.482, y: 0.602, z: 0.000019193}
+  m_LocalScale: {x: 5, y: 15, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7574532916891100495}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &8049530861640132023
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 6038679993100966955}
   - component: {fileID: 5582839840210764788}
   - component: {fileID: 6730714990195698932}
+  - component: {fileID: 5228570466083537337}
   m_Layer: 0
   m_Name: PokerChip_Red_LOD0
   m_TagString: Untagged
@@ -116,13 +117,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 658266036763937241}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 1.482, y: 0.602, z: 0.000019193}
+  m_LocalScale: {x: 5, y: 15, z: 5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7574532916891100495}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &5582839840210764788
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -180,6 +181,19 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5228570466083537337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658266036763937241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 754434f107909f74db5fedb95b2a3246, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RotateObject
+  rotation: {x: 0, y: 0, z: 120}
 --- !u!1 &7085839119149727733
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,10 +204,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7574532916891100495}
   - component: {fileID: 3405911158199325246}
-  - component: {fileID: 7968166208559202982}
-  - component: {fileID: 3200441311879238562}
+  - component: {fileID: 567260925739639153}
+  - component: {fileID: 6793870505732452173}
   m_Layer: 0
-  m_Name: PokerChip_Red
+  m_Name: FichaRoja
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -240,8 +254,8 @@ LODGroup:
     - renderer: {fileID: 4411059624539381828}
   m_Enabled: 1
   m_GlobalIlluminationLOD: 0
---- !u!64 &7968166208559202982
-MeshCollider:
+--- !u!65 &567260925739639153
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -255,14 +269,13 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4260240713356760478, guid: 3968227f43f3d4f408e6d8d4d52481da, type: 3}
---- !u!114 &3200441311879238562
+  serializedVersion: 3
+  m_Size: {x: 0.7, y: 0.7, z: 0.3}
+  m_Center: {x: 1.482, y: 0.602, z: 0.000019193}
+--- !u!114 &6793870505732452173
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -271,7 +284,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7085839119149727733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 754434f107909f74db5fedb95b2a3246, type: 3}
+  m_Script: {fileID: 11500000, guid: b85ac7bd67dd20243834e3fd425a480d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RotateObject
-  rotation: {x: 0, y: 0, z: 100}
+  m_EditorClassIdentifier: Assembly-CSharp::Collectable
