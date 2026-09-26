@@ -4330,15 +4330,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 9a7e1f1d0648cc82a8237139c05ce588, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.43
+      value: 0.050179124
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9a7e1f1d0648cc82a8237139c05ce588, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.53
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9a7e1f1d0648cc82a8237139c05ce588, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.86
+      value: -19.98195
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9a7e1f1d0648cc82a8237139c05ce588, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4375,7 +4375,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9a7e1f1d0648cc82a8237139c05ce588, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2010251043}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9a7e1f1d0648cc82a8237139c05ce588, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2010251042}
   m_SourcePrefab: {fileID: 100100000, guid: 9a7e1f1d0648cc82a8237139c05ce588, type: 3}
 --- !u!1 &760317435 stripped
 GameObject:
@@ -5555,6 +5561,7 @@ GameObject:
   - component: {fileID: 1025515646}
   - component: {fileID: 1025515645}
   - component: {fileID: 1025515644}
+  - component: {fileID: 1025515648}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -10209,3 +10216,8 @@ SceneRoots:
   - {fileID: 747979903}
   - {fileID: 236434574}
   - {fileID: 1543187332}
+  - {fileID: 938172358}
+  - {fileID: 821777951}
+  - {fileID: 350619377}
+  - {fileID: 1390602528}
+  - {fileID: 708092096}
