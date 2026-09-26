@@ -1,26 +1,28 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CajaFichas : MonoBehaviour
 {
     public GameObject efectoDestruccion; 
     public GameObject fichaPrefab;       
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            PlayerInventory inventory = collision.gameObject.GetComponent<PlayerInventory>();
+        PlayerInventory inventory = other.GetComponent<PlayerInventory>();
 
-            if (inventory != null)
-            {
-                RomperCaja(inventory);
-            }
+        if (inventory != null)
+        {
+            RomperCaja(inventory);
         }
+
     }
 
     private void RomperCaja(PlayerInventory inventory)
     {
-        inventory.AddFicha();
+        for (int i=0; i<9; i++)
+        {
+            inventory.AddFicha();
+        }
 
         if (fichaPrefab != null)
         {
