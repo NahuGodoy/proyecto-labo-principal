@@ -76,7 +76,10 @@ public class TutorialUI : MonoBehaviour
                 return Keyboard.current.spaceKey.wasPressedThisFrame;
 
             case TipoTutorial.Correr:
-                return Keyboard.current.leftShiftKey.wasPressedThisFrame;
+                return (Keyboard.current.wKey.wasPressedThisFrame && Keyboard.current.leftShiftKey.wasPressedThisFrame) ||
+                       (Keyboard.current.aKey.wasPressedThisFrame && Keyboard.current.leftShiftKey.wasPressedThisFrame) ||
+                       (Keyboard.current.sKey.wasPressedThisFrame && Keyboard.current.leftShiftKey.wasPressedThisFrame) ||
+                       (Keyboard.current.dKey.wasPressedThisFrame && Keyboard.current.leftShiftKey.wasPressedThisFrame);
 
             default:
                 return false;
