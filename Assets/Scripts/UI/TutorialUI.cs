@@ -39,6 +39,7 @@ public class TutorialUI : MonoBehaviour
             yield return null;
         }
 
+        yield return new WaitForSeconds(3);
         empezarTutorial();
     }
 
@@ -67,19 +68,19 @@ public class TutorialUI : MonoBehaviour
         switch (tipoTutorial)
         {
             case TipoTutorial.Movimiento:
-                return Keyboard.current.wKey.wasPressedThisFrame ||
-                       Keyboard.current.aKey.wasPressedThisFrame ||
-                       Keyboard.current.sKey.wasPressedThisFrame ||
-                       Keyboard.current.dKey.wasPressedThisFrame;
+                return Keyboard.current.wKey.isPressed ||
+                       Keyboard.current.aKey.isPressed ||
+                       Keyboard.current.sKey.isPressed ||
+                       Keyboard.current.dKey.isPressed;
 
             case TipoTutorial.Salto:
-                return Keyboard.current.spaceKey.wasPressedThisFrame;
+                return Keyboard.current.spaceKey.isPressed;
 
             case TipoTutorial.Correr:
-                return (Keyboard.current.wKey.wasPressedThisFrame && Keyboard.current.leftShiftKey.wasPressedThisFrame) ||
-                       (Keyboard.current.aKey.wasPressedThisFrame && Keyboard.current.leftShiftKey.wasPressedThisFrame) ||
-                       (Keyboard.current.sKey.wasPressedThisFrame && Keyboard.current.leftShiftKey.wasPressedThisFrame) ||
-                       (Keyboard.current.dKey.wasPressedThisFrame && Keyboard.current.leftShiftKey.wasPressedThisFrame);
+                return (Keyboard.current.wKey.isPressed && Keyboard.current.leftShiftKey.isPressed) ||
+                       (Keyboard.current.aKey.isPressed && Keyboard.current.leftShiftKey.isPressed) ||
+                       (Keyboard.current.sKey.isPressed && Keyboard.current.leftShiftKey.isPressed ||
+                       (Keyboard.current.dKey.isPressed && Keyboard.current.leftShiftKey.isPressed));
 
             default:
                 return false;
