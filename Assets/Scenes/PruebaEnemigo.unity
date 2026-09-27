@@ -217,14 +217,16 @@ MonoBehaviour:
   - {fileID: 1734348256}
   - {fileID: 1787477391}
   tiempoEsperaEnPunto: 2
-  velocidadPatrulla: 2
-  radioDeteccion: 10
+  velocidadPatrulla: 2.07
+  radioDeteccion: 12
   requiereLineaDeVision: 1
   obstaculos:
     serializedVersion: 2
     m_Bits: 0
-  velocidadPersecucion: 4.1
-  radioAbandonoPersecucion: 6
+  distanciaAtaque: 1.7
+  velocidadPersecucion: 4.7
+  radioAbandonoPersecucion: 9
+  tiempoEntreAtaques: 1.5
   centroZona: {fileID: 0}
   radioZonaMaximo: 10
 --- !u!1 &76110838
@@ -1417,7 +1419,7 @@ GameObject:
   - component: {fileID: 1286236533}
   m_Layer: 0
   m_Name: GamblerCat
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
