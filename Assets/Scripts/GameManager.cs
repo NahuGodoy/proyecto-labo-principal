@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("clickeo en menu");
         Time.timeScale = 1f;
         //puse esto para testear pero no funciona 
-        SceneManager.LoadScene("PruebaLobby");
+        SceneManager.LoadScene("LobbyTest");
     }
 
     // Update is called once per frame
