@@ -18,20 +18,15 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
-            UnlockCursor();
-        }
-        else if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            LockCursor();
-        }
-
+        if (PauseMenu.JuegoEsPausado) return;
+        
         if (float.IsNaN(lookInput.x) || float.IsNaN(lookInput.y) ||
             float.IsInfinity(lookInput.x) || float.IsInfinity(lookInput.y))
         {
             lookInput = Vector2.zero;
         }
+
+        
 
         yaw += lookInput.x * sensitivity;
         pitch-= lookInput.y * sensitivity;
@@ -41,15 +36,5 @@ public class CameraController : MonoBehaviour
         pivot.localRotation = Quaternion.Euler(pitch,yaw,0);
     }
 
-    private void LockCursor()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
 
-    private void UnlockCursor()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-    }
 }
