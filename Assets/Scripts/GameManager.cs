@@ -101,6 +101,7 @@ public void GameOver()
         {
             cameraController.enabled = false;
         }
+        Time.timeScale = 0f;
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
