@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,8 +17,8 @@ public class LobbyController : MonoBehaviour
 {
     [SerializeField] private LobbyUnlockable map1;
     [SerializeField] private string map1SceneName = "Map1";
-    [SerializeField] private Text activeSlotLabel;
-    [SerializeField] private Text tutorialTimeLabel;
+    [SerializeField] private TMP_Text activeSlotLabel;
+    [SerializeField] private TMP_Text tutorialTimeLabel;
     [SerializeField] private string selectionSceneName = "SaveSelection";
 
     private void OnEnable()

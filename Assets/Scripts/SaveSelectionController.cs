@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -5,7 +6,7 @@ using UnityEngine.UI;
 public class SaveSelectionController : MonoBehaviour
 {
     [SerializeField] private Button[] slotButtons = new Button[SaveManager.SlotCount];
-    [SerializeField] private Text[] slotLabels = new Text[SaveManager.SlotCount];
+    [SerializeField] private TMP_Text[] slotLabels = new TMP_Text[SaveManager.SlotCount];
     [SerializeField] private string lobbySceneName = "Lobby";
 
     private void OnEnable()

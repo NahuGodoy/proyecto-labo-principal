@@ -35,6 +35,7 @@ public class SaveData
     public string createdAtUtc;
     public bool tutorialCompleted;
     public bool map1Unlocked;
+    public List<BoolProgressEntry> unlockedMaps = new List<BoolProgressEntry>();
     public List<BoolProgressEntry> collectibles = new List<BoolProgressEntry>();
     public List<BoolProgressEntry> achievements = new List<BoolProgressEntry>();
     public List<LevelBestTime> bestTimes = new List<LevelBestTime>();
@@ -65,11 +66,17 @@ public class SaveData
         slotId = expectedSlotId;
         collectibles ??= new List<BoolProgressEntry>();
         achievements ??= new List<BoolProgressEntry>();
+        unlockedMaps ??= new List<BoolProgressEntry>();
         bestTimes ??= new List<LevelBestTime>();
 
         if (tutorialCompleted)
         {
             map1Unlocked = true;
+        }
+
+        if (map1Unlocked)
+        {
+            SetFlag(unlockedMaps, "map1", true);
         }
     }
 
@@ -91,6 +98,26 @@ public class SaveData
     public void SetAchievement(string id, bool unlocked)
     {
         SetFlag(achievements, id, unlocked);
+    }
+
+    public bool IsMapUnlocked(string mapId)
+    {
+        if (mapId == "map1")
+        {
+            return map1Unlocked;
+        }
+
+        return GetFlag(unlockedMaps, mapId);
+    }
+
+    public void SetMapUnlocked(string mapId, bool unlocked)
+    {
+        if (mapId == "map1")
+        {
+            map1Unlocked = unlocked;
+        }
+
+        SetFlag(unlockedMaps, mapId, unlocked);
     }
 
     public float GetBestTime(string levelId)

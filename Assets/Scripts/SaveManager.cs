@@ -84,8 +84,15 @@ public class SaveManager : MonoBehaviour
 
         ActiveSave.MarkCreated();
         ActiveSave.tutorialCompleted = true;
-        ActiveSave.map1Unlocked = true;
+        ActiveSave.SetMapUnlocked("map1", true);
         ActiveSave.TrySetBestTime("tutorial", elapsedSeconds);
+        SaveActiveSlot();
+    }
+
+    public void SetMapUnlocked(string mapId, bool unlocked = true)
+    {
+        RequireActiveSave();
+        ActiveSave.SetMapUnlocked(mapId, unlocked);
         SaveActiveSlot();
     }
 
