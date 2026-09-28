@@ -13,7 +13,9 @@ public class GameManager : MonoBehaviour
     public Button menuButton;
     public CameraController cameraController;
 
-    private bool gameOverActivo = false; 
+    public GameObject victoriaPanel;
+
+    private bool juegoTerminado = false; 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,6 +23,12 @@ public class GameManager : MonoBehaviour
         {
             gameOverPanel.SetActive(false);
         }
+
+        if(victoriaPanel != null)
+        {
+            victoriaPanel.SetActive(false);
+        }
+
         if(reiniciarButton != null)
         {
             reiniciarButton.onClick.AddListener(ReiniciarEscena);
@@ -32,13 +40,13 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void ReiniciarEscena()
+    public void ReiniciarEscena()
     {
         Debug.Log("clickeo en reiniciar");
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    private void IrAMenu()
+    public void IrAMenu()
     {
         Debug.Log("clickeo en menu");
         Time.timeScale = 1f;
@@ -64,15 +72,31 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameOver()
+public void GameOver()
     {
-        if (gameOverActivo) return;
-        gameOverActivo = true;
-    
+        if (juegoTerminado) return;
+        finalizarPartida();
+
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
         }
+    }
+
+    public void Victoria()
+    {
+        if (juegoTerminado) return;
+        finalizarPartida();
+        if (victoriaPanel != null)
+        {
+            victoriaPanel.SetActive(true);
+        }
+    }
+
+    private void finalizarPartida()
+    {
+        juegoTerminado = true;
+
         if (cameraController != null)
         {
             cameraController.enabled = false;
