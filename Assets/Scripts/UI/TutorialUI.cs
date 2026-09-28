@@ -8,18 +8,22 @@ public class TutorialUI : MonoBehaviour
     {
         Movimiento,
         Salto,
-        Correr
+        Correr,
+        Monedas,
+        Vida
     }
 
     public TipoTutorial tipoTutorial;
-
     public TutorialUI tutorialPadre;
     public GameObject panel;
+    private PlayerInventory playerInventory;
 
     private bool tutorialTerminado = false;
 
     private void Start()
     {
+        playerInventory = FindAnyObjectByType<PlayerInventory>();
+
         panel.SetActive(false);
 
         if (tutorialPadre == null)
@@ -39,7 +43,7 @@ public class TutorialUI : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         empezarTutorial();
     }
 
@@ -51,7 +55,7 @@ public class TutorialUI : MonoBehaviour
 
     IEnumerator EsperarInput()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(2);
 
         while (!CondicionCompletada())
         {
@@ -93,6 +97,12 @@ public class TutorialUI : MonoBehaviour
                                         Gamepad.current.leftStickButton.isPressed;
 
             return teclado_Correr || joystick_Correr;
+
+            case TipoTutorial.Monedas:
+                return playerInventory != null && playerInventory.cantFichas > 0;
+
+            case TipoTutorial.Vida:
+            return true;
 
             default:
                 return false;
