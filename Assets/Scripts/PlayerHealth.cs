@@ -15,6 +15,12 @@ public class PlayerHealth : MonoBehaviour
         }
         cantVidas--;
         onDamageTaken?.Invoke(this);
+
+        if (cantVidas == 0)
+            if (GameManager.Instance != null)
+            {
+            GameManager.Instance.GameOver();
+            }
     }
 
     void Start()

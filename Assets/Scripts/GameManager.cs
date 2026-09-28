@@ -1,0 +1,84 @@
+using System;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class GameManager : MonoBehaviour
+{
+    public static GameManager Instance;
+
+    public GameObject gameOverPanel;
+    public Button reiniciarButton;
+    public Button menuButton;
+    public CameraController cameraController;
+
+    private bool gameOverActivo = false; 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
+        }
+        if(reiniciarButton != null)
+        {
+            reiniciarButton.onClick.AddListener(ReiniciarEscena);
+        }
+        if(menuButton != null)
+        {
+            menuButton.onClick.AddListener(IrAMenu);
+        }
+
+    }
+
+    private void ReiniciarEscena()
+    {
+        Debug.Log("clickeo en reiniciar");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    private void IrAMenu()
+    {
+        Debug.Log("clickeo en menu");
+        Time.timeScale = 1f;
+        //puse esto para testear pero no funciona 
+        SceneManager.LoadScene("PruebaLobby");
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+     
+    }
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void GameOver()
+    {
+        if (gameOverActivo) return;
+        gameOverActivo = true;
+    
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+        }
+        if (cameraController != null)
+        {
+            cameraController.enabled = false;
+        }
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+}
