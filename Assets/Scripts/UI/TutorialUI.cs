@@ -39,6 +39,7 @@ public class TutorialUI : MonoBehaviour
             yield return null;
         }
 
+        yield return new WaitForSeconds(3);
         empezarTutorial();
     }
 
@@ -65,24 +66,36 @@ public class TutorialUI : MonoBehaviour
     bool CondicionCompletada()
     {
         switch (tipoTutorial)
-        {
+{
             case TipoTutorial.Movimiento:
-                return Keyboard.current.wKey.wasPressedThisFrame ||
-                       Keyboard.current.aKey.wasPressedThisFrame ||
-                       Keyboard.current.sKey.wasPressedThisFrame ||
-                       Keyboard.current.dKey.wasPressedThisFrame;
+                bool teclado_Movimiento = Keyboard.current.wKey.isPressed || Keyboard.current.aKey.isPressed ||
+                                        Keyboard.current.sKey.isPressed || Keyboard.current.dKey.isPressed;
+
+                bool joystick_Movimiento = Gamepad.current != null &&
+                                            Gamepad.current.leftStick.ReadValue().magnitude > 0.1f;
+
+                return teclado_Movimiento || joystick_Movimiento;
 
             case TipoTutorial.Salto:
-                return Keyboard.current.spaceKey.wasPressedThisFrame;
+                bool teclado_Salto = Keyboard.current.spaceKey.isPressed;
+                bool joystick_Salto = Gamepad.current != null && Gamepad.current.buttonSouth.isPressed;
+
+                return teclado_Salto || joystick_Salto;
 
             case TipoTutorial.Correr:
-                return (Keyboard.current.wKey.wasPressedThisFrame && Keyboard.current.leftShiftKey.wasPressedThisFrame) ||
-                       (Keyboard.current.aKey.wasPressedThisFrame && Keyboard.current.leftShiftKey.wasPressedThisFrame) ||
-                       (Keyboard.current.sKey.wasPressedThisFrame && Keyboard.current.leftShiftKey.wasPressedThisFrame) ||
-                       (Keyboard.current.dKey.wasPressedThisFrame && Keyboard.current.leftShiftKey.wasPressedThisFrame);
+                bool teclado_Correr = (Keyboard.current.wKey.isPressed && Keyboard.current.leftShiftKey.isPressed) ||
+                                    (Keyboard.current.aKey.isPressed && Keyboard.current.leftShiftKey.isPressed) ||
+                                    (Keyboard.current.sKey.isPressed && Keyboard.current.leftShiftKey.isPressed) ||
+                                    (Keyboard.current.dKey.isPressed && Keyboard.current.leftShiftKey.isPressed);
+
+                bool joystick_Correr = Gamepad.current != null &&
+                                        Gamepad.current.leftStick.ReadValue().magnitude > 0.1f &&
+                                        Gamepad.current.leftStickButton.isPressed;
+
+            return teclado_Correr || joystick_Correr;
 
             default:
                 return false;
-        }
+}
     }
 }
