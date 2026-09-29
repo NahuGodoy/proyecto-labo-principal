@@ -6,16 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/SaveSelection.unity
+    guid: 17f98477ffcac9c14981e692ee750dec
+  - enabled: 1
+    path: Assets/Scenes/EscenarioTutorial.unity
+    guid: c4e594cbc3d98104eae548a7aad31378
+  - enabled: 1
+    path: Assets/Scenes/LobbyTest.unity
+    guid: 805120a646af569d2b0c5b02384a4854
+  - enabled: 0
     path: Assets/Scenes/PruebaDerrota.unity
     guid: 1e6afb4c39b950f4c9c5dfc5f2014353
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PruebaMovimientoNpc.unity
     guid: 8ba10cdd137877145ad7b8be7d19dbb5
   - enabled: 0
     path: Assets/Scenes/PruebaLobby.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
-    path: Assets/Scenes/LobbyTest.unity
-    guid: 805120a646af569d2b0c5b02384a4854
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

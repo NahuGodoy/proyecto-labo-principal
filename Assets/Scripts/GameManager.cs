@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public CameraController cameraController;
 
     public GameObject victoriaPanel;
+    public LevelTimer levelTimer;
+    [SerializeField] private string lobbySceneName = "LobbyTest";
 
     private bool juegoTerminado = false; 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -86,11 +88,29 @@ public void GameOver()
     public void Victoria()
     {
         if (juegoTerminado) return;
+
+        if (levelTimer == null)
+        {
+            levelTimer = FindAnyObjectByType<LevelTimer>();
+        }
+
+        if (levelTimer != null)
+        {
+            levelTimer.CompleteLevel();
+        }
+
         finalizarPartida();
         if (victoriaPanel != null)
         {
             victoriaPanel.SetActive(true);
         }
+    }
+
+    public void ContinuarAlLobby()
+    {
+        Time.timeScale = 1f;
+        PauseMenu.JuegoEsPausado = false;
+        SceneManager.LoadScene(lobbySceneName);
     }
 
     private void finalizarPartida()

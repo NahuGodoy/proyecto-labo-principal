@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour
     public static bool JuegoEsPausado = false;
 
     public GameObject pauseMenuUI;
+    [SerializeField] private string saveSelectionSceneName = "SaveSelection";
 
     void Update()
     {
@@ -53,13 +54,20 @@ public class PauseMenu : MonoBehaviour
     public void MenuCargando()
 
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("Gambler Cat");
+        VolverASeleccion();
     }
 
     public void SalirDelJuego()
     {
-        Debug.Log("Saliendo del juego...");
-        Application.Quit();
+        VolverASeleccion();
+    }
+
+    private void VolverASeleccion()
+    {
+        Time.timeScale = 1f;
+        JuegoEsPausado = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        SceneManager.LoadScene(saveSelectionSceneName);
     }
 }
