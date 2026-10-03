@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - CajaFichas
+  - Enemy
+  - EnemyHead
+  - Proyectil
   layers:
   - Default
   - TransparentFX
