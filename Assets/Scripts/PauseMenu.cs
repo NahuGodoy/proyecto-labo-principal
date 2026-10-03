@@ -51,11 +51,6 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = true;
     }
 
-    public void MenuCargando()
-
-    {
-        VolverASeleccion();
-    }
 
     public void SalirDelJuego()
     {
