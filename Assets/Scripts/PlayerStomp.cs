@@ -1,9 +1,9 @@
+/*
 using UnityEngine;
 
 public class PlayerStomp : MonoBehaviour
 {
-    [Header("Configuración de Rebase/Salto")]
-    public float fuerzaRebote = 8f;
+    public float fuerzaRebote = 12f;
     public int dañoPisotón = 1;
 
     private CharacterController controller;
@@ -48,6 +48,54 @@ public class PlayerStomp : MonoBehaviour
         if (rb != null)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, fuerzaRebote, rb.linearVelocity.z);
+        }
+    }
+}
+*/
+using UnityEngine;
+
+public class PlayerStomp : MonoBehaviour
+{
+    [Header("Configuración de Rebote")]
+    public float fuerzaRebote = 10f; // Ajusta según la altura deseada del salto
+    public int dañoPisotón = 1;
+
+    private PlayerMovement playerMovement;
+
+    void Start()
+    {
+        playerMovement = GetComponent<PlayerMovement>();
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        // Detectar si impactamos con el enemigo o su punto débil
+        if (hit.gameObject.CompareTag("Enemy") || hit.gameObject.CompareTag("EnemyHead"))
+        {
+            // Verificar que el personaje esté cayendo o golpeando desde la parte superior
+            if (hit.point.y < transform.position.y + 0.3f)
+            {
+                EnemyHealth enemy = hit.gameObject.GetComponentInParent<EnemyHealth>();
+
+                if (enemy != null)
+                {
+                    // 1. Aplicar el rebote inmediatamente al personaje
+                    if (playerMovement != null)
+                    {
+                        playerMovement.AplicarRebote(fuerzaRebote);
+                    }
+
+                    // 2. Desactivar todos los Colliders del enemigo para que no dañen a GamblerCat
+                    Collider[] enemyColliders = enemy.GetComponentsInChildren<Collider>();
+                    foreach (Collider col in enemyColliders)
+                    {
+                        col.enabled = false;
+                    }
+
+                    // 3. Infligir daño/destruir enemigo
+                    enemy.TakeDamage(dañoPisotón);
+                }
+            }
         }
     }
 }

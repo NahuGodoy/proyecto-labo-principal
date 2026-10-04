@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 public class PlayerMovement : MonoBehaviour
 {
     private CharacterController controller;
+    private Animator animator;
 
     private Vector2 moveInput;
     public float gravity = -9.8f;
@@ -11,25 +13,24 @@ public class PlayerMovement : MonoBehaviour
     public Transform modelTransform;
     public Transform cameraPivot;
 
-    private Animator animator;
-
     private bool isMoving;
     private bool isRunning;
     private bool jumpRequested;
     private bool wasGrounded;
+
     public float walkSpeed = 5f;
     public float runSpeed = 8f;
     public float jumpForce = 5f;
 
     private void Start()
     {
-        controller = GetComponent <CharacterController>();
-        animator = GetComponent <Animator>();
+        controller = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
 
-    public void OnMove (InputAction.CallbackContext context)
+    public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput=context.ReadValue<Vector2>();
+        moveInput = context.ReadValue<Vector2>();
     }
 
     private void Update()
@@ -52,12 +53,13 @@ public class PlayerMovement : MonoBehaviour
                 {
                     animator.SetTrigger("Jump");
                 }
-                Debug.Log("Salto aplicado");
             }
         }
 
+        // Aplicar gravedad continua
         verticalVelocity += gravity * Time.deltaTime;
 
+        // Calcular dirección según cámara
         Vector3 forward = cameraPivot.forward;
         Vector3 right = cameraPivot.right;
 
@@ -74,36 +76,50 @@ public class PlayerMovement : MonoBehaviour
             modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, targetRotation, 15f * Time.deltaTime);
         }
 
-        Vector3 velocity = desiredMoveDir * currentSpeed;
-        velocity.y = verticalVelocity;
+        // Vector final de velocidad
+        Vector3 finalVelocity = desiredMoveDir * currentSpeed;
+        finalVelocity.y = verticalVelocity;
 
-        controller.Move(velocity * Time.deltaTime);
+        // Un solo movimiento por fotograma
+        controller.Move(finalVelocity * Time.deltaTime);
         wasGrounded = controller.isGrounded;
 
         updateAnimation();
     }
 
-    public void OnSprint (InputAction.CallbackContext context)
+    public void OnSprint(InputAction.CallbackContext context)
     {
         isRunning = context.ReadValueAsButton();
     }
 
-    public void OnJump (InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
             jumpRequested = true;
-            Debug.Log("Salto solicitado");
         }
     }
 
-    public void updateAnimation ()
+    public void updateAnimation()
     {
-        isMoving = moveInput.magnitude > 0.1;
+        isMoving = moveInput.magnitude > 0.1f;
 
-        animator.SetBool("isMoving", isMoving);
-        animator.SetBool("isRunning", isRunning && isMoving);
-        animator.SetBool("Grounded", controller.isGrounded);
-        animator.SetFloat("VerticalVelocity", verticalVelocity);
+        if (animator != null)
+        {
+            animator.SetBool("isMoving", isMoving);
+            animator.SetBool("isRunning", isRunning && isMoving);
+            animator.SetBool("Grounded", controller.isGrounded);
+            animator.SetFloat("VerticalVelocity", verticalVelocity);
+        }
+    }
+
+    // Método corregido: Asigna la fuerza a la variable real de velocidad vertical
+    public void AplicarRebote(float fuerza)
+    {
+        verticalVelocity = fuerza;
+        if (animator != null)
+        {
+            animator.SetTrigger("Jump");
+        }
     }
 }
