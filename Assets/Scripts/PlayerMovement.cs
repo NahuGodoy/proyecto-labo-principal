@@ -27,6 +27,23 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent <Animator>();
     }
 
+    public void TeleportTo(Vector3 position, Quaternion rotation)
+    {
+        if (controller != null)
+        {
+            controller.enabled = false;
+        }
+
+        transform.SetPositionAndRotation(position, rotation);
+        verticalVelocity = 0f;
+        wasGrounded = false;
+
+        if (controller != null)
+        {
+            controller.enabled = true;
+        }
+    }
+
     public void OnMove (InputAction.CallbackContext context)
     {
         moveInput=context.ReadValue<Vector2>();
