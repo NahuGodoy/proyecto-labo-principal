@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/LobbyTest.unity
     guid: 805120a646af569d2b0c5b02384a4854
   - enabled: 0
-    path: Assets/Scenes/PruebaDerrota.unity
+    path: Assets/Scenes/PruebaSalto.unity
     guid: 1e6afb4c39b950f4c9c5dfc5f2014353
   - enabled: 0
     path: Assets/Scenes/PruebaMovimientoNpc.unity
