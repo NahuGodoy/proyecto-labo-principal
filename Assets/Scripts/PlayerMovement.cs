@@ -7,6 +7,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     public float gravity = -9.8f;
     private float verticalVelocity;
+    private bool jumpHeld;
+    private float jumpHoldTimer;
+    private int jumpsUsed;
 
     public Transform modelTransform;
     public Transform cameraPivot;
@@ -20,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
     public float walkSpeed = 5f;
     public float runSpeed = 8f;
     public float jumpForce = 5f;
+    public float maxJumpForce = 8f;
+    public float maxJumpHoldTime = 0.25f;
 
     private void Start()
     {
@@ -37,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
         transform.SetPositionAndRotation(position, rotation);
         verticalVelocity = 0f;
         wasGrounded = false;
+        jumpsUsed = 0;
 
         if (controller != null)
         {
@@ -54,6 +60,11 @@ public class PlayerMovement : MonoBehaviour
         float currentSpeed = (isRunning && isMoving) ? runSpeed : walkSpeed;
         bool isGrounded = controller.isGrounded || wasGrounded;
 
+        if (isGrounded)
+        {
+            jumpsUsed = 0;
+        }
+
         if (isGrounded && verticalVelocity < 0)
         {
             verticalVelocity = -2f;
@@ -62,15 +73,29 @@ public class PlayerMovement : MonoBehaviour
         if (jumpRequested)
         {
             jumpRequested = false;
-            if (isGrounded)
+            if (jumpsUsed < 2 && (isGrounded || jumpsUsed > 0))
             {
                 verticalVelocity = jumpForce;
+                jumpsUsed++;
+                jumpHoldTimer = 0f;
                 if (animator != null)
                 {
                     animator.SetTrigger("Jump");
                 }
                 Debug.Log("Salto aplicado");
             }
+        }
+
+        float holdDuration = Mathf.Max(0f, maxJumpHoldTime);
+        float maximumJumpSpeed = Mathf.Max(jumpForce, maxJumpForce);
+        if (jumpHeld && verticalVelocity > 0f && jumpHoldTimer < holdDuration)
+        {
+            float heldTime = Mathf.Min(Time.deltaTime, holdDuration - jumpHoldTimer);
+            float holdAcceleration = holdDuration > 0f
+                ? (maximumJumpSpeed - jumpForce) / holdDuration - gravity
+                : 0f;
+            verticalVelocity = Mathf.Min(maximumJumpSpeed, verticalVelocity + holdAcceleration * heldTime);
+            jumpHoldTimer += heldTime;
         }
 
         verticalVelocity += gravity * Time.deltaTime;
@@ -110,7 +135,12 @@ public class PlayerMovement : MonoBehaviour
         if (context.performed)
         {
             jumpRequested = true;
+            jumpHeld = true;
             Debug.Log("Salto solicitado");
+        }
+        else if (context.canceled)
+        {
+            jumpHeld = false;
         }
     }
 
