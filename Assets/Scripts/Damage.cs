@@ -3,11 +3,10 @@ using UnityEngine;
 public class Damage : MonoBehaviour
 {
     public int cantidadDano = 1;
-    public float tiempoInvulnerabilidad = 1.5f; // Tiempo en segundos antes de poder volver a hacer daño
+    public float tiempoInvulnerabilidad = 1.5f; 
 
     private float ultimoDanoDado = 0f;
 
-    // Se ejecuta SOLAMENTE una vez cuando el jugador entra en el collider
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -16,7 +15,6 @@ public class Damage : MonoBehaviour
         }
     }
 
-    // Si tu collider NO es Trigger, usa OnCollisionEnter en su lugar:
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -27,7 +25,6 @@ public class Damage : MonoBehaviour
 
     private void IntentarHacerDano(GameObject playerObject)
     {
-        // Verifica si ya pasó el tiempo de invulnerabilidad desde el último golpe
         if (Time.time >= ultimoDanoDado + tiempoInvulnerabilidad)
         {
             PlayerHealth playerHealth = playerObject.GetComponent<PlayerHealth>();
