@@ -3,13 +3,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerPowerUps : MonoBehaviour
 {
-    public PlayerHealth playerHealth;
     public enum TipoPowerUp
     {
         Invencibilidad
     }
-    public TipoPowerUp tipoPowerUp;
-
     public void ActivarPowerUp(TipoPowerUp tipoPowerUp)
     {
         switch (tipoPowerUp)
@@ -22,15 +19,24 @@ public class PlayerPowerUps : MonoBehaviour
 
     void ActivarInvencibilidad()
     {
-       StartCoroutine(InvencivilidadTemporal(5f));
+        PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+        StartCoroutine(InvencibilidadTemporal(playerHealth, 5f));
     }
 
-    IEnumerator InvencivilidadTemporal(float duracion)
+    IEnumerator InvencibilidadTemporal(PlayerHealth playerHealth, float duracion)
     {
-        playerHealth.invencible = true;
-        Debug.Log("invencible");
-        yield return new WaitForSeconds(duracion);
-        Debug.Log("no invencible");
-        playerHealth.invencible = false;
+        if(playerHealth != null)
+        {
+            playerHealth.invencible = true;
+            Debug.Log("invencible");
+            yield return new WaitForSeconds(duracion);
+            Debug.Log("no invencible");
+            playerHealth.invencible = false;
+        } else
+        {
+            Debug.Log("No hay playerHealth");
+            yield break;
+        }
+
     }
 }
