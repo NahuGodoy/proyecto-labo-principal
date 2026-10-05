@@ -5,7 +5,8 @@ public class PlayerPowerUps : MonoBehaviour
 {
     public enum TipoPowerUp
     {
-        Invencibilidad
+        Invencibilidad,
+        Velocidad
     }
     public void ActivarPowerUp(TipoPowerUp tipoPowerUp)
     {
@@ -15,12 +16,25 @@ public class PlayerPowerUps : MonoBehaviour
             ActivarInvencibilidad();
             break;
         }
+
+        switch (tipoPowerUp)
+        {
+            case TipoPowerUp.Velocidad:
+            ActivarVelocidad();
+            break;
+        }
     }
 
     void ActivarInvencibilidad()
     {
         PlayerHealth playerHealth = GetComponent<PlayerHealth>();
         StartCoroutine(InvencibilidadTemporal(playerHealth, 5f));
+    }
+
+        void ActivarVelocidad()
+    {
+        PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+        StartCoroutine(VelocidadTemporal(playerMovement, 5f));
     }
 
     IEnumerator InvencibilidadTemporal(PlayerHealth playerHealth, float duracion)
@@ -38,5 +52,18 @@ public class PlayerPowerUps : MonoBehaviour
             yield break;
         }
 
+    }
+        IEnumerator VelocidadTemporal(PlayerMovement playerMovement, float duracion)
+    {
+        if(playerMovement != null)
+        {
+            playerMovement.walkSpeed = 15f;
+            playerMovement.runSpeed = 27f;
+            Debug.Log("veloz");
+            yield return new WaitForSeconds(duracion);
+            Debug.Log("lenteja");
+            playerMovement.walkSpeed = 5f;
+            playerMovement.runSpeed = 10f;     
+        }
     }
 }
