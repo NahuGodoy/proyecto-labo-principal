@@ -20,7 +20,7 @@ public class FullScreen : MonoBehaviour
      
     }
 
-    public void ActiveFULLS(bool fullscreen)
+    public void ActivarPantallaCompleta(bool fullscreen)
     {
         Screen.fullScreen = fullscreen;
     }
