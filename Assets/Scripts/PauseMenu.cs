@@ -9,13 +9,18 @@ public class PauseMenu : MonoBehaviour
     public static bool JuegoEsPausado = false;
 
     public GameObject pauseMenuUI;
+    public GameObject opcionesUI;
+
     [SerializeField] private string saveSelectionSceneName = "SaveSelection";
 
     void Update()
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
-            if (JuegoEsPausado)
+        {   if (opcionesUI.activeSelf)
+            {
+                CerrarOpciones();
+            }
+            else if (JuegoEsPausado)
             {
                 Reanudar();
             }
@@ -33,13 +38,19 @@ public class PauseMenu : MonoBehaviour
         JuegoEsPausado = false;
     }
 
+        private void CerrarOpciones ()
+    {
+        opcionesUI.SetActive(false);
+        pauseMenuUI.SetActive(true);
+    }
+
     public void Reanudar()
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         JuegoEsPausado = false;
         Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        Cursor.visible = false;
     }
 
     void Pausa()
@@ -51,11 +62,6 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = true;
     }
 
-    public void MenuCargando()
-
-    {
-        VolverASeleccion();
-    }
 
     public void SalirDelJuego()
     {
@@ -70,4 +76,6 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = true;
         SceneManager.LoadScene(saveSelectionSceneName);
     }
+
+
 }
