@@ -26,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
     public float maxJumpForce = 8f;
     public float maxJumpHoldTime = 0.25f;
 
+    private MovimientoPlataforma plataformaActual;
+
     private void Start()
     {
         controller = GetComponent <CharacterController>();
@@ -60,6 +62,10 @@ public class PlayerMovement : MonoBehaviour
         float currentSpeed = (isRunning && isMoving) ? runSpeed : walkSpeed;
         bool isGrounded = controller.isGrounded || wasGrounded;
 
+        // Si estamos en el aire, dejamos de considerar la plataforma
+        if (!isGrounded)
+        {
+            plataformaActual = null;
         if (isGrounded)
         {
             jumpsUsed = 0;
@@ -76,6 +82,8 @@ public class PlayerMovement : MonoBehaviour
             if (jumpsUsed < 2 && (isGrounded || jumpsUsed > 0))
             {
                 verticalVelocity = jumpForce;
+                plataformaActual = null; // Liberamos la plataforma al saltar
+
                 jumpsUsed++;
                 jumpHoldTimer = 0f;
                 if (animator != null)
@@ -119,10 +127,38 @@ public class PlayerMovement : MonoBehaviour
         Vector3 velocity = desiredMoveDir * currentSpeed;
         velocity.y = verticalVelocity;
 
-        controller.Move(velocity * Time.deltaTime);
+        // Calculamos el desplazamiento base del personaje
+        Vector3 moveDelta = velocity * Time.deltaTime;
+
+        // Si estamos sobre una plataforma móvil, sumamos su desplazamiento de cuadro
+        if (plataformaActual != null && isGrounded)
+        {
+            moveDelta += plataformaActual.DeltaMovimiento;
+        }
+
+        controller.Move(moveDelta);
         wasGrounded = controller.isGrounded;
 
         updateAnimation();
+    }
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        // Detectamos si la colisión proviene del suelo (debajo de los pies)
+        if (hit.normal.y > 0.5f)
+        {
+            MovimientoPlataforma plataforma = hit.gameObject.GetComponent<MovimientoPlataforma>();
+            if (plataforma != null)
+            {
+                plataformaActual = plataforma;
+                return;
+            }
+        }
+
+        // Si pisamos una superficie regular que no sea la plataforma móvil
+        if (hit.normal.y > 0.5f)
+        {
+            plataformaActual = null;
+        }
     }
 
     public void OnSprint (InputAction.CallbackContext context)
@@ -153,4 +189,6 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("Grounded", controller.isGrounded);
         animator.SetFloat("VerticalVelocity", verticalVelocity);
     }
+
+    
 }
