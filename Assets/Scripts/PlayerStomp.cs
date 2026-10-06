@@ -17,6 +17,7 @@ public class PlayerStomp : MonoBehaviour
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         // 1. Verifica si el objeto tocado es el enemigo o la cabeza
+        // Detectar si impactamos con el enemigo o su punto débil (ver si pongo uno nomas)
         if (hit.gameObject.CompareTag("Enemy") || hit.gameObject.CompareTag("EnemyHead"))
         {
             // 2. Comprueba que el punto de impacto esté por DEBAJO del centro del jugador (pisando desde arriba)
