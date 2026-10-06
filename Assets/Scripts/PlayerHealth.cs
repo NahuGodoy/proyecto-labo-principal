@@ -19,8 +19,15 @@ public class PlayerHealth : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
     }
 
+    public bool invencible = false;
+
     public void perderVida()
     {
+        if (invencible)
+        {
+            return;
+        }
+        
         if (cantVidas <= 0)
         {
             return;
