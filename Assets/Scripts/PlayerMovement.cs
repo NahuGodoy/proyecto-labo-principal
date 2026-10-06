@@ -9,6 +9,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     public float gravity = -9.8f;
     private float verticalVelocity;
+    private bool jumpHeld;
+    private float jumpHoldTimer;
+    private int jumpsUsed;
 
     public Transform modelTransform;
     public Transform cameraPivot;
@@ -21,6 +24,10 @@ public class PlayerMovement : MonoBehaviour
     public float walkSpeed = 5f;
     public float runSpeed = 8f;
     public float jumpForce = 5f;
+    public float maxJumpForce = 8f;
+    public float maxJumpHoldTime = 0.25f;
+
+    private MovimientoPlataforma plataformaActual;
 
     private void Start()
     {
@@ -38,6 +45,17 @@ public class PlayerMovement : MonoBehaviour
         float currentSpeed = (isRunning && isMoving) ? runSpeed : walkSpeed;
         bool isGrounded = controller.isGrounded || wasGrounded;
 
+        // Si estamos en el aire, dejamos de considerar la plataforma
+        if (!isGrounded)
+        {
+            plataformaActual = null;
+        }
+
+        if (isGrounded)
+        {
+            jumpsUsed = 0;
+        }
+
         if (isGrounded && verticalVelocity < 0)
         {
             verticalVelocity = -2f;
@@ -46,9 +64,13 @@ public class PlayerMovement : MonoBehaviour
         if (jumpRequested)
         {
             jumpRequested = false;
-            if (isGrounded)
+            if (jumpsUsed < 2 && (isGrounded || jumpsUsed > 0))
             {
                 verticalVelocity = jumpForce;
+                plataformaActual = null; // Liberamos la plataforma al saltar
+
+                jumpsUsed++;
+                jumpHoldTimer = 0f;
                 if (animator != null)
                 {
                     animator.SetTrigger("Jump");
@@ -98,6 +120,10 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpRequested = true;
         }
+        else if (context.canceled)
+        {
+            jumpHeld = false;
+        }
     }
 
     public void updateAnimation()
@@ -122,4 +148,6 @@ public class PlayerMovement : MonoBehaviour
             animator.SetTrigger("Jump");
         }
     }
+
+    
 }
