@@ -17,7 +17,6 @@ private Transform destinoActual;
 
        if (PuntoA != null)
        {
-        Debug.Log("entro?");
             destinoActual = PuntoA;
             navMeshAgent.SetDestination(destinoActual.position);
        }
@@ -35,12 +34,10 @@ private Transform destinoActual;
         {
             if (destinoActual == PuntoB)
             {
-                Debug.Log("llego al punto B y canmbia al A");
                 destinoActual = PuntoA;
             }
             else
             {
-                Debug.Log("llego al punto A y cambia al B");
                 destinoActual = PuntoB;
             }
         }

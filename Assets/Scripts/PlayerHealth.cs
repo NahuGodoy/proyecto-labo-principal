@@ -27,11 +27,6 @@ public class PlayerHealth : MonoBehaviour
         {
             return;
         }
-        
-        if (cantVidas <= 0)
-        {
-            return;
-        }
         cantVidas--;
         onDamageTaken?.Invoke(this);
         Respawn();

@@ -66,6 +66,8 @@ public class PlayerMovement : MonoBehaviour
         if (!isGrounded)
         {
             plataformaActual = null;
+        }
+
         if (isGrounded)
         {
             jumpsUsed = 0;
@@ -141,7 +143,8 @@ public class PlayerMovement : MonoBehaviour
 
         updateAnimation();
     }
-        private void OnControllerColliderHit(ControllerColliderHit hit)
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         // Detectamos si la colisión proviene del suelo (debajo de los pies)
         if (hit.normal.y > 0.5f)
