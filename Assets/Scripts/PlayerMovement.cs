@@ -35,6 +35,25 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    public void TeleportTo(Vector3 position, Quaternion rotation)
+    {
+        if (controller != null)
+        {
+            controller.enabled = false;
+        }
+
+        transform.SetPositionAndRotation(position, rotation);
+        verticalVelocity = 0f;
+        wasGrounded = false;
+        jumpsUsed = 0;
+        plataformaActual = null;
+
+        if (controller != null)
+        {
+            controller.enabled = true;
+        }
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
@@ -78,6 +97,18 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        float holdDuration = Mathf.Max(0f, maxJumpHoldTime);
+        float maximumJumpSpeed = Mathf.Max(jumpForce, maxJumpForce);
+        if (jumpHeld && verticalVelocity > 0f && jumpHoldTimer < holdDuration)
+        {
+            float heldTime = Mathf.Min(Time.deltaTime, holdDuration - jumpHoldTimer);
+            float holdAcceleration = holdDuration > 0f
+                ? (maximumJumpSpeed - jumpForce) / holdDuration - gravity
+                : 0f;
+            verticalVelocity = Mathf.Min(maximumJumpSpeed, verticalVelocity + holdAcceleration * heldTime);
+            jumpHoldTimer += heldTime;
+        }
+
         // Aplicar gravedad continua
         verticalVelocity += gravity * Time.deltaTime;
 
@@ -103,7 +134,13 @@ public class PlayerMovement : MonoBehaviour
         finalVelocity.y = verticalVelocity;
 
         // Un solo movimiento por fotograma
-        controller.Move(finalVelocity * Time.deltaTime);
+        Vector3 moveDelta = finalVelocity * Time.deltaTime;
+        if (plataformaActual != null && isGrounded)
+        {
+            moveDelta += plataformaActual.DeltaMovimiento;
+        }
+
+        controller.Move(moveDelta);
         wasGrounded = controller.isGrounded;
 
         updateAnimation();
@@ -119,11 +156,22 @@ public class PlayerMovement : MonoBehaviour
         if (context.performed)
         {
             jumpRequested = true;
+            jumpHeld = true;
         }
         else if (context.canceled)
         {
             jumpHeld = false;
         }
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.normal.y <= 0.5f)
+        {
+            return;
+        }
+
+        plataformaActual = hit.gameObject.GetComponent<MovimientoPlataforma>();
     }
 
     public void updateAnimation()
@@ -148,6 +196,4 @@ public class PlayerMovement : MonoBehaviour
             animator.SetTrigger("Jump");
         }
     }
-
-    
 }
