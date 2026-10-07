@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
 
     private Vector2 moveInput;
+    public static PlayerMovement Instance { get; private set; }
     public float gravity = -9.8f;
     private float verticalVelocity;
 
@@ -30,6 +31,11 @@ public class PlayerMovement : MonoBehaviour
     public void OnMove (InputAction.CallbackContext context)
     {
         moveInput=context.ReadValue<Vector2>();
+    }
+
+    void Awake()
+    {
+        Instance = this;
     }
 
     private void Update()

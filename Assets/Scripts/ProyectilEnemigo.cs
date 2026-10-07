@@ -1,51 +1,53 @@
+using System.Linq;
 using UnityEngine;
 
-public class Proyectil : MonoBehaviour
+public class ProyectilEnemigo : MonoBehaviour
 {
-    public float velocidad = 10f;
-    public int daño = 1;
-    public float tiempoVida = 5f; // Para que se destruya solo si no golpea nada
+    [Header("Configuracion")]
+    [SerializeField] private float velocidad = 12f;
+    [SerializeField] private float tiempoVida = 4f;
+    [SerializeField] private GameObject vfxImpacto;
 
     private Vector3 direccion;
+    private Transform origen;
 
-    void Start()
+    public void Inicializar(Vector3 direccionDisparo, Transform quienDispara)
     {
+        direccion = direccionDisparo.normalized;
+        origen = quienDispara;
         Destroy(gameObject, tiempoVida);
-    }
-
-    public void Inicializar(Vector3 dir)
-    {
-        direccion = dir.normalized;
     }
 
     void Update()
     {
-        transform.position += direccion * velocidad * Time.deltaTime;
-    }
+        float deltaTimeSeguro = Mathf.Min(Time.deltaTime, 0.05f); // evita saltos en frames lentos
+        float distanciaFrame = velocidad * deltaTimeSeguro;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        // CA3: Si el jugador está realizando un giro / ataque, se destruye el proyectil
-        if (other.CompareTag("Player"))
+        RaycastHit[] impactos = Physics.RaycastAll(transform.position, direccion, distanciaFrame)
+            .OrderBy(h => h.distance)
+            .ToArray();
+
+        foreach (RaycastHit hit in impactos)
         {
-            // Verificamos si el jugador está atacando o rodando
-            // Ajusta "PlayerAttack" o el nombre de tu script de ataque si usas uno
-            PlayerStomp stomp = other.GetComponent<PlayerStomp>();
+            if (origen != null && hit.transform.IsChildOf(origen)) continue;
+            if (hit.transform.GetComponent<ProyectilEnemigo>() != null) continue;
 
-            // Si el jugador recibe el impacto de lleno sin defenderse:
-            PlayerHealth health = other.GetComponent<PlayerHealth>();
-            if (health != null)
-            {
-                health.perderVida();
-            }
-
-            Destroy(gameObject);
+            ProcesarImpacto(hit);
+            return;
         }
+
+        transform.position += direccion * distanciaFrame;
     }
 
-    // CA3: Permite que el ataque/giro del jugador destruya el proyectil
-    public void DestruirPorGiro()
+    private void ProcesarImpacto(RaycastHit hit)
     {
+        PlayerHealth vidaJugador = hit.transform.GetComponentInParent<PlayerHealth>();
+        if (vidaJugador != null)
+            vidaJugador.perderVida();
+
+        if (vfxImpacto != null)
+            Instantiate(vfxImpacto, hit.point, Quaternion.LookRotation(hit.normal));
+
         Destroy(gameObject);
     }
 }

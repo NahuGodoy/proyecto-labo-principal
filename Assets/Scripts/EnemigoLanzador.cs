@@ -1,3 +1,4 @@
+/*
 using UnityEngine;
 
 public class EnemigoLanzador : MonoBehaviour
@@ -69,5 +70,97 @@ public class EnemigoLanzador : MonoBehaviour
             jugadorEnRango = false;
             jugadorTarget = null;
         }
+    }
+}
+*/
+using UnityEngine;
+
+public class EnemigoLanzador : MonoBehaviour
+{
+    [Header("Referencias")]
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private GameObject proyectilPrefab;
+
+    [Header("Configuracion de disparo")]
+    [SerializeField] private float rangoDeteccion = 15f;
+    [SerializeField] private float cadenciaDisparo = 1.5f;
+    [SerializeField] private bool requiereLineaDeVision = true;
+    [SerializeField] private LayerMask capasVision; // que capas puede "ver" el raycast (jugador + obstaculos)
+
+    private Transform jugador;
+    private float temporizadorDisparo;
+
+    void Start()
+    {
+        if (PlayerMovement.Instance != null)
+            jugador = PlayerMovement.Instance.transform;
+    }
+
+    void Update()
+    {
+        if (jugador == null)
+        {
+            if (PlayerMovement.Instance != null)
+                jugador = PlayerMovement.Instance.transform;
+            return;
+        }
+
+        float distancia = Vector3.Distance(transform.position, jugador.position);
+
+        if (distancia <= rangoDeteccion && TieneLineaDeVision())
+        {
+            MirarAlJugador();
+
+            temporizadorDisparo -= Time.deltaTime;
+            if (temporizadorDisparo <= 0f)
+            {
+                Disparar();
+                temporizadorDisparo = cadenciaDisparo;
+            }
+        }
+    }
+
+    private bool TieneLineaDeVision()
+    {
+        if (!requiereLineaDeVision) return true;
+
+        Vector3 origen = spawnPoint != null ? spawnPoint.position : transform.position;
+        Vector3 direccion = (jugador.position - origen).normalized;
+        float distancia = Vector3.Distance(origen, jugador.position);
+
+        if (Physics.Raycast(origen, direccion, out RaycastHit hit, distancia, capasVision))
+        {
+            // Si lo primero que toca no es el jugador, hay un obstaculo tapando
+            return hit.transform.GetComponentInParent<PlayerHealth>() != null;
+        }
+
+        return true;
+    }
+
+    private void MirarAlJugador()
+    {
+        Vector3 direccion = jugador.position - transform.position;
+        direccion.y = 0f;
+        if (direccion.sqrMagnitude > 0.001f)
+            transform.rotation = Quaternion.LookRotation(direccion);
+    }
+
+    private void Disparar()
+    {
+        if (proyectilPrefab == null) return;
+
+        Vector3 origen = spawnPoint != null ? spawnPoint.position : transform.position;
+        Vector3 direccion = (jugador.position - origen).normalized;
+
+        GameObject proyectilObj = Instantiate(proyectilPrefab, origen, Quaternion.LookRotation(direccion));
+        ProyectilEnemigo proyectil = proyectilObj.GetComponent<ProyectilEnemigo>();
+        if (proyectil != null)
+            proyectil.Inicializar(direccion, transform);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, rangoDeteccion);
     }
 }

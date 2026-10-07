@@ -405,10 +405,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 165b7e1abbb680a4c9301ebe3573255f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  spawnPoint: {fileID: 0}
   proyectilPrefab: {fileID: 303164379924398179, guid: 540cc171a9991dd4eb71a767a3958955, type: 3}
-  puntoDisparo: {fileID: 549512498}
+  rangoDeteccion: 15
   cadenciaDisparo: 2
-  velocidadRotacion: 5
+  requiereLineaDeVision: 1
+  capasVision:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!135 &215213097
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1473,7 +1477,7 @@ GameObject:
   - component: {fileID: 1286236533}
   m_Layer: 0
   m_Name: GamblerCat
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
