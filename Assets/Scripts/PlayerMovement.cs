@@ -164,6 +164,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void OnAttack(InputAction.CallbackContext context)
+{
+    if (context.performed)
+    {
+        animator.SetTrigger("Hit");
+    }
+}
+
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.normal.y <= 0.5f)
