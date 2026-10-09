@@ -5,6 +5,7 @@ public class CajaFichas : MonoBehaviour
 {
     public GameObject efectoDestruccion; 
     public GameObject fichaPrefab;       
+    public int cantFichas=10;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,7 +20,7 @@ public class CajaFichas : MonoBehaviour
 
     private void RomperCaja(PlayerInventory inventory)
     {
-        for (int i=0; i<9; i++)
+        for (int i=0; i<cantFichas; i++)
         {
             inventory.AddFicha();
         }
