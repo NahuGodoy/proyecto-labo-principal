@@ -126,4 +126,18 @@ public void GameOver()
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
+
+    public void SkipTutorial() 
+    {
+        if (levelTimer == null)
+        {
+            levelTimer = FindAnyObjectByType<LevelTimer>();
+        }
+
+        if (levelTimer != null)
+        {
+            levelTimer.CompleteLevel();
+        }
+        ContinuarAlLobby();
+    }
 }
