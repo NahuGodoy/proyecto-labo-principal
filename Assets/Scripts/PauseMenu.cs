@@ -38,7 +38,13 @@ public class PauseMenu : MonoBehaviour
         JuegoEsPausado = false;
     }
 
-        private void CerrarOpciones ()
+    public void AbrirOpciones()
+    {
+        pauseMenuUI.SetActive(false);
+        opcionesUI.SetActive(true);
+    }
+
+    public void CerrarOpciones()
     {
         opcionesUI.SetActive(false);
         pauseMenuUI.SetActive(true);
@@ -76,6 +82,8 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = true;
         SceneManager.LoadScene(saveSelectionSceneName);
     }
+
+    
 
 
 }
