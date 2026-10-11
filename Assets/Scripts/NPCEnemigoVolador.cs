@@ -75,6 +75,11 @@ public class NPCEnemigoVolador : MonoBehaviour
             temporizadorEmbestida = 0f;
             estadoActual = Estado.Embistiendo;
         }
+
+        if (animator != null)
+        {
+            animator.SetTrigger("Embestir");
+        }
     }
 
     private Vector3 PuntoDelCirculo()
