@@ -6,6 +6,8 @@ public class DealDamage : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.isTrigger) return;
+
         EnemyHealth enemy = other.GetComponent<EnemyHealth>();
         if (enemy != null)
         {
