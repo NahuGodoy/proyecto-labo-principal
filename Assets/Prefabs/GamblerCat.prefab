@@ -350,7 +350,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1498270058467943049}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &3677712702450539667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1051,8 +1051,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4392397279044796852}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.9999327, z: 0, w: 0.01160618}
-  m_LocalPosition: {x: -0.25241375, y: 3.67, z: -1.3062}
+  m_LocalRotation: {x: -0, y: -0.65204066, z: -0, w: 0.75818396}
+  m_LocalPosition: {x: 0, y: 3.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1061,7 +1061,7 @@ Transform:
   - {fileID: 4970216783867210475}
   - {fileID: 7910372511285974912}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 178.67, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -81.391, z: 0}
 --- !u!95 &6331315914868176681
 Animator:
   serializedVersion: 7
@@ -1297,6 +1297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
   pivot: {fileID: 3818131880146629662}
   sensitivity: 0.2
+  gamepadSensitivity: 120
 --- !u!114 &2970164637437496227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1411,7 +1412,7 @@ Transform:
   m_GameObject: {fileID: 4794660855627053622}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 41.99971, y: 2.44, z: -42.73093}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
