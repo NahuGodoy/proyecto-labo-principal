@@ -7,15 +7,21 @@ using UnityEngine.InputSystem;
 public class PauseMenu : MonoBehaviour
 {
     public static bool JuegoEsPausado = false;
+    public static bool UIBloqueaCursor = false; 
 
     public GameObject pauseMenuUI;
+    public GameObject opcionesUI;
+
     [SerializeField] private string saveSelectionSceneName = "SaveSelection";
 
     void Update()
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
-            if (JuegoEsPausado)
+        {   if (opcionesUI.activeSelf)
+            {
+                CerrarOpciones();
+            }
+            else if (JuegoEsPausado)
             {
                 Reanudar();
             }
@@ -24,6 +30,12 @@ public class PauseMenu : MonoBehaviour
                 Pausa();
             }
         }
+    
+        if (!JuegoEsPausado &&!UIBloqueaCursor && Mouse.current.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     void Start()
@@ -31,6 +43,20 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         JuegoEsPausado = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public void AbrirOpciones()
+    {
+        pauseMenuUI.SetActive(false);
+        opcionesUI.SetActive(true);
+    }
+
+    public void CerrarOpciones()
+    {
+        opcionesUI.SetActive(false);
+        pauseMenuUI.SetActive(true);
     }
 
     public void Reanudar()
@@ -39,7 +65,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         JuegoEsPausado = false;
         Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        Cursor.visible = false;
     }
 
     void Pausa()
@@ -51,11 +77,6 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = true;
     }
 
-    public void MenuCargando()
-
-    {
-        VolverASeleccion();
-    }
 
     public void SalirDelJuego()
     {
@@ -70,4 +91,8 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = true;
         SceneManager.LoadScene(saveSelectionSceneName);
     }
+
+    
+
+
 }
