@@ -7,6 +7,7 @@ TagManager:
   - CajaFichas
   - Enemy
   - EnemyHead
+  - Proyectil
   layers:
   - Default
   - TransparentFX
