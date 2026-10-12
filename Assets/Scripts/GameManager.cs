@@ -46,12 +46,14 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("clickeo en reiniciar");
         Time.timeScale = 1f;
+        PauseMenu.UIBloqueaCursor = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void IrAMenu()
     {
         Debug.Log("clickeo en menu");
         Time.timeScale = 1f;
+        PauseMenu.UIBloqueaCursor = false;
         //puse esto para testear pero no funciona 
         SceneManager.LoadScene("LobbyTest");
     }
@@ -82,6 +84,9 @@ public void GameOver()
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
+            PauseMenu.UIBloqueaCursor = true;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 
@@ -103,6 +108,9 @@ public void GameOver()
         if (victoriaPanel != null)
         {
             victoriaPanel.SetActive(true);
+            PauseMenu.UIBloqueaCursor = true;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 
@@ -110,6 +118,7 @@ public void GameOver()
     {
         Time.timeScale = 1f;
         PauseMenu.JuegoEsPausado = false;
+        PauseMenu.UIBloqueaCursor = false;
         SceneManager.LoadScene(lobbySceneName);
     }
 
@@ -125,5 +134,19 @@ public void GameOver()
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    public void SkipTutorial() 
+    {
+        if (levelTimer == null)
+        {
+            levelTimer = FindAnyObjectByType<LevelTimer>();
+        }
+
+        if (levelTimer != null)
+        {
+            levelTimer.CompleteLevel();
+        }
+        ContinuarAlLobby();
     }
 }

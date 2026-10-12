@@ -4,7 +4,9 @@ using UnityEngine.Events;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int cantVidas { get; private set; }
+    private SharedPlayerStats sharedStats;
+
+    public int cantVidas => sharedStats != null ? sharedStats.cantVidas : 0;
     public UnityEvent<PlayerHealth> onDamageTaken;
     private Vector3 respawnPosition;
     private Quaternion respawnRotation;
@@ -13,10 +15,27 @@ public class PlayerHealth : MonoBehaviour
 
     private void Awake()
     {
+        sharedStats = SharedPlayerStats.GetOrCreate();
         respawnPosition = transform.position;
         respawnRotation = transform.rotation;
         characterController = GetComponent<CharacterController>();
         playerMovement = GetComponent<PlayerMovement>();
+
+        if (Checkpoint.CheckpointActivo != null)
+        {
+            SetCheckpoint(Checkpoint.CheckpointActivo);
+            transform.SetPositionAndRotation(respawnPosition, respawnRotation);
+        }
+    }
+
+    private void OnEnable()
+    {
+        Checkpoint.CheckpointActivado += SetCheckpoint;
+    }
+
+    private void OnDisable()
+    {
+        Checkpoint.CheckpointActivado -= SetCheckpoint;
     }
 
     public bool invencible = false;
@@ -27,20 +46,15 @@ public class PlayerHealth : MonoBehaviour
         {
             return;
         }
-        cantVidas--;
+        int vidasRestantes = sharedStats.PerderVida();
         onDamageTaken?.Invoke(this);
         Respawn();
 
-        if (cantVidas == 0)
+        if (vidasRestantes == 0)
             if (GameManager.Instance != null)
             {
             GameManager.Instance.GameOver();
             }
-    }
-
-    void Start()
-    {
-        cantVidas = 5;
     }
 
     public void SetCheckpoint(Transform checkpoint)

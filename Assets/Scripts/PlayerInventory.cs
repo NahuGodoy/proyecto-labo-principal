@@ -3,16 +3,23 @@ using UnityEngine.Events;
 
 public class PlayerInventory : MonoBehaviour
 {
-    public int cantFichas { get; private set; }
+    private SharedPlayerStats sharedStats;
+
+    public int cantFichas => sharedStats != null ? sharedStats.cantFichas : 0;
 
     public UnityEvent<PlayerInventory> onFichasCollected;
 
     public GameObject fichaPopUpPrefab; 
     public Transform puntoEfecto;       
 
+    private void Awake()
+    {
+        sharedStats = SharedPlayerStats.GetOrCreate();
+    }
+
     public void AddFicha()
     {
-        cantFichas++;
+        sharedStats.AddFicha();
         onFichasCollected?.Invoke(this);
 
         MostrarEfectoFicha();

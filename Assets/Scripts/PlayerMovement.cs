@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
 
     private Vector2 moveInput;
+    public static PlayerMovement Instance { get; private set; }
     public float gravity = -9.8f;
     private float verticalVelocity;
     private bool jumpHeld;
@@ -57,6 +58,11 @@ public class PlayerMovement : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
+    }
+
+    void Awake()
+    {
+        Instance = this;
     }
 
     private void Update()
@@ -163,6 +169,14 @@ public class PlayerMovement : MonoBehaviour
             jumpHeld = false;
         }
     }
+
+    public void OnAttack(InputAction.CallbackContext context)
+{
+    if (context.performed)
+    {
+        animator.SetTrigger("Hit");
+    }
+}
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {

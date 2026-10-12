@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PauseMenu : MonoBehaviour
 {
     public static bool JuegoEsPausado = false;
+    public static bool UIBloqueaCursor = false; 
 
     public GameObject pauseMenuUI;
     public GameObject opcionesUI;
@@ -29,6 +30,12 @@ public class PauseMenu : MonoBehaviour
                 Pausa();
             }
         }
+    
+        if (!JuegoEsPausado &&!UIBloqueaCursor && Mouse.current.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     void Start()
@@ -36,9 +43,17 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         JuegoEsPausado = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
-        private void CerrarOpciones ()
+    public void AbrirOpciones()
+    {
+        pauseMenuUI.SetActive(false);
+        opcionesUI.SetActive(true);
+    }
+
+    public void CerrarOpciones()
     {
         opcionesUI.SetActive(false);
         pauseMenuUI.SetActive(true);
@@ -76,6 +91,8 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = true;
         SceneManager.LoadScene(saveSelectionSceneName);
     }
+
+    
 
 
 }
