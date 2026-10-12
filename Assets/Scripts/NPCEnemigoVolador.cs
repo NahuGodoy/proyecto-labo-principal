@@ -7,7 +7,7 @@ public class NPCEnemigoVolador : MonoBehaviour
     private Transform playerTransform;
     private Animator animator;
 
-    [Header("Orientación")]
+    [Header("OrientaciÃ³n")]
     public Vector3 correccionRotacion = Vector3.zero;
 
     [Header("Vuelo en circulos")]
