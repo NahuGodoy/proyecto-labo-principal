@@ -4181,7 +4181,6 @@ GameObject:
   - component: {fileID: 1609471181}
   - component: {fileID: 1609471185}
   - component: {fileID: 1609471184}
-  - component: {fileID: 1609471183}
   - component: {fileID: 1609471182}
   m_Layer: 5
   m_Name: VidasTexto
@@ -4221,18 +4220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22425ae9b2e63b0459c6b01f148c598d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthUI
---- !u!114 &1609471183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1609471180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2675f965e3556c8468b0daf07f65f7f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InventoryUI
 --- !u!114 &1609471184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4494,7 +4481,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 79e47e570fd12aad8809e7a18c2a7ade, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: f4e272f005ef77141aa8825bb74c64d0, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1663709056
 Transform:
