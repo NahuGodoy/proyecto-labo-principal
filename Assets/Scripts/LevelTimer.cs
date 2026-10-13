@@ -68,6 +68,16 @@ public class LevelTimer : MonoBehaviour
 
     public void CompleteLevel()
     {
+        CompleteLevel(true);
+    }
+
+    public void CompleteLevelWithoutRecordingTime()
+    {
+        CompleteLevel(false);
+    }
+
+    private void CompleteLevel(bool recordTime)
+    {
         if (finished)
         {
             return;
@@ -84,9 +94,9 @@ public class LevelTimer : MonoBehaviour
         {
             if (completedLevelId == "tutorial")
             {
-                SaveManager.Instance.CompleteTutorial(elapsedSeconds);
+                SaveManager.Instance.CompleteTutorial(recordTime ? elapsedSeconds : -1f);
             }
-            else
+            else if (recordTime)
             {
                 SaveManager.Instance.TrySetBestTime(completedLevelId, elapsedSeconds);
             }

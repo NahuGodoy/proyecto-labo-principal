@@ -145,7 +145,7 @@ public void GameOver()
 
         if (levelTimer != null)
         {
-            levelTimer.CompleteLevel();
+            levelTimer.CompleteLevelWithoutRecordingTime();
         }
         ContinuarAlLobby();
     }
