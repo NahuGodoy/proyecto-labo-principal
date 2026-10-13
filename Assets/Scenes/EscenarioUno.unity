@@ -2457,7 +2457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
   respawnPoint: {fileID: 401661915}
-  esCheckpointInicial: 0
+  esCheckpointInicial: 1
 --- !u!4 &401661915
 Transform:
   m_ObjectHideFlags: 0
@@ -2791,6 +2791,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 472673218}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &473413844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 473413846}
+  - component: {fileID: 473413845}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &473413845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473413844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7131d42f6ae4a36b78ebbb349a88c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScenarioOneDifficultyManager
+  checkpointRules:
+  - checkpoint: {fileID: 401661914}
+    enabledEasy: 1
+    enabledNormal: 1
+    enabledHard: 1
+  - checkpoint: {fileID: 2005542679}
+    enabledEasy: 1
+    enabledNormal: 1
+    enabledHard: 0
+  - checkpoint: {fileID: 328331927}
+    enabledEasy: 1
+    enabledNormal: 0
+    enabledHard: 0
+--- !u!4 &473413846
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473413844}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 895.8899, y: 0, z: 441.80548}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &474171564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12564,7 +12621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347faf924b63826689b43b52531e8d33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelTimer
-  levelId: tutorial
+  levelId: escenario1
   startOnEnable: 1
   completed:
     m_PersistentCalls:
@@ -13884,3 +13941,4 @@ SceneRoots:
   - {fileID: 2057705867}
   - {fileID: 1897098976}
   - {fileID: 1998085433}
+  - {fileID: 473413846}

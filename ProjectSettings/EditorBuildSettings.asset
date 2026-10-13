@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/EscenarioTutorial.unity
     guid: c4e594cbc3d98104eae548a7aad31378
   - enabled: 1
+    path: Assets/Scenes/EscenarioUno.unity
+    guid: 1f4ed78d7f488d341916b437d3392432
+  - enabled: 1
     path: Assets/Scenes/LobbyTest.unity
     guid: 805120a646af569d2b0c5b02384a4854
   - enabled: 0
@@ -23,7 +26,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/PruebaLobby.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PruebaOpciones.unity
     guid: 246c47567ea2bc915837bb0b2a59e132
   m_configObjects:
