@@ -286,7 +286,7 @@ Transform:
   m_GameObject: {fileID: 1498270058467943049}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5000001, y: 1.2, z: -3.000002}
+  m_LocalPosition: {x: 0.5, y: 1.2, z: -2.9999995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1036,6 +1036,8 @@ GameObject:
   - component: {fileID: 8213128225643716230}
   - component: {fileID: 2970164637437496227}
   - component: {fileID: 7825954708806688035}
+  - component: {fileID: 8705120926368129007}
+  - component: {fileID: 1887988657562031693}
   m_Layer: 0
   m_Name: GamblerCat
   m_TagString: Player
@@ -1051,7 +1053,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4392397279044796852}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.65204066, z: -0, w: 0.75818396}
+  m_LocalRotation: {x: 0, y: -0.6520388, z: 0, w: 0.7581856}
   m_LocalPosition: {x: 0, y: 3.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1142,7 +1144,19 @@ MonoBehaviour:
     m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
     m_ActionName: 'Player/Look[/Mouse/delta]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6519451452923546903}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
     m_ActionName: 'Player/Attack[/Mouse/leftButton,/Keyboard/enter]'
   - m_PersistentCalls:
@@ -1355,6 +1369,33 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   invencible: 0
+--- !u!114 &8705120926368129007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4392397279044796852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d294c6e48d4d5eb4c9a9ab705f31f139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackEvents
+  hitbox: {fileID: 6330112751803542449}
+--- !u!114 &1887988657562031693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4392397279044796852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0235066a5028dd3439020970763d15b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStomp
+  fuerzaRebote: 10
+  "da\xF1oPisot\xF3n": 1
 --- !u!1 &4781339772425283313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1846,6 +1887,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543237658632482002}
+  - component: {fileID: 6330112751803542449}
+  - component: {fileID: 7351074129585430922}
   m_Layer: 0
   m_Name: VisualModel
   m_TagString: Untagged
@@ -1870,6 +1913,40 @@ Transform:
   - {fileID: 6987030160045805594}
   m_Father: {fileID: 7813458176082334036}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &6330112751803542449
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7408396992418138169}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0.16, y: 0.83, z: 1.37}
+--- !u!114 &7351074129585430922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7408396992418138169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ee978edd5f9b14db0305e065373063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DealDamage
+  damage: 1
 --- !u!1 &8144403908404602978
 GameObject:
   m_ObjectHideFlags: 0
