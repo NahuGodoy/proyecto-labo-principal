@@ -1,6 +1,30 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum ScenarioDifficulty
+{
+    Easy,
+    Normal,
+    Hard
+}
+
+public static class ScenarioDifficultySelection
+{
+    public static ScenarioDifficulty Selected { get; private set; } = ScenarioDifficulty.Normal;
+
+    public static string LevelId => Selected switch
+    {
+        ScenarioDifficulty.Easy => "escenario1:facil",
+        ScenarioDifficulty.Hard => "escenario1:dificil",
+        _ => "escenario1:normal"
+    };
+
+    public static void Select(ScenarioDifficulty difficulty)
+    {
+        Selected = difficulty;
+    }
+}
+
 public class LevelTimer : MonoBehaviour
 {
     [SerializeField] private string levelId = "tutorial";
@@ -44,6 +68,16 @@ public class LevelTimer : MonoBehaviour
 
     public void CompleteLevel()
     {
+        CompleteLevel(true);
+    }
+
+    public void CompleteLevelWithoutRecordingTime()
+    {
+        CompleteLevel(false);
+    }
+
+    private void CompleteLevel(bool recordTime)
+    {
         if (finished)
         {
             return;
@@ -52,15 +86,19 @@ public class LevelTimer : MonoBehaviour
         finished = true;
         running = false;
 
+        string completedLevelId = levelId == "escenario1"
+            ? ScenarioDifficultySelection.LevelId
+            : levelId;
+
         if (SaveManager.Instance != null && SaveManager.Instance.ActiveSave != null)
         {
-            if (levelId == "tutorial")
+            if (completedLevelId == "tutorial")
             {
-                SaveManager.Instance.CompleteTutorial(elapsedSeconds);
+                SaveManager.Instance.CompleteTutorial(recordTime ? elapsedSeconds : -1f);
             }
-            else
+            else if (recordTime)
             {
-                SaveManager.Instance.TrySetBestTime(levelId, elapsedSeconds);
+                SaveManager.Instance.TrySetBestTime(completedLevelId, elapsedSeconds);
             }
         }
 

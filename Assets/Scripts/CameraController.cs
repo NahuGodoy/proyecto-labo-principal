@@ -6,14 +6,16 @@ public class CameraController : MonoBehaviour
 {
     public Transform pivot;
     public float sensitivity= 0.2f;
+    public float gamepadSensitivity = 120f;
     private Vector2 lookInput;
+    private bool lookFromGamepad;
     private float yaw= 0f;
     private float pitch = 0f;
 
     public void OnLook (InputAction.CallbackContext context)
     {
         lookInput = context.ReadValue<Vector2>();
-
+        lookFromGamepad = context.control != null && context.control.device is Gamepad;
     }
 
     private void Update()
@@ -28,8 +30,11 @@ public class CameraController : MonoBehaviour
 
         
 
-        yaw += lookInput.x * sensitivity;
-        pitch-= lookInput.y * sensitivity;
+        float inputScale = lookFromGamepad
+            ? gamepadSensitivity * Time.deltaTime
+            : sensitivity;
+        yaw += lookInput.x * inputScale;
+        pitch-= lookInput.y * inputScale;
 
         pitch = Mathf.Clamp(pitch, -45f, 60f);
 
