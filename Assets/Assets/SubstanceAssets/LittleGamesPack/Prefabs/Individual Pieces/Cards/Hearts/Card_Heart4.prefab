@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7175215459932837988}
   - component: {fileID: 4933564989679135918}
   - component: {fileID: 6032042397087723564}
-  - component: {fileID: -3941148716794503763}
   m_Layer: 0
   m_Name: Card_Heart4
   m_TagString: Untagged
@@ -113,30 +112,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1332013, y: 0.19488758, z: 0.00035494438}
   m_Center: {x: 0.000000029802333, y: 0.0000076293945, z: -2.881335e-15}
---- !u!54 &-3941148716794503763
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6879098107901988219}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
