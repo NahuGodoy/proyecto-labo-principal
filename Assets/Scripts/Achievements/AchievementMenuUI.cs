@@ -1,4 +1,5 @@
 using TMPro;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,14 +19,35 @@ public class AchievementMenuUI : MonoBehaviour
     [SerializeField] private TMP_Text[] titles;
     [SerializeField] private TMP_Text[] descriptions;
     [SerializeField] private Image[] rowBackgrounds;
+    [SerializeField] private GameObject notificationPanel;
+    [SerializeField] private TMP_Text notificationTitle;
+    [SerializeField] private TMP_Text notificationAchievementName;
+    [SerializeField] private Image notificationIcon;
+    [SerializeField] private float notificationDuration = 3.5f;
 
     private AchievementSystem achievementSystem;
+    private Coroutine notificationRoutine;
 
     public bool IsOpen => panel != null && panel.activeSelf;
 
     public void Initialize(AchievementSystem system, PauseMenu pauseMenu)
     {
+        if (achievementSystem != null)
+        {
+            achievementSystem.AchievementUnlocked -= ShowAchievementUnlocked;
+        }
+
         achievementSystem = system;
+        if (achievementSystem != null)
+        {
+            achievementSystem.AchievementUnlocked += ShowAchievementUnlocked;
+        }
+
+        if (notificationPanel != null)
+        {
+            notificationPanel.SetActive(false);
+        }
+
         if (openButton != null)
         {
             openButton.onClick.RemoveListener(pauseMenu.AbrirLogros);
@@ -39,6 +61,14 @@ public class AchievementMenuUI : MonoBehaviour
         }
 
         Refresh();
+    }
+
+    private void OnDestroy()
+    {
+        if (achievementSystem != null)
+        {
+            achievementSystem.AchievementUnlocked -= ShowAchievementUnlocked;
+        }
     }
 
     public void Open()
@@ -130,6 +160,60 @@ public class AchievementMenuUI : MonoBehaviour
             Debug.LogWarning($"AchievementMenuUI can display {rowCount} of {achievements.Count} achievements. " +
                 "Add rows to the panel hierarchy and assign all row arrays in the Inspector.", this);
         }
+    }
+
+    private void ShowAchievementUnlocked(string achievementId)
+    {
+        if (notificationPanel == null || achievementSystem == null)
+        {
+            return;
+        }
+
+        AchievementDefinition achievement = null;
+        foreach (AchievementDefinition definition in achievementSystem.Achievements)
+        {
+            if (definition.id == achievementId)
+            {
+                achievement = definition;
+                break;
+            }
+        }
+
+        if (achievement == null)
+        {
+            return;
+        }
+
+        if (notificationTitle != null)
+        {
+            notificationTitle.text = "Logro conseguido";
+        }
+
+        if (notificationAchievementName != null)
+        {
+            notificationAchievementName.text = achievement.displayName;
+        }
+
+        if (notificationIcon != null)
+        {
+            notificationIcon.sprite = achievement.icon;
+            notificationIcon.enabled = achievement.icon != null;
+        }
+
+        notificationPanel.SetActive(true);
+        if (notificationRoutine != null)
+        {
+            StopCoroutine(notificationRoutine);
+        }
+
+        notificationRoutine = StartCoroutine(HideNotificationAfterDelay());
+    }
+
+    private IEnumerator HideNotificationAfterDelay()
+    {
+        yield return new WaitForSecondsRealtime(notificationDuration);
+        notificationPanel.SetActive(false);
+        notificationRoutine = null;
     }
 
     private int GetAvailableRowCount()
