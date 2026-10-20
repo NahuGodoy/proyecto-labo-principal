@@ -1,7 +1,6 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class ApagonManager : MonoBehaviour
 {
@@ -9,40 +8,34 @@ public class ApagonManager : MonoBehaviour
     [SerializeField] private CanvasGroup pantallaNegra;
     [SerializeField] private TMP_Text textoCuentaRegresiva;
 
-    [Header("Apagon automatico (momento aleatorio de la partida)")]
+    [Header("Apagones aleatorios")]
     [SerializeField] private bool apagonAutomatico = true;
-    [SerializeField] private float tiempoMinimo = 15f;
-    [SerializeField] private float tiempoMaximo = 60f;
+
+    [Tooltip("Espera antes del PRIMER apagon (segundos desde que empieza la partida)")]
+    [SerializeField] private float primerApagonMin = 15f;
+    [SerializeField] private float primerApagonMax = 60f;
+
+    [Tooltip("Espera entre un apagon y el siguiente (cuenta desde que vuelve la luz)")]
+    [SerializeField] private float entreApagonesMin = 20f;
+    [SerializeField] private float entreApagonesMax = 60f;
 
     [Header("Fases del apagon (segundos)")]
-    [SerializeField] private float duracionCuentaRegresiva = 5f;
+    [SerializeField] private float duracionCuentaRegresiva = 3f;
     [SerializeField] private float duracionOscurecimiento = 3f;
     [SerializeField] private float duracionApagonTotal = 5f;
     [SerializeField] private float duracionRecuperacion = 1.5f;
     [SerializeField] private string formatoCuentaRegresiva = "Apagón en {0}";
 
-    [Header("Disparo manual (pruebas)")]
-    [SerializeField] private Key teclaDisparoApagon = Key.O;
+    public bool ApagonEnCurso { get; private set; }
 
     private Coroutine rutina;
-    private bool eventoEnCurso;
-
-    public bool ApagonEnCurso => eventoEnCurso;
 
     void Start()
     {
-        PrepararPantalla();
+        PrepararCanvas();
 
         if (apagonAutomatico)
-            rutina = StartCoroutine(RutinaApagon(true));
-    }
-
-    void Update()
-    {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-        if (Keyboard.current != null && Keyboard.current[teclaDisparoApagon].wasPressedThisFrame)
-            DispararApagon();
-#endif
+            rutina = StartCoroutine(CicloApagones());
     }
 
     void OnDisable()
@@ -50,30 +43,27 @@ public class ApagonManager : MonoBehaviour
         CancelarApagon();
     }
 
-    public void DispararApagon()
+    private IEnumerator CicloApagones()
     {
-        if (eventoEnCurso) return; 
+        yield return new WaitForSeconds(Random.Range(primerApagonMin, primerApagonMax));
 
-        if (rutina != null)        
-            StopCoroutine(rutina);
-
-        rutina = StartCoroutine(RutinaApagon(false));
+        while (true)
+        {
+            yield return EjecutarApagon();
+            yield return new WaitForSeconds(Random.Range(entreApagonesMin, entreApagonesMax));
+        }
     }
 
-    private IEnumerator RutinaApagon(bool esperarAleatorio)
+    private IEnumerator EjecutarApagon()
     {
-        if (esperarAleatorio)
-            yield return new WaitForSeconds(Random.Range(tiempoMinimo, tiempoMaximo));
-
-        eventoEnCurso = true;
+        ApagonEnCurso = true;
 
         yield return CuentaRegresiva();
         yield return Fundido(1f, duracionOscurecimiento);
         yield return new WaitForSeconds(duracionApagonTotal);
         yield return Fundido(0f, duracionRecuperacion);
 
-        eventoEnCurso = false;
-        rutina = null;
+        ApagonEnCurso = false;
     }
 
     private IEnumerator CuentaRegresiva()
@@ -117,14 +107,40 @@ public class ApagonManager : MonoBehaviour
         pantallaNegra.alpha = alphaObjetivo;
     }
 
-    private void PrepararPantalla()
+    private void PrepararCanvas()
     {
+        // La pantalla negra ocupa toda la pantalla (stretch con margenes en 0)
+        RectTransform rect = pantallaNegra.GetComponent<RectTransform>();
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
+        rect.localScale = Vector3.one;
+
         pantallaNegra.alpha = 0f;
-        pantallaNegra.blocksRaycasts = false;
+        pantallaNegra.blocksRaycasts = false; // no bloquea clics en la UI
         pantallaNegra.interactable = false;
 
+        Canvas canvas = pantallaNegra.GetComponentInParent<Canvas>();
+        if (canvas != null)
+        {
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 999;
+        }
+
         if (textoCuentaRegresiva != null)
+        {
+            RectTransform rectTexto = textoCuentaRegresiva.rectTransform;
+            rectTexto.anchorMin = rectTexto.anchorMax = new Vector2(0.5f, 0.5f);
+            rectTexto.pivot = new Vector2(0.5f, 0.5f);
+            rectTexto.anchoredPosition = Vector2.zero;
+            rectTexto.SetAsLastSibling();
+
+            textoCuentaRegresiva.alignment = TextAlignmentOptions.Center;
+            textoCuentaRegresiva.textWrappingMode = TextWrappingModes.NoWrap;
+            textoCuentaRegresiva.raycastTarget = false;
             textoCuentaRegresiva.gameObject.SetActive(false);
+        }
     }
 
     public void CancelarApagon()
@@ -135,19 +151,12 @@ public class ApagonManager : MonoBehaviour
             rutina = null;
         }
 
-        eventoEnCurso = false;
+        ApagonEnCurso = false;
 
         if (pantallaNegra != null)
             pantallaNegra.alpha = 0f;
 
         if (textoCuentaRegresiva != null)
             textoCuentaRegresiva.gameObject.SetActive(false);
-    }
-
-    [ContextMenu("Probar apagon ahora")]
-    private void ProbarApagon()
-    {
-        if (Application.isPlaying)
-            DispararApagon();
     }
 }
