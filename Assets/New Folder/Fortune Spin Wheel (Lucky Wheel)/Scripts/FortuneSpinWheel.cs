@@ -66,59 +66,20 @@ void Start()
     bool presionoJoystick = Gamepad.current != null && Gamepad.current.buttonWest.wasPressedThisFrame;
 
     
-    if (!m_IsSpinning && jugadorCerca && (presionoTeclado || presionoJoystick))
+   if (!m_IsSpinning && jugadorCerca && (presionoTeclado || presionoJoystick))
     {
         StartSpin();
     }
 
-
-            if (m_IsSpinning)
-            {
-                if (m_RewardPanel != null) 
-                    m_RewardPanel.SetActive(false);
-
-                // Desaceleración progresiva
-                if (m_SpinSpeed > 2f)
-                {
-                    m_SpinSpeed -= 4 * Time.deltaTime;
-                }
-                else
-                {
-                    m_SpinSpeed -= 0.3f * Time.deltaTime;
-                }
-
-                m_Rotation += 100 * Time.deltaTime * m_SpinSpeed;
-                m_CircleBase.transform.localRotation = Quaternion.Euler(0, 0, m_Rotation);
-
-                // Mantiene los iconos y textos derechos mientras la rueda gira
-                for (int i = 0; i < m_RewardPictures.Length; i++)
-                {
-                    if (m_RewardPictures[i] != null)
-                        m_RewardPictures[i].transform.localRotation = Quaternion.Euler(0, 0, -m_Rotation);
-                    
-                }
-
-                // Cuando la rueda se detiene por completo
-                if (m_SpinSpeed <= 0)
-                {
-                    m_SpinSpeed = 0;
-                    m_IsSpinning = false;
-
-                    // Calcula qué sector de los 6 quedó bajo la flecha
-                    m_RewardNumber = (int)((m_Rotation % 360) / 60);
-
-                    StartCoroutine(ShowRewardMenu(1));
-                }
-            }
-            else
-            {
-                // Efecto de pulso en el icono ganador
-                if (m_RewardNumber >= 0 && m_RewardNumber < m_RewardPictures.Length && m_RewardPictures[m_RewardNumber] != null)
-                {
-                    m_RewardPictures[m_RewardNumber].transform.localScale = (1 + 0.2f * Mathf.Sin(10 * Time.time)) * Vector3.one;
-                }
-            }
+    // Efecto de pulso en el icono ganador cuando la ruleta está detenida
+    if (!m_IsSpinning)
+    {
+        if (m_RewardNumber >= 0 && m_RewardNumber < m_RewardPictures.Length && m_RewardPictures[m_RewardNumber] != null)
+        {
+            m_RewardPictures[m_RewardNumber].transform.localScale = (1 + 0.2f * Mathf.Sin(10 * Time.time)) * Vector3.one;
         }
+    }
+}
 
        IEnumerator ShowRewardMenu(int seconds)
 {
@@ -162,15 +123,61 @@ void Start()
     Reset();
 }
 
+IEnumerator GirarHaciaObjetivo(float anguloObjetivo, int casillaGanadora)
+{
+    m_IsSpinning = true;
+    m_RewardNumber = -1;
+    if (m_SpinButton != null) m_SpinButton.gameObject.SetActive(false);
+
+    float tiempoGiro = 4.0f; // Duración total del giro en segundos
+    float tiempoTranscurrido = 0f;
+    float anguloInicial = m_Rotation % 360f;
+
+    while (tiempoTranscurrido < tiempoGiro)
+    {
+        tiempoTranscurrido += Time.deltaTime;
+        float t = tiempoTranscurrido / tiempoGiro;
+
+        // Curva de desaceleración suave 
+        t = Mathf.SmoothStep(0f, 1f, t);
+
+        m_Rotation = Mathf.Lerp(anguloInicial, anguloObjetivo, t);
+        m_CircleBase.transform.localRotation = Quaternion.Euler(0, 0, m_Rotation);
+
+        // Mantiene los iconos y textos derechos
+        for (int i = 0; i < m_RewardPictures.Length; i++)
+        {
+            if (m_RewardPictures[i] != null)
+                m_RewardPictures[i].transform.localRotation = Quaternion.Euler(0, 0, -m_Rotation);
+        }
+
+        yield return null;
+    }
+
+    // Asegurar que termine en el ángulo exacto
+    m_Rotation = anguloObjetivo;
+    m_CircleBase.transform.localRotation = Quaternion.Euler(0, 0, m_Rotation);
+
+    m_IsSpinning = false;
+    m_RewardNumber = casillaGanadora;
+
+    StartCoroutine(ShowRewardMenu(1));
+}
+
     public void StartSpin()
     {
         if (!m_IsSpinning)
         {
-            m_SpinSpeed = Random.Range(4f, 14f);
-            m_IsSpinning = true;
-            m_RewardNumber = -1;
-            if (m_SpinButton != null) m_SpinButton.gameObject.SetActive(false);
-        }
+        int casillaDeseada = Random.Range(0,6); 
+        Debug.Log(casillaDeseada);
+
+        // Cantidad de vueltas completas fijas (por ejemplo, 5 vueltas)
+        float vueltasCompletas = 5 * 360f;
+
+        float anguloFinalObjetivo = vueltasCompletas + (casillaDeseada * 60f) + 30f;
+
+        StartCoroutine(GirarHaciaObjetivo(anguloFinalObjetivo, casillaDeseada));
+    }
     }
 
     public void Reset()
