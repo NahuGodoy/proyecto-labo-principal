@@ -71,4 +71,15 @@ public class SharedPlayerStats : MonoBehaviour
         VidasChanged?.Invoke(cantVidas);
         return cantVidas;
     }
+
+    public int AddVida(int cantidad = 1)
+    {
+        cantVidas += Mathf.Max(1, cantidad);
+        VidasChanged?.Invoke(cantVidas);
+        return cantVidas;
+    }
+
+    
+
+
 }

@@ -113,6 +113,7 @@ void Start()
             {
                 if (esCruz)
                 {
+                    m_RewardFinalText.text = "";
                     Debug.Log("no hay remcompensa");
                     
                 }
@@ -176,7 +177,7 @@ IEnumerator GirarHaciaObjetivo(float anguloObjetivo, int casillaGanadora)
         {
 
 
-        int casillaDeseada = 5; 
+        int casillaDeseada = Random.Range(0,5); 
         Debug.Log(casillaDeseada);
 
         // Cantidad de vueltas completas fijas (por ejemplo, 5 vueltas)
@@ -242,17 +243,10 @@ private void EntregarRecompensa(int indiceCasilla)
             }
         }
     }
-
     if (nombreSprite.Contains("gem-1"))
         if(inventario != null)
-            for(int i = 0; i < cantidad; i++)
-                    {
-                        Debug.Log("agregar vida");
-                    }
-
+            inventario.AddVida(cantidad);
 }
-
-
 
 }    
 }
