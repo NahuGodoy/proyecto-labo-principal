@@ -80,7 +80,6 @@ void Start()
         }
     }
 }
-
        IEnumerator ShowRewardMenu(int seconds)
 {
     yield return new WaitForSeconds(seconds);
@@ -107,7 +106,7 @@ void Start()
                 if (esCruz)
                 {
                     Debug.Log("no hay remcompensa");
-                    m_RewardFinalText.text = ""; // 
+                    
                 }
                 else if (m_RewardNumber < m_RewardCounts.Length && m_RewardCounts[m_RewardNumber] != null)
                 {
@@ -125,13 +124,12 @@ void Start()
 
 IEnumerator GirarHaciaObjetivo(float anguloObjetivo, int casillaGanadora)
 {
-    m_IsSpinning = true;
     m_RewardNumber = -1;
     if (m_SpinButton != null) m_SpinButton.gameObject.SetActive(false);
 
     float tiempoGiro = 4.0f; // Duración total del giro en segundos
     float tiempoTranscurrido = 0f;
-    float anguloInicial = m_Rotation % 360f;
+     float anguloInicial = m_Rotation % 360f;
 
     while (tiempoTranscurrido < tiempoGiro)
     {
@@ -158,7 +156,6 @@ IEnumerator GirarHaciaObjetivo(float anguloObjetivo, int casillaGanadora)
     m_Rotation = anguloObjetivo;
     m_CircleBase.transform.localRotation = Quaternion.Euler(0, 0, m_Rotation);
 
-    m_IsSpinning = false;
     m_RewardNumber = casillaGanadora;
 
     StartCoroutine(ShowRewardMenu(1));
@@ -166,8 +163,12 @@ IEnumerator GirarHaciaObjetivo(float anguloObjetivo, int casillaGanadora)
 
     public void StartSpin()
     {
-        if (!m_IsSpinning)
+        if (m_IsSpinning)
+            return;
+        m_IsSpinning = true;
         {
+
+
         int casillaDeseada = Random.Range(0,6); 
         Debug.Log(casillaDeseada);
 
