@@ -34,6 +34,8 @@ namespace FortuneSpinWheel
         public Transform jugador;          
         public float distanciaMaxima = 3.5f;
 
+        public PlayerInventory inventario;
+
 void Start()
 {
     m_Rotation = 0;
@@ -50,6 +52,11 @@ void Start()
         {
             jugador = playerObj.transform;
         }
+
+    if (inventario == null && jugador != null)
+    {
+        inventario = jugador.GetComponent<PlayerInventory>();
+    }
     }
 }
 
@@ -96,6 +103,7 @@ void Start()
             if (m_RewardFinalImage != null)
             {
                 m_RewardFinalImage.sprite = spriteGanador;
+                EntregarRecompensa(m_RewardNumber);
             }
 
             // comprueba si cayo en la cruz
@@ -127,7 +135,7 @@ IEnumerator GirarHaciaObjetivo(float anguloObjetivo, int casillaGanadora)
     m_RewardNumber = -1;
     if (m_SpinButton != null) m_SpinButton.gameObject.SetActive(false);
 
-    float tiempoGiro = 4.0f; // Duración total del giro en segundos
+    float tiempoGiro = 4.0f; 
     float tiempoTranscurrido = 0f;
      float anguloInicial = m_Rotation % 360f;
 
@@ -152,7 +160,6 @@ IEnumerator GirarHaciaObjetivo(float anguloObjetivo, int casillaGanadora)
         yield return null;
     }
 
-    // Asegurar que termine en el ángulo exacto
     m_Rotation = anguloObjetivo;
     m_CircleBase.transform.localRotation = Quaternion.Euler(0, 0, m_Rotation);
 
@@ -169,7 +176,7 @@ IEnumerator GirarHaciaObjetivo(float anguloObjetivo, int casillaGanadora)
         {
 
 
-        int casillaDeseada = Random.Range(0,6); 
+        int casillaDeseada = 5; 
         Debug.Log(casillaDeseada);
 
         // Cantidad de vueltas completas fijas (por ejemplo, 5 vueltas)
@@ -202,6 +209,53 @@ IEnumerator GirarHaciaObjetivo(float anguloObjetivo, int casillaGanadora)
 
             if (m_SpinButton != null) m_SpinButton.gameObject.SetActive(true);
             if (m_RewardPanel != null) m_RewardPanel.SetActive(false);
+    }
+
+private void EntregarRecompensa(int indiceCasilla)
+{
+    if (indiceCasilla < 0 || indiceCasilla >= m_RewardPictures.Length) return;
+
+    Sprite spriteGanador = m_RewardPictures[indiceCasilla].sprite;
+    if (spriteGanador == null) return;
+
+    string nombreSprite = spriteGanador.name.ToLower();
+
+    if (nombreSprite.Contains("cross"))
+    {
+        return;
+    }
+
+    int cantidad = 0;
+    if (indiceCasilla < m_RewardCounts.Length && m_RewardCounts[indiceCasilla] != null)
+    {
+        string textoLimpio = m_RewardCounts[indiceCasilla].text.Replace("+", "").Trim();
+        int.TryParse(textoLimpio, out cantidad);
+    }
+
+    if (nombreSprite.Contains("coin-1"))
+    {   
+        if (inventario != null)
+        {
+            for (int i = 0; i < cantidad; i++)
+            {
+                inventario.AddFicha();
+            }
         }
     }
+
+    if (nombreSprite.Contains("gem-1"))
+        if(inventario != null)
+            for(int i = 0; i < cantidad; i++)
+                    {
+                        Debug.Log("agregar vida");
+                    }
+
 }
+
+
+
+}    
+}
+    
+
+
