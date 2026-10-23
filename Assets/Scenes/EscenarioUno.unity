@@ -14024,12 +14024,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 201426519699656567, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 201426519699656567, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 201426519699656567, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1407505681529444489, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
+      propertyPath: hud
+      value: 
+      objectReference: {fileID: 983777124}
     - target: {fileID: 1686093374966635926, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 1947512832252451740, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 67.4
       objectReference: {fileID: 0}
     - target: {fileID: 2959018953319660015, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
       propertyPath: m_Pivot.x
@@ -14133,6 +14149,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4729907934042150607, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
       propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5158712260975508876, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7463839173436121381, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7463839173436121381, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
