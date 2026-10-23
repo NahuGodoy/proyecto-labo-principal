@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using Unity.Mathematics;
 
 namespace FortuneSpinWheel
 {
@@ -75,7 +76,10 @@ void Start()
     
    if (!m_IsSpinning && jugadorCerca && (presionoTeclado || presionoJoystick))
     {
-        StartSpin();
+        if(pagarJuego(5))
+                {
+                    StartSpin();
+                }
     }
 
     // Efecto de pulso en el icono ganador cuando la ruleta está detenida
@@ -177,7 +181,7 @@ IEnumerator GirarHaciaObjetivo(float anguloObjetivo, int casillaGanadora)
         {
 
 
-        int casillaDeseada = Random.Range(0,5); 
+        int casillaDeseada = UnityEngine.Random.Range(0,5); 
         Debug.Log(casillaDeseada);
 
         // Cantidad de vueltas completas fijas (por ejemplo, 5 vueltas)
@@ -247,6 +251,20 @@ private void EntregarRecompensa(int indiceCasilla)
         if(inventario != null)
             inventario.AddVida(cantidad);
 }
+
+
+public bool pagarJuego(int costo = 5)
+        {
+            if (inventario != null && inventario.cantFichas >= costo)
+            {
+                inventario.perderFichas(costo);
+                return true;
+            }
+            Debug.Log("no tenes fichas");
+            return false;
+                
+        
+        }
 
 }    
 }

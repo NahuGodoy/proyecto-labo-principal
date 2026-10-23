@@ -43,6 +43,14 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+    public void perderFichas(int cantidad)
+    {
+        if (sharedStats != null)
+        {
+            sharedStats.perderFichas(cantidad);
+        }
+    }
+
 
 
 }
