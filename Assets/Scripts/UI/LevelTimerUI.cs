@@ -35,7 +35,7 @@ public class LevelTimerUI : MonoBehaviour
             return;
         }
 
-        int totalSeconds = Mathf.FloorToInt(levelTimer.ElapsedSeconds);
+        int totalSeconds = Mathf.FloorToInt(levelTimer.DisplaySeconds);
         if (totalSeconds == lastDisplayedSecond)
         {
             return;

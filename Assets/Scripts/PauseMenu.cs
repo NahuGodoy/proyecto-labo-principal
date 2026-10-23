@@ -16,8 +16,12 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.JuegoTerminado)
+            return;
+
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        {   if (opcionesUI.activeSelf)
+        {
+            if (opcionesUI.activeSelf)
             {
                 CerrarOpciones();
             }
@@ -30,8 +34,8 @@ public class PauseMenu : MonoBehaviour
                 Pausa();
             }
         }
-    
-        if (!JuegoEsPausado &&!UIBloqueaCursor && Mouse.current.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
+
+        if (!JuegoEsPausado && !UIBloqueaCursor && Mouse.current.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
