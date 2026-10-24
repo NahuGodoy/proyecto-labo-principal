@@ -16,30 +16,49 @@ public class GameManager : MonoBehaviour
     public GameObject victoriaPanel;
     public LevelTimer levelTimer;
     [SerializeField] private string lobbySceneName = "LobbyTest";
+    public TemporizadorContrarreloj temporizador;
+    [SerializeField] private TMP_Text textoMotivoDerrota; // opcional
+    [SerializeField] private string mensajeTiempoAgotado = "¡Se acabó el tiempo!";
 
-    private bool juegoTerminado = false; 
+    public bool JuegoTerminado => juegoTerminado;
+
+    private bool juegoTerminado = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (gameOverPanel != null)
-        {
             gameOverPanel.SetActive(false);
-        }
 
-        if(victoriaPanel != null)
-        {
+        if (victoriaPanel != null)
             victoriaPanel.SetActive(false);
-        }
 
-        if(reiniciarButton != null)
-        {
+        if (reiniciarButton != null)
             reiniciarButton.onClick.AddListener(ReiniciarEscena);
-        }
-        if(menuButton != null)
-        {
-            menuButton.onClick.AddListener(IrAMenu);
-        }
 
+        if (menuButton != null)
+            menuButton.onClick.AddListener(IrAMenu);
+
+        if (levelTimer == null)
+            levelTimer = FindAnyObjectByType<LevelTimer>();
+
+        if (levelTimer != null)
+            levelTimer.TimeUp.AddListener(TiempoAgotado);
+    }
+
+    void OnDestroy()
+    {
+        if (levelTimer != null)
+            levelTimer.TimeUp.RemoveListener(TiempoAgotado);
+    }
+
+    public void TiempoAgotado()
+    {
+        if (juegoTerminado) return; 
+
+        if (textoMotivoDerrota != null)
+            textoMotivoDerrota.text = mensajeTiempoAgotado;
+
+        GameOver();
     }
 
     public void ReiniciarEscena()
@@ -126,10 +145,16 @@ public void GameOver()
     {
         juegoTerminado = true;
 
+        if (temporizador != null)
+            temporizador.Detener();
+
         if (cameraController != null)
         {
             cameraController.enabled = false;
         }
+        if (cameraController == null)
+            cameraController = FindAnyObjectByType<CameraController>();
+
         Time.timeScale = 0f;
 
         Cursor.lockState = CursorLockMode.None;
