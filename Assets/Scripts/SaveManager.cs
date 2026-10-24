@@ -19,6 +19,7 @@ public class SaveManager : MonoBehaviour
 
     public event Action ProfilesChanged;
     public event Action ActiveProfileChanged;
+    public event Action<string, bool> CollectibleChanged;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void CreateInstanceBeforeSceneLoad()
@@ -99,10 +100,17 @@ public class SaveManager : MonoBehaviour
     public bool SetCollectible(string collectibleId, bool unlocked = true)
     {
         RequireActiveSave();
-        bool previousValue = ActiveSave.HasCollectible(collectibleId);
+
+        bool changed = ActiveSave.HasCollectible(collectibleId) != unlocked;
         ActiveSave.SetCollectible(collectibleId, unlocked);
         SaveActiveSlot();
-        return previousValue != unlocked;
+
+        if (changed)
+        {
+            CollectibleChanged?.Invoke(collectibleId, unlocked);
+        }
+
+        return changed;
     }
 
     public bool SetAchievement(string achievementId, bool unlocked = true)

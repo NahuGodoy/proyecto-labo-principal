@@ -13,6 +13,10 @@ public class EasterEgg : MonoBehaviour
     }
 
     [SerializeField] private CollectibleId collectibleId;
+    [SerializeField] private bool modoExhibicion;
+
+    private Renderer[] renderers;
+    private Collider[] colliders;
 
     private string SaveId => collectibleId switch
     {
@@ -25,21 +29,37 @@ public class EasterEgg : MonoBehaviour
         _ => string.Empty
     };
 
+    private void Awake()
+    {
+        renderers = GetComponentsInChildren<Renderer>(true);
+        colliders = GetComponentsInChildren<Collider>(true);
+    }
+
+    private void OnEnable()
+    {
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.CollectibleChanged += HandleCollectibleChanged;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.CollectibleChanged -= HandleCollectibleChanged;
+        }
+    }
+
     private void Start()
     {
-        SaveManager manager = SaveManager.Instance;
-
-        if (manager != null &&
-            manager.ActiveSave != null &&
-            manager.ActiveSave.HasCollectible(SaveId))
-        {
-            gameObject.SetActive(false);
-        }
+        ApplyVisibility(FueRecogido());
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponentInParent<PlayerInventory>() == null)
+        if (modoExhibicion ||
+            other.GetComponentInParent<PlayerInventory>() == null)
         {
             return;
         }
@@ -51,6 +71,37 @@ public class EasterEgg : MonoBehaviour
         }
 
         manager.SetCollectible(SaveId);
-        gameObject.SetActive(false);
+    }
+
+    private void HandleCollectibleChanged(string id, bool recogido)
+    {
+        if (id == SaveId)
+        {
+            ApplyVisibility(recogido);
+        }
+    }
+
+    private void ApplyVisibility(bool recogido)
+    {
+        bool visible = modoExhibicion ? recogido : !recogido;
+
+        foreach (Renderer item in renderers)
+        {
+            item.enabled = visible;
+        }
+
+        foreach (Collider item in colliders)
+        {
+            item.enabled = visible && !modoExhibicion;
+        }
+    }
+
+    private bool FueRecogido()
+    {
+        SaveManager manager = SaveManager.Instance;
+
+        return manager != null &&
+               manager.ActiveSave != null &&
+               manager.ActiveSave.HasCollectible(SaveId);
     }
 }
