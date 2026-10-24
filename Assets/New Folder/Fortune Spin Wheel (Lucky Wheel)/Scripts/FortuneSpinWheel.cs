@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using Unity.Mathematics;
-
 namespace FortuneSpinWheel
 {
     public class FortuneSpinWheel : MonoBehaviour
