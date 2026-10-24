@@ -6,6 +6,7 @@ public class PlayerInventory : MonoBehaviour
     private SharedPlayerStats sharedStats;
 
     public int cantFichas => sharedStats != null ? sharedStats.cantFichas : 0;
+    public int cantVidas => sharedStats != null ? sharedStats.cantVidas : 5;
 
     public UnityEvent<PlayerInventory> onFichasCollected;
 
@@ -33,4 +34,23 @@ public class PlayerInventory : MonoBehaviour
             Instantiate(fichaPopUpPrefab, spawnPos, Quaternion.identity);
         }
     }
+
+    public void AddVida(int cantidad)
+    {
+        if (sharedStats != null)
+        {
+            sharedStats.AddVida(cantidad);
+        }
+    }
+
+    public void perderFichas(int cantidad)
+    {
+        if (sharedStats != null)
+        {
+            sharedStats.perderFichas(cantidad);
+        }
+    }
+
+
+
 }
