@@ -112,6 +112,10 @@ public class LevelTimer : MonoBehaviour
             if (completedLevelId == "tutorial")
             {
                 SaveManager.Instance.CompleteTutorial(recordTime ? elapsedSeconds : -1f);
+                if (recordTime)
+                {
+                    AchievementSystem.Instance?.Unlock(AchievementSystem.TutorialCompletedId);
+                }
             }
             else if (recordTime)
             {

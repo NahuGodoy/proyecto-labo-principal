@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -22,17 +23,14 @@ public class LobbyController : MonoBehaviour
     [SerializeField] private string tutorialSceneName = "EscenarioTutorial";
     [SerializeField] private TMP_Text activeSlotLabel;
     [SerializeField] private TMP_Text tutorialTimeLabel;
+    [SerializeField] private TMP_Text ruletaLabel;
     [SerializeField] private string selectionSceneName = "SaveSelection";
     [SerializeField] private Transform tutorialPortalTransform;
     [SerializeField] private Transform scenarioOnePortalTransform;
+    [SerializeField] private Transform ruletaTransform;
     [SerializeField] private float portalInteractionRadius = 2.5f;
     [SerializeField] private GameObject lobbyPortalUI;
-
-    private enum PortalKind
-    {
-        Tutorial,
-        ScenarioOne
-    }
+     private enum PortalKind {Tutorial,ScenarioOne,ScenarioTwo,Ruleta}
 
     private PlayerInput playerInput;
     private InputAction interactAction;
@@ -129,17 +127,46 @@ public class LobbyController : MonoBehaviour
         }
 
         activePortal = nearbyPortal.Value;
+
         if (promptText != null)
         {
-            promptText.text = activePortal == PortalKind.Tutorial
-                ? "Tutorial  |  E para ingresar"
-                : "Escenario 1  |  E para elegir dificultad";
-        }
+            promptText.text = activePortal switch
+        {
+        PortalKind.Tutorial    => "Tutorial  |  E para ingresar",
+        PortalKind.ScenarioOne => "Escenario 1  |  E para elegir dificultad",
+        PortalKind.ScenarioTwo => "Escenario 2  |  E para elegir dificultad",  //esto para un futuro
+        PortalKind.Ruleta      => "Ruleta de la Fortuna  |  E para jugar (5 fichas)",
+        _                      => string.Empty
+        };
 
         if (interactAction != null && interactAction.WasPressedThisFrame())
-        {
+{
+    switch (activePortal)
+    {
+        case PortalKind.Ruleta:
+            FortuneSpinWheel.FortuneSpinWheel ruleta = ruletaTransform != null 
+                ? ruletaTransform.GetComponentInChildren<FortuneSpinWheel.FortuneSpinWheel>() 
+                : null;
+
+            if (ruleta != null && !ruleta.m_IsSpinning)
+            {
+                if (ruleta.pagarJuego(5))
+                {
+                    ruleta.StartSpin();
+                }
+            }
+            break;
+
+        case PortalKind.Tutorial:
+        case PortalKind.ScenarioOne:
+        //case PortalKind.ScenarioTwo:  
             OpenSelector(activePortal);
-        }
+            break;
+    }
+}
+}
+
+        
     }
 
     public void OpenMap1()
@@ -176,27 +203,33 @@ public class LobbyController : MonoBehaviour
         }
     }
 
-    private PortalKind? GetNearbyPortal(Vector3 playerPosition)
+  private PortalKind? GetNearbyPortal(Vector3 playerPosition)
+{
+    float radiusSquared = portalInteractionRadius * portalInteractionRadius;
+    float menorDistancia = float.PositiveInfinity;
+    PortalKind? portalMasCercano = null;
+
+    var puntos = new (PortalKind kind, Transform target)[]
     {
-        float radiusSquared = portalInteractionRadius * portalInteractionRadius;
-        float tutorialDistance = tutorialPortalTransform == null
-            ? float.PositiveInfinity
-            : HorizontalDistanceSquared(playerPosition, tutorialPortalTransform.position);
-        float scenarioDistance = scenarioOnePortalTransform == null
-            ? float.PositiveInfinity
-            : HorizontalDistanceSquared(playerPosition, scenarioOnePortalTransform.position);
-        bool tutorialNearby = tutorialDistance <= radiusSquared;
-        bool scenarioNearby = scenarioDistance <= radiusSquared;
+        (PortalKind.Tutorial, tutorialPortalTransform),
+        (PortalKind.ScenarioOne, scenarioOnePortalTransform), //luego agregar el escenario dos acá 
+        (PortalKind.Ruleta, ruletaTransform)
+    };
 
-        if (!tutorialNearby && !scenarioNearby)
+    foreach (var (kind, target) in puntos)
+    {
+        if (target == null) continue;
+
+        float distSq = HorizontalDistanceSquared(playerPosition, target.position);
+        if (distSq <= radiusSquared && distSq < menorDistancia)
         {
-            return null;
+            menorDistancia = distSq;
+            portalMasCercano = kind;
         }
-
-        return tutorialNearby && (!scenarioNearby || tutorialDistance <= scenarioDistance)
-            ? PortalKind.Tutorial
-            : PortalKind.ScenarioOne;
     }
+
+    return portalMasCercano;
+}
 
     private static float HorizontalDistanceSquared(Vector3 first, Vector3 second)
     {
