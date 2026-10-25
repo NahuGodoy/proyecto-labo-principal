@@ -1156,7 +1156,7 @@ GameObject:
   - component: {fileID: 171548713464347719}
   - component: {fileID: 2021366281282025579}
   m_Layer: 5
-  m_Name: UI
+  m_Name: UI (deprecado)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -16,10 +16,16 @@ public class CameraController : MonoBehaviour
     {
         lookInput = context.ReadValue<Vector2>();
         lookFromGamepad = context.control != null && context.control.device is Gamepad;
+
+        if (GameManager.Instance != null && GameManager.Instance.JuegoTerminado)
+            return;
     }
 
     private void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.JuegoTerminado)
+            return;
+
         if (PauseMenu.JuegoEsPausado) return;
         
         if (float.IsNaN(lookInput.x) || float.IsNaN(lookInput.y) ||

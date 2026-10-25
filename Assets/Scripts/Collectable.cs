@@ -4,12 +4,19 @@ public class Collectable : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        PlayerInventory playerInventory = other.GetComponent<PlayerInventory>();
+        PlayerInventory playerInventory = other.GetComponentInParent<PlayerInventory>();
         if (playerInventory != null)
         {
-            playerInventory.AddFicha();
-            gameObject.SetActive(false);
+            Recoger(playerInventory);
         }
 
+    }
+
+    public void Recoger (PlayerInventory playerInventory)
+    {
+        if (!gameObject.activeInHierarchy) return;
+
+        playerInventory.AddFicha();
+        gameObject.SetActive(false);
     }
 }
