@@ -712,6 +712,64 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!1 &118185876
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 118185878}
+  - component: {fileID: 118185877}
+  m_Layer: 0
+  m_Name: 'EventosManager '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &118185877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118185876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b58c3bd54431f29a1803489a2cf19a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventosAleatoriosManager
+  apagon: {fileID: 1262637665}
+  primerEventoMin: 15
+  primerEventoMax: 45
+  entreEventosMin: 20
+  entreEventosMax: 60
+  duracionCatnip: 8
+  multiplicadorCatnip: 2
+  textoAviso: {fileID: 2047066662}
+  duracionAviso: 3
+  formatoAvisoCatnip: "\xA1Catnip Frenzy en {0}!"
+--- !u!224 &118185878
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118185876}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 550.5, y: 310.5}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &124023202 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ecf1bc1d6966e7b44aacc8733430faf8, type: 3}
@@ -8164,15 +8222,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   pantallaNegra: {fileID: 453661586}
   textoCuentaRegresiva: {fileID: 2047066662}
-  apagonAutomatico: 1
-  tiempoMinimo: 15
-  tiempoMaximo: 60
+  apagonAutomatico: 0
+  primerApagonMin: 15
+  primerApagonMax: 60
+  entreApagonesMin: 20
+  entreApagonesMax: 60
   duracionCuentaRegresiva: 3
   duracionOscurecimiento: 3
   duracionApagonTotal: 5
   duracionRecuperacion: 1.5
   formatoCuentaRegresiva: "Apag\xF3n en {0}"
-  teclaDisparoApagon: 29
 --- !u!224 &1262637666
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10712,6 +10771,9 @@ MonoBehaviour:
   victoriaPanel: {fileID: 215434206}
   levelTimer: {fileID: 1978173027}
   lobbySceneName: LobbyTest
+  temporizador: {fileID: 0}
+  textoMotivoDerrota: {fileID: 0}
+  mensajeTiempoAgotado: "\xA1Se acab\xF3 el tiempo!"
 --- !u!4 &1590822101
 Transform:
   m_ObjectHideFlags: 0
@@ -13027,6 +13089,11 @@ MonoBehaviour:
   completed:
     m_PersistentCalls:
       m_Calls: []
+  countdown: 0
+  countdownSeconds: 30
+  timeUp:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1978173028
 Transform:
   m_ObjectHideFlags: 0
@@ -14412,7 +14479,15 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 201426519699656567, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 201426519699656567, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 201426519699656567, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1686093374966635926, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
@@ -14524,6 +14599,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7463839173436121381, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7463839173436121381, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
@@ -14539,6 +14618,7 @@ SceneRoots:
   - {fileID: 901892962}
   - {fileID: 1590822101}
   - {fileID: 1262637666}
+  - {fileID: 118185878}
   - {fileID: 2126633445}
   - {fileID: 1444138919}
   - {fileID: 1978173028}

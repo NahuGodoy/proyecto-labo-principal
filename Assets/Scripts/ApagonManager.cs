@@ -54,7 +54,7 @@ public class ApagonManager : MonoBehaviour
         }
     }
 
-    private IEnumerator EjecutarApagon()
+    public IEnumerator EjecutarApagon()
     {
         ApagonEnCurso = true;
 
