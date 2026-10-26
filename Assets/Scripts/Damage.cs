@@ -4,6 +4,7 @@ public class Damage : MonoBehaviour
 {
     public int cantidadDano = 1;
     public float tiempoInvulnerabilidad = 1.5f; 
+    [SerializeField] private bool ignoraInvulnerabilidad = false;
 
     private float ultimoDanoDado = 0f;
 
@@ -30,7 +31,21 @@ public class Damage : MonoBehaviour
             PlayerHealth playerHealth = playerObject.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
-                playerHealth.perderVida();
+                bool invencibleAntes = playerHealth.invencible;
+                if (ignoraInvulnerabilidad)
+                {
+                    playerHealth.invencible = false;
+                }
+
+                try
+                {
+                    playerHealth.perderVida();
+                }
+                finally
+                {
+                    playerHealth.invencible = invencibleAntes;
+                }
+
                 ultimoDanoDado = Time.time;
             }
         }
