@@ -21,12 +21,15 @@ public class LobbyController : MonoBehaviour
     [SerializeField] private LobbyUnlockable map1;
     [SerializeField] private string map1SceneName = "EscenarioUno";
     [SerializeField] private string tutorialSceneName = "EscenarioTutorial";
+    [SerializeField] private string map2SceneName = "EscenarioDos";
     [SerializeField] private TMP_Text activeSlotLabel;
+    [SerializeField] private TMP_Text totalFichasLabel;
     [SerializeField] private TMP_Text tutorialTimeLabel;
     [SerializeField] private TMP_Text ruletaLabel;
     [SerializeField] private string selectionSceneName = "SaveSelection";
     [SerializeField] private Transform tutorialPortalTransform;
     [SerializeField] private Transform scenarioOnePortalTransform;
+    [SerializeField] private Transform scenarioTwoPortalTransform;
     [SerializeField] private Transform ruletaTransform;
     [SerializeField] private float portalInteractionRadius = 2.5f;
     [SerializeField] private GameObject lobbyPortalUI;
@@ -54,6 +57,7 @@ public class LobbyController : MonoBehaviour
         if (SaveManager.Instance != null)
         {
             SaveManager.Instance.ActiveProfileChanged += Refresh;
+            SaveManager.Instance.ProfilesChanged += Refresh;
         }
 
         Time.timeScale = 1f;
@@ -85,6 +89,7 @@ public class LobbyController : MonoBehaviour
         if (SaveManager.Instance != null)
         {
             SaveManager.Instance.ActiveProfileChanged -= Refresh;
+            SaveManager.Instance.ProfilesChanged -= Refresh;
         }
 
         UnbindUIButtons();
@@ -159,7 +164,7 @@ public class LobbyController : MonoBehaviour
 
         case PortalKind.Tutorial:
         case PortalKind.ScenarioOne:
-        //case PortalKind.ScenarioTwo:  
+        case PortalKind.ScenarioTwo:  
             OpenSelector(activePortal);
             break;
     }
@@ -194,6 +199,11 @@ public class LobbyController : MonoBehaviour
             activeSlotLabel.text = $"Partida {save.slotId + 1}";
         }
 
+        if (totalFichasLabel != null)
+        {
+            totalFichasLabel.text = $"{save.totalFichas}";
+        }
+
         if (tutorialTimeLabel != null)
         {
             float tutorialTime = save.GetBestTime("tutorial");
@@ -212,7 +222,8 @@ public class LobbyController : MonoBehaviour
     var puntos = new (PortalKind kind, Transform target)[]
     {
         (PortalKind.Tutorial, tutorialPortalTransform),
-        (PortalKind.ScenarioOne, scenarioOnePortalTransform), //luego agregar el escenario dos acá 
+        (PortalKind.ScenarioOne, scenarioOnePortalTransform),
+        (PortalKind.ScenarioTwo, scenarioTwoPortalTransform), //luego agregar el escenario dos acá 
         (PortalKind.Ruleta, ruletaTransform)
     };
 
@@ -248,10 +259,15 @@ public class LobbyController : MonoBehaviour
 
         activePortal = portal;
         lobbyPortalUI.SetActive(true);
-        selectorTitle.text = portal == PortalKind.Tutorial ? "Tutorial" : "Escenario 1";
+        selectorTitle.text = portal switch
+        {
+            PortalKind.Tutorial => "Tutorial",
+            PortalKind.ScenarioTwo => "Escenario 2",
+            _ => "Escenario 1"
+        };
         if (difficultyRoot != null)
         {
-            difficultyRoot.SetActive(portal == PortalKind.ScenarioOne);
+            difficultyRoot.SetActive(portal == PortalKind.ScenarioOne || portal == PortalKind.ScenarioTwo);
         }
         RefreshRecordLabel();
         RefreshDifficultyButtons();
@@ -272,7 +288,8 @@ public class LobbyController : MonoBehaviour
         Cursor.visible = true;
         if (EventSystem.current != null)
         {
-            GameObject selectedControl = portal == PortalKind.ScenarioOne && difficultyButtons != null && difficultyButtons.Length > 1 && difficultyButtons[1] != null
+            bool isScenario = portal == PortalKind.ScenarioOne || portal == PortalKind.ScenarioTwo;
+            GameObject selectedControl = isScenario && difficultyButtons != null && difficultyButtons.Length > 1 && difficultyButtons[1] != null
                 ? difficultyButtons[1].gameObject
                 : enterButton != null ? enterButton.gameObject : null;
             EventSystem.current.SetSelectedGameObject(selectedControl);
@@ -357,9 +374,14 @@ public class LobbyController : MonoBehaviour
         {
             sceneName = tutorialSceneName;
         }
-        else
+        else if (activePortal == PortalKind.ScenarioOne)
         {
             sceneName = map1SceneName;
+            ScenarioDifficultySelection.Select(ScenarioDifficultySelection.Selected);
+        }
+        else
+        {
+            sceneName = map2SceneName;
             ScenarioDifficultySelection.Select(ScenarioDifficultySelection.Selected);
         }
 

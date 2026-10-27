@@ -20,6 +20,7 @@ public class SaveManager : MonoBehaviour
     public event Action ProfilesChanged;
     public event Action ActiveProfileChanged;
     public event Action<string, bool> CollectibleChanged;
+    public event Action<string, bool, Sprite> CollectibleNotificationChanged;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void CreateInstanceBeforeSceneLoad()
@@ -97,7 +98,7 @@ public class SaveManager : MonoBehaviour
         SaveActiveSlot();
     }
 
-    public bool SetCollectible(string collectibleId, bool unlocked = true)
+    public bool SetCollectible(string collectibleId, bool unlocked = true, Sprite notificationIcon = null)
     {
         RequireActiveSave();
 
@@ -108,6 +109,7 @@ public class SaveManager : MonoBehaviour
         if (changed)
         {
             CollectibleChanged?.Invoke(collectibleId, unlocked);
+            CollectibleNotificationChanged?.Invoke(collectibleId, unlocked, notificationIcon);
         }
 
         return changed;
@@ -132,6 +134,26 @@ public class SaveManager : MonoBehaviour
         }
 
         return improved;
+    }
+
+    public int AddFichas(int cantidad)
+    {
+        RequireActiveSave();
+        ActiveSave.totalFichas += Mathf.Max(0, cantidad);
+        SaveActiveSlot();
+        return ActiveSave.totalFichas;
+    }
+
+    public bool TrySpendFichas(int cantidad)
+    {
+        if (ActiveSave == null || cantidad < 0 || ActiveSave.totalFichas < cantidad)
+        {
+            return false;
+        }
+
+        ActiveSave.totalFichas -= cantidad;
+        SaveActiveSlot();
+        return true;
     }
 
     public void SaveActiveSlot()

@@ -42,7 +42,7 @@ public class CameraController : MonoBehaviour
         yaw += lookInput.x * inputScale;
         pitch-= lookInput.y * inputScale;
 
-        pitch = Mathf.Clamp(pitch, -45f, 60f);
+        pitch = Mathf.Clamp(pitch, -20f, 60f);
 
         pivot.localRotation = Quaternion.Euler(pitch,yaw,0);
     }

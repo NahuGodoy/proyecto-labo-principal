@@ -14,6 +14,7 @@ public class EasterEgg : MonoBehaviour
 
     [SerializeField] private CollectibleId collectibleId;
     [SerializeField] private bool modoExhibicion;
+    [SerializeField] private Sprite iconoNotificacion;
 
     private Renderer[] renderers;
     private Collider[] colliders;
@@ -70,7 +71,7 @@ public class EasterEgg : MonoBehaviour
             return;
         }
 
-        manager.SetCollectible(SaveId);
+        manager.SetCollectible(SaveId, true, iconoNotificacion);
     }
 
     private void HandleCollectibleChanged(string id, bool recogido)

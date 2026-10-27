@@ -52,11 +52,11 @@ void Start()
         {
             jugador = playerObj.transform;
         }
+    }
 
     if (inventario == null && jugador != null)
     {
         inventario = jugador.GetComponent<PlayerInventory>();
-    }
     }
 }
 
@@ -238,12 +238,13 @@ private void EntregarRecompensa(int indiceCasilla)
 
     if (nombreSprite.Contains("coin-1"))
     {   
-        if (inventario != null)
+        if (SaveManager.Instance != null && SaveManager.Instance.ActiveSave != null)
         {
-            for (int i = 0; i < cantidad; i++)
-            {
-                inventario.AddFicha();
-            }
+            SaveManager.Instance.AddFichas(cantidad);
+        }
+        else
+        {
+            Debug.LogError("No se pudo guardar la recompensa: no hay un perfil activo.");
         }
     }
     if (nombreSprite.Contains("gem-1"))
@@ -254,12 +255,11 @@ private void EntregarRecompensa(int indiceCasilla)
 
 public bool pagarJuego(int costo = 5)
         {
-            if (inventario != null && inventario.cantFichas >= costo)
+            if (SaveManager.Instance != null && SaveManager.Instance.TrySpendFichas(costo))
             {
-                inventario.perderFichas(costo);
                 return true;
             }
-            Debug.Log("no tenes fichas");
+            Debug.Log("No hay un perfil activo o no tenés suficientes fichas para jugar.");
             return false;
                 
         

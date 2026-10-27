@@ -35,6 +35,7 @@ public class SaveData
     public string createdAtUtc;
     public bool tutorialCompleted;
     public bool map1Unlocked;
+    public int totalFichas;
     public List<BoolProgressEntry> unlockedMaps = new List<BoolProgressEntry>();
     public List<BoolProgressEntry> collectibles = new List<BoolProgressEntry>();
     public List<BoolProgressEntry> achievements = new List<BoolProgressEntry>();
@@ -68,6 +69,7 @@ public class SaveData
         achievements ??= new List<BoolProgressEntry>();
         unlockedMaps ??= new List<BoolProgressEntry>();
         bestTimes ??= new List<LevelBestTime>();
+        totalFichas = Mathf.Max(0, totalFichas);
 
         if (tutorialCompleted)
         {

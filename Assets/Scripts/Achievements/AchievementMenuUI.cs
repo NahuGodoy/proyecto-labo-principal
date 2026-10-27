@@ -37,10 +37,20 @@ public class AchievementMenuUI : MonoBehaviour
             achievementSystem.AchievementUnlocked -= ShowAchievementUnlocked;
         }
 
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.CollectibleNotificationChanged -= HandleCollectibleChanged;
+        }
+
         achievementSystem = system;
         if (achievementSystem != null)
         {
             achievementSystem.AchievementUnlocked += ShowAchievementUnlocked;
+        }
+
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.CollectibleNotificationChanged += HandleCollectibleChanged;
         }
 
         if (notificationPanel != null)
@@ -68,6 +78,11 @@ public class AchievementMenuUI : MonoBehaviour
         if (achievementSystem != null)
         {
             achievementSystem.AchievementUnlocked -= ShowAchievementUnlocked;
+        }
+
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.CollectibleNotificationChanged -= HandleCollectibleChanged;
         }
     }
 
@@ -184,20 +199,51 @@ public class AchievementMenuUI : MonoBehaviour
             return;
         }
 
+        ShowNotification("Logro conseguido", achievement.displayName, achievement.icon);
+    }
+
+    private void HandleCollectibleChanged(string collectibleId, bool unlocked, Sprite icon)
+    {
+        if (!unlocked)
+        {
+            return;
+        }
+
+        string displayName = collectibleId switch
+        {
+            "vik" => "Vik",
+            "nahu" => "Nahu",
+            "enzo" => "Enzo",
+            "vicu" => "Vicu",
+            "leo" => "Leo",
+            "juan" => "Juan",
+            _ => collectibleId
+        };
+
+        ShowNotification("Easter Egg encontrado", $"Easter Egg de {displayName}", icon);
+    }
+
+    private void ShowNotification(string title, string message, Sprite icon)
+    {
+        if (notificationPanel == null)
+        {
+            return;
+        }
+
         if (notificationTitle != null)
         {
-            notificationTitle.text = "Logro conseguido";
+            notificationTitle.text = title;
         }
 
         if (notificationAchievementName != null)
         {
-            notificationAchievementName.text = achievement.displayName;
+            notificationAchievementName.text = message;
         }
 
         if (notificationIcon != null)
         {
-            notificationIcon.sprite = achievement.icon;
-            notificationIcon.enabled = achievement.icon != null;
+            notificationIcon.sprite = icon;
+            notificationIcon.enabled = icon != null;
         }
 
         notificationPanel.SetActive(true);

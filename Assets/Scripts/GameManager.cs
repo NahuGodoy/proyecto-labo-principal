@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        SharedPlayerStats.GetOrCreate().SetFichas(0);
+
         if (gameOverPanel != null)
             gameOverPanel.SetActive(false);
 
@@ -121,6 +123,11 @@ public void GameOver()
         if (levelTimer != null)
         {
             levelTimer.CompleteLevel();
+        }
+
+        if (SaveManager.Instance != null && SaveManager.Instance.ActiveSave != null && SharedPlayerStats.Instance != null)
+        {
+            SaveManager.Instance.AddFichas(SharedPlayerStats.Instance.cantFichas);
         }
 
         finalizarPartida();
