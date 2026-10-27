@@ -24,11 +24,13 @@ public class PlayerMovement : MonoBehaviour
 
     public float walkSpeed = 5f;
     public float runSpeed = 8f;
+    [HideInInspector] public float multiplicadorEvento = 1f; //esto de eventos
     public float jumpForce = 5f;
     public float maxJumpForce = 8f;
     public float maxJumpHoldTime = 0.25f;
 
     private MovimientoPlataforma plataformaActual;
+    
 
     private void Start()
     {
@@ -67,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        float currentSpeed = (isRunning && isMoving) ? runSpeed : walkSpeed;
+        float currentSpeed = ((isRunning && isMoving) ? runSpeed : walkSpeed) * multiplicadorEvento;
         bool isGrounded = controller.isGrounded || wasGrounded;
 
         // Si estamos en el aire, dejamos de considerar la plataforma

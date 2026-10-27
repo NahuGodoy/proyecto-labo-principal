@@ -30,6 +30,17 @@ public class LevelTimer : MonoBehaviour
     [SerializeField] private string levelId = "tutorial";
     [SerializeField] private bool startOnEnable = true;
     [SerializeField] private UnityEvent<float> completed;
+    [Header("Cuenta regresiva (opcional)")]
+    [SerializeField] private bool countdown = false;
+    [SerializeField] private float countdownSeconds = 30f;
+    [SerializeField] private UnityEvent timeUp;
+
+    public UnityEvent TimeUp => timeUp;
+
+    // Lo que se muestra en pantalla: tiempo restante si es regresivo, o transcurrido si no
+    public float DisplaySeconds => countdown
+        ? Mathf.Max(0f, countdownSeconds - elapsedSeconds)
+        : elapsedSeconds;
 
     private float elapsedSeconds;
     private bool running;
@@ -48,9 +59,15 @@ public class LevelTimer : MonoBehaviour
 
     private void Update()
     {
-        if (running)
+        if (!running) return;
+
+        elapsedSeconds += Time.deltaTime;
+
+        if (countdown && elapsedSeconds >= countdownSeconds)
         {
-            elapsedSeconds += Time.deltaTime;
+            elapsedSeconds = countdownSeconds;
+            running = false;
+            timeUp?.Invoke(); 
         }
     }
 
@@ -95,6 +112,10 @@ public class LevelTimer : MonoBehaviour
             if (completedLevelId == "tutorial")
             {
                 SaveManager.Instance.CompleteTutorial(recordTime ? elapsedSeconds : -1f);
+                if (recordTime)
+                {
+                    AchievementSystem.Instance?.Unlock(AchievementSystem.TutorialCompletedId);
+                }
             }
             else if (recordTime)
             {

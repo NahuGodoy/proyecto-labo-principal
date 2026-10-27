@@ -13,11 +13,16 @@ public class PauseMenu : MonoBehaviour
     public GameObject opcionesUI;
 
     [SerializeField] private string saveSelectionSceneName = "SaveSelection";
+    [SerializeField] private AchievementMenuUI achievementMenu;
 
     void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.JuegoTerminado)
+            return;
+
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        {   if (opcionesUI.activeSelf)
+        {
+            if (opcionesUI.activeSelf)
             {
                 CerrarOpciones();
             }
@@ -30,8 +35,8 @@ public class PauseMenu : MonoBehaviour
                 Pausa();
             }
         }
-    
-        if (!JuegoEsPausado &&!UIBloqueaCursor && Mouse.current.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
+
+        if (!JuegoEsPausado && !UIBloqueaCursor && Mouse.current.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -40,7 +45,31 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
-        pauseMenuUI.SetActive(false);
+        if (pauseMenuUI != null)
+        {
+            AchievementSystem achievementSystem = AchievementSystem.Instance;
+            if (achievementSystem == null)
+            {
+                achievementSystem = FindAnyObjectByType<AchievementSystem>();
+            }
+
+            if (achievementSystem == null)
+            {
+                achievementSystem = gameObject.AddComponent<AchievementSystem>();
+            }
+
+            if (achievementMenu == null)
+            {
+                achievementMenu = GetComponent<AchievementMenuUI>();
+            }
+
+            if (achievementMenu != null)
+            {
+                achievementMenu.Initialize(achievementSystem, this);
+            }
+            pauseMenuUI.SetActive(false);
+        }
+
         Time.timeScale = 1f;
         JuegoEsPausado = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -57,6 +86,16 @@ public class PauseMenu : MonoBehaviour
     {
         opcionesUI.SetActive(false);
         pauseMenuUI.SetActive(true);
+    }
+
+    public void AbrirLogros()
+    {
+        achievementMenu?.Open();
+    }
+
+    public void CerrarLogros()
+    {
+        achievementMenu?.Close();
     }
 
     public void Reanudar()

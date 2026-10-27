@@ -6,7 +6,7 @@ public class SharedPlayerStats : MonoBehaviour
     public static SharedPlayerStats Instance { get; private set; }
 
     [SerializeField, Min(0)] private int vidasIniciales = 5;
-    [SerializeField, Min(0)] private int fichasIniciales;
+    [SerializeField, Min(0)] private int fichasIniciales = 0;
 
     public int cantVidas { get; private set; }
     public int cantFichas { get; private set; }
@@ -65,10 +65,34 @@ public class SharedPlayerStats : MonoBehaviour
         return cantFichas;
     }
 
+    public void SetFichas(int cantidad)
+    {
+        cantFichas = Mathf.Max(0, cantidad);
+        FichasChanged?.Invoke(cantFichas);
+    }
+
     public int PerderVida()
     {
         cantVidas = Mathf.Max(0, cantVidas - 1);
         VidasChanged?.Invoke(cantVidas);
         return cantVidas;
     }
+
+    public int AddVida(int cantidad = 1)
+    {
+        cantVidas += Mathf.Max(1, cantidad);
+        VidasChanged?.Invoke(cantVidas);
+        return cantVidas;
+    }
+
+    public int perderFichas(int cantidad = 5)
+    {
+        cantFichas = Mathf.Max(0, cantFichas - cantidad);
+        FichasChanged?.Invoke(cantFichas);
+        return cantFichas;
+    }
+
+    
+
+
 }

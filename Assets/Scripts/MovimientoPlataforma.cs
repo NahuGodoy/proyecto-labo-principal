@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MovimientoPlataforma : MonoBehaviour
 {
-    public enum TipoMovimiento { Vertical, Horizontal }
+    public enum TipoMovimiento { Vertical, Horizontal, HorizontalX }
     public TipoMovimiento tipo = TipoMovimiento.Vertical;
 
     public float velocidad = 2f;
@@ -18,7 +18,7 @@ public class MovimientoPlataforma : MonoBehaviour
     private float tiempoInterno = 0f;
     private bool enPausa = false;
     private float tiempoPausaRestante = 0f;
-    private bool topeAlcanzado = false; // evita repausar apenas retoma el movimiento
+    private bool topeAlcanzado = false;
 
     void Start()
     {
@@ -32,7 +32,6 @@ public class MovimientoPlataforma : MonoBehaviour
 
         if (enPausa)
         {
-            // Mientras pausa, se queda fija en el punto más alto
             mov = distancia;
             tiempoPausaRestante -= Time.deltaTime;
             if (tiempoPausaRestante <= 0f)
@@ -40,20 +39,17 @@ public class MovimientoPlataforma : MonoBehaviour
         }
         else
         {
-            // Solo avanza el tiempo del seno cuando NO está en pausa
             tiempoInterno += Time.deltaTime;
             mov = Mathf.Sin(tiempoInterno * velocidad) * distancia;
 
             if (tipo == TipoMovimiento.Vertical)
             {
-                // Detecta que llegó (casi) al tope y todavía no pausó en esta vuelta
                 if (!topeAlcanzado && mov >= distancia * 0.999f)
                 {
                     enPausa = true;
                     topeAlcanzado = true;
                     tiempoPausaRestante = pausaEnPuntoAlto;
                 }
-                // Reset del flag una vez que bajó lo suficiente, para permitir pausar de nuevo en la próxima subida
                 else if (mov < distancia * 0.9f)
                 {
                     topeAlcanzado = false;
@@ -63,8 +59,10 @@ public class MovimientoPlataforma : MonoBehaviour
 
         if (tipo == TipoMovimiento.Vertical)
             transform.position = inicio + new Vector3(0, mov, 0);
-        else
+        if (tipo == TipoMovimiento.Horizontal)
             transform.position = inicio + new Vector3(0, 0, mov);
+        else
+            transform.position = inicio + new Vector3(mov, 0, 0);
 
         DeltaMovimiento = transform.position - posicionAnterior;
         posicionAnterior = transform.position;

@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -20,19 +21,19 @@ public class LobbyController : MonoBehaviour
     [SerializeField] private LobbyUnlockable map1;
     [SerializeField] private string map1SceneName = "EscenarioUno";
     [SerializeField] private string tutorialSceneName = "EscenarioTutorial";
+    [SerializeField] private string map2SceneName = "EscenarioDos";
     [SerializeField] private TMP_Text activeSlotLabel;
+    [SerializeField] private TMP_Text totalFichasLabel;
     [SerializeField] private TMP_Text tutorialTimeLabel;
+    [SerializeField] private TMP_Text ruletaLabel;
     [SerializeField] private string selectionSceneName = "SaveSelection";
     [SerializeField] private Transform tutorialPortalTransform;
     [SerializeField] private Transform scenarioOnePortalTransform;
+    [SerializeField] private Transform scenarioTwoPortalTransform;
+    [SerializeField] private Transform ruletaTransform;
     [SerializeField] private float portalInteractionRadius = 2.5f;
     [SerializeField] private GameObject lobbyPortalUI;
-
-    private enum PortalKind
-    {
-        Tutorial,
-        ScenarioOne
-    }
+     private enum PortalKind {Tutorial,ScenarioOne,ScenarioTwo,Ruleta}
 
     private PlayerInput playerInput;
     private InputAction interactAction;
@@ -56,6 +57,7 @@ public class LobbyController : MonoBehaviour
         if (SaveManager.Instance != null)
         {
             SaveManager.Instance.ActiveProfileChanged += Refresh;
+            SaveManager.Instance.ProfilesChanged += Refresh;
         }
 
         Time.timeScale = 1f;
@@ -87,6 +89,7 @@ public class LobbyController : MonoBehaviour
         if (SaveManager.Instance != null)
         {
             SaveManager.Instance.ActiveProfileChanged -= Refresh;
+            SaveManager.Instance.ProfilesChanged -= Refresh;
         }
 
         UnbindUIButtons();
@@ -129,17 +132,46 @@ public class LobbyController : MonoBehaviour
         }
 
         activePortal = nearbyPortal.Value;
+
         if (promptText != null)
         {
-            promptText.text = activePortal == PortalKind.Tutorial
-                ? "Tutorial  |  E para ingresar"
-                : "Escenario 1  |  E para elegir dificultad";
-        }
+            promptText.text = activePortal switch
+        {
+        PortalKind.Tutorial    => "Tutorial  |  E para ingresar",
+        PortalKind.ScenarioOne => "Escenario 1  |  E para elegir dificultad",
+        PortalKind.ScenarioTwo => "Escenario 2  |  E para elegir dificultad",  //esto para un futuro
+        PortalKind.Ruleta      => "Ruleta de la Fortuna  |  E para jugar (5 fichas)",
+        _                      => string.Empty
+        };
 
         if (interactAction != null && interactAction.WasPressedThisFrame())
-        {
+{
+    switch (activePortal)
+    {
+        case PortalKind.Ruleta:
+            FortuneSpinWheel.FortuneSpinWheel ruleta = ruletaTransform != null 
+                ? ruletaTransform.GetComponentInChildren<FortuneSpinWheel.FortuneSpinWheel>() 
+                : null;
+
+            if (ruleta != null && !ruleta.m_IsSpinning)
+            {
+                if (ruleta.pagarJuego(5))
+                {
+                    ruleta.StartSpin();
+                }
+            }
+            break;
+
+        case PortalKind.Tutorial:
+        case PortalKind.ScenarioOne:
+        case PortalKind.ScenarioTwo:  
             OpenSelector(activePortal);
-        }
+            break;
+    }
+}
+}
+
+        
     }
 
     public void OpenMap1()
@@ -167,6 +199,11 @@ public class LobbyController : MonoBehaviour
             activeSlotLabel.text = $"Partida {save.slotId + 1}";
         }
 
+        if (totalFichasLabel != null)
+        {
+            totalFichasLabel.text = $"{save.totalFichas}";
+        }
+
         if (tutorialTimeLabel != null)
         {
             float tutorialTime = save.GetBestTime("tutorial");
@@ -176,27 +213,34 @@ public class LobbyController : MonoBehaviour
         }
     }
 
-    private PortalKind? GetNearbyPortal(Vector3 playerPosition)
+  private PortalKind? GetNearbyPortal(Vector3 playerPosition)
+{
+    float radiusSquared = portalInteractionRadius * portalInteractionRadius;
+    float menorDistancia = float.PositiveInfinity;
+    PortalKind? portalMasCercano = null;
+
+    var puntos = new (PortalKind kind, Transform target)[]
     {
-        float radiusSquared = portalInteractionRadius * portalInteractionRadius;
-        float tutorialDistance = tutorialPortalTransform == null
-            ? float.PositiveInfinity
-            : HorizontalDistanceSquared(playerPosition, tutorialPortalTransform.position);
-        float scenarioDistance = scenarioOnePortalTransform == null
-            ? float.PositiveInfinity
-            : HorizontalDistanceSquared(playerPosition, scenarioOnePortalTransform.position);
-        bool tutorialNearby = tutorialDistance <= radiusSquared;
-        bool scenarioNearby = scenarioDistance <= radiusSquared;
+        (PortalKind.Tutorial, tutorialPortalTransform),
+        (PortalKind.ScenarioOne, scenarioOnePortalTransform),
+        (PortalKind.ScenarioTwo, scenarioTwoPortalTransform), //luego agregar el escenario dos acá 
+        (PortalKind.Ruleta, ruletaTransform)
+    };
 
-        if (!tutorialNearby && !scenarioNearby)
+    foreach (var (kind, target) in puntos)
+    {
+        if (target == null) continue;
+
+        float distSq = HorizontalDistanceSquared(playerPosition, target.position);
+        if (distSq <= radiusSquared && distSq < menorDistancia)
         {
-            return null;
+            menorDistancia = distSq;
+            portalMasCercano = kind;
         }
-
-        return tutorialNearby && (!scenarioNearby || tutorialDistance <= scenarioDistance)
-            ? PortalKind.Tutorial
-            : PortalKind.ScenarioOne;
     }
+
+    return portalMasCercano;
+}
 
     private static float HorizontalDistanceSquared(Vector3 first, Vector3 second)
     {
@@ -215,10 +259,15 @@ public class LobbyController : MonoBehaviour
 
         activePortal = portal;
         lobbyPortalUI.SetActive(true);
-        selectorTitle.text = portal == PortalKind.Tutorial ? "Tutorial" : "Escenario 1";
+        selectorTitle.text = portal switch
+        {
+            PortalKind.Tutorial => "Tutorial",
+            PortalKind.ScenarioTwo => "Escenario 2",
+            _ => "Escenario 1"
+        };
         if (difficultyRoot != null)
         {
-            difficultyRoot.SetActive(portal == PortalKind.ScenarioOne);
+            difficultyRoot.SetActive(portal == PortalKind.ScenarioOne || portal == PortalKind.ScenarioTwo);
         }
         RefreshRecordLabel();
         RefreshDifficultyButtons();
@@ -239,7 +288,8 @@ public class LobbyController : MonoBehaviour
         Cursor.visible = true;
         if (EventSystem.current != null)
         {
-            GameObject selectedControl = portal == PortalKind.ScenarioOne && difficultyButtons != null && difficultyButtons.Length > 1 && difficultyButtons[1] != null
+            bool isScenario = portal == PortalKind.ScenarioOne || portal == PortalKind.ScenarioTwo;
+            GameObject selectedControl = isScenario && difficultyButtons != null && difficultyButtons.Length > 1 && difficultyButtons[1] != null
                 ? difficultyButtons[1].gameObject
                 : enterButton != null ? enterButton.gameObject : null;
             EventSystem.current.SetSelectedGameObject(selectedControl);
@@ -324,9 +374,14 @@ public class LobbyController : MonoBehaviour
         {
             sceneName = tutorialSceneName;
         }
-        else
+        else if (activePortal == PortalKind.ScenarioOne)
         {
             sceneName = map1SceneName;
+            ScenarioDifficultySelection.Select(ScenarioDifficultySelection.Selected);
+        }
+        else
+        {
+            sceneName = map2SceneName;
             ScenarioDifficultySelection.Select(ScenarioDifficultySelection.Selected);
         }
 

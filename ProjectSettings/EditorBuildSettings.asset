@@ -29,5 +29,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/PruebaOpciones.unity
     guid: 246c47567ea2bc915837bb0b2a59e132
+  - enabled: 1
+    path: Assets/Scenes/EscenarioDos.unity
+    guid: d1002c23e1d05a242ac72ab1e657644f
   m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 5a96473da073a02e5a63403424fc59fa, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

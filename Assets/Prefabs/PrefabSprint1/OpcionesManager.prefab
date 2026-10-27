@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 346745378916682303}
   - component: {fileID: 8715873415951975162}
   - component: {fileID: 736919660931200076}
+  - component: {fileID: 6701176342775274221}
   m_Layer: 0
   m_Name: OpcionesManager
   m_TagString: Untagged
@@ -77,3 +78,17 @@ MonoBehaviour:
   slider: {fileID: 0}
   sliderValue: 0
   panelBrillo: {fileID: 0}
+--- !u!114 &6701176342775274221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9191178774345307478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bffc9a426d88428bd9cf151d3b13205b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OpcionHUD
+  elementosHUD: []
+  casillaHUD: {fileID: 0}
