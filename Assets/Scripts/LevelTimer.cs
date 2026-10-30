@@ -25,6 +25,18 @@ public static class ScenarioDifficultySelection
     }
 }
 
+public static class ScenarioModeSelection
+{
+    public static bool TimeTrialEnabled { get; private set; } = true;
+    public static bool RandomEventsEnabled { get; private set; } = true;
+
+    public static void Select(bool timeTrialEnabled, bool randomEventsEnabled)
+    {
+        TimeTrialEnabled = timeTrialEnabled;
+        RandomEventsEnabled = randomEventsEnabled;
+    }
+}
+
 public class LevelTimer : MonoBehaviour
 {
     [SerializeField] private string levelId = "tutorial";
@@ -45,6 +57,22 @@ public class LevelTimer : MonoBehaviour
     private float elapsedSeconds;
     private bool running;
     private bool finished;
+
+    private void Awake()
+    {
+        if (levelId != "escenario1" && levelId != "escenario2")
+        {
+            return;
+        }
+
+        countdown = ScenarioModeSelection.TimeTrialEnabled;
+
+        EventosAleatoriosManager eventManager = FindAnyObjectByType<EventosAleatoriosManager>(FindObjectsInactive.Include);
+        if (eventManager != null)
+        {
+            eventManager.gameObject.SetActive(ScenarioModeSelection.RandomEventsEnabled);
+        }
+    }
 
     public float ElapsedSeconds => elapsedSeconds;
     public bool IsRunning => running;
