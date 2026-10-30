@@ -329,9 +329,12 @@ public class LobbyController : MonoBehaviour
             return;
         }
 
-        string levelId = activePortal == PortalKind.Tutorial
-            ? "tutorial"
-            : ScenarioDifficultySelection.LevelId;
+        string levelId = activePortal switch
+        {
+            PortalKind.Tutorial => "tutorial",
+            PortalKind.ScenarioTwo => ScenarioDifficultySelection.GetLevelId("escenario2"),
+            _ => ScenarioDifficultySelection.GetLevelId("escenario1")
+        };
         float bestTime = save.GetBestTime(levelId);
         string levelLabel = activePortal == PortalKind.Tutorial
             ? "Récord"
