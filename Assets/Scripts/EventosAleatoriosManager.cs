@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TMPro;
 
-public enum TipoEvento { Apagon, CatnipFrenzy, /*LluviaFichas*/}
+public enum TipoEvento { Apagon, CatnipFrenzy, LluviaFichas}
 
 public class EventosAleatoriosManager : MonoBehaviour
 {
@@ -19,6 +19,17 @@ public class EventosAleatoriosManager : MonoBehaviour
     [Header("Catnip Frenzy")]
     [SerializeField] private float duracionCatnip = 8f;
     [SerializeField] private float multiplicadorCatnip = 2f;
+
+    [Header("Lluvia de fichas")]
+    [SerializeField] private GameObject fichaPrefab;
+    [SerializeField] private float duracionLluviaMin = 8f;
+    [SerializeField] private float duracionLluviaMax = 15f;
+    [SerializeField] private float intervaloSpawnFichas = 0.12f;
+    [SerializeField] private float radioLluvia = 8f;
+    [SerializeField] private float alturaLluvia = 12f;
+    [SerializeField] private float tiempoVidaFicha = 20f;
+    [SerializeField] private float fuerzaHorizontalFicha = 1.5f;
+    [SerializeField] private string formatoAvisoLluvia = "¡Llluvia de fichas en {0}!";
 
     [Header("Aviso de evento")]
     [SerializeField] private TMP_Text textoAviso;
@@ -85,6 +96,9 @@ public class EventosAleatoriosManager : MonoBehaviour
             case TipoEvento.CatnipFrenzy:
                 yield return CatnipFrenzy();
                 break;
+            case TipoEvento.LluviaFichas:
+                yield return LluviaFichas();
+                break;
         }
     }
 
@@ -120,6 +134,70 @@ public class EventosAleatoriosManager : MonoBehaviour
         yield return new WaitForSeconds(duracionCatnip);
         jugador.multiplicadorEvento = 1f;
         Debug.Log("[Eventos] Catnip OFF");
+    }
+
+    private IEnumerator LluviaFichas()
+    {
+        if (fichaPrefab == null)
+        {
+            Debug.LogWarning("[Eventos] No hay prefab asignado para la lluvia de fichas.");
+            yield break;
+        }
+
+        yield return AvisoCuentaRegresiva(formatoAvisoLluvia, duracionAviso);
+
+        float duracion = Random.Range(duracionLluviaMin, duracionLluviaMax);
+        float restante = duracion;
+        float siguienteSpawn = 0f;
+
+        Debug.Log("[Eventos] Lluvia de fichas ON");
+
+        while (restante > 0f)
+        {
+            siguienteSpawn -= Time.deltaTime;
+            restante -= Time.deltaTime;
+
+            if (siguienteSpawn <= 0f)
+            {
+                CrearFichaLluvia();
+                siguienteSpawn = Mathf.Max(0.02f, intervaloSpawnFichas);
+            }
+
+            yield return null;
+        }
+
+        Debug.Log("[Eventos] Lluvia de fichas OFF");
+    }
+
+    private void CrearFichaLluvia()
+    {
+        if (PlayerMovement.Instance == null) return;
+
+        Vector3 baseCentro = PlayerMovement.Instance.transform.position;
+
+        Vector2 offset = Random.insideUnitCircle * radioLluvia;
+        Vector3 posicion = baseCentro + new Vector3(offset.x, alturaLluvia, offset.y);
+
+        GameObject ficha = Instantiate(fichaPrefab, posicion, Random.rotation);
+        Rigidbody cuerpo = ficha.GetComponent<Rigidbody>();
+        if (cuerpo == null)
+            cuerpo = ficha.AddComponent<Rigidbody>();
+
+        cuerpo.useGravity = true;
+        cuerpo.AddForce(new Vector3(
+            Random.Range(-fuerzaHorizontalFicha, fuerzaHorizontalFicha),
+            0f,
+            Random.Range(-fuerzaHorizontalFicha, fuerzaHorizontalFicha)), ForceMode.VelocityChange);
+
+        StartCoroutine(EliminarFicha(ficha, tiempoVidaFicha));
+    }
+
+    private IEnumerator EliminarFicha(GameObject ficha, float espera)
+    {
+        if (ficha == null) yield break;
+
+        yield return new WaitForSeconds(espera);
+        if (ficha != null) Destroy(ficha);
     }
 
 
