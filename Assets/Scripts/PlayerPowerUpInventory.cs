@@ -17,21 +17,55 @@ public class PlayerPowerUpInventory : MonoBehaviour
     public PlayerPowerUps.TipoPowerUp Seleccionado => disponibles[indiceSeleccionado];
     public int CantidadSeleccionado => cantidades[Seleccionado];
     
-
-    private void Update()
-    {
-        if (Keyboard.current == null) return;
-
-        if (Keyboard.current.eKey.wasPressedThisFrame) UsarSeleccionado();
-        if (Keyboard.current.qKey.wasPressedThisFrame) Rotar();
-    }
-
+    // Para el teclado 
+    private InputAction usarAccion;
+    private InputAction rotarAccion;
 
 
     private void Awake()
     {
         playerPowerUps = GetComponent<PlayerPowerUps>();
+
+        usarAccion = new InputAction("UsarPowerUp", InputActionType.Button);
+        usarAccion.AddBinding("<Keyboard>/e");
+        usarAccion.AddBinding("<Gamepad>/buttonWest");
+
+        rotarAccion = new InputAction("RotarPowerUp", InputActionType.Button);
+        rotarAccion.AddBinding("<Keyboard>/q");
+        rotarAccion.AddBinding("<Gamepad>/rightShoulder");
+
     }
+
+    private void OnEnable()
+    {
+        usarAccion.performed += OnUsar;
+        rotarAccion.performed += OnRotar;
+        usarAccion.Enable();
+        rotarAccion.Enable();
+    }
+
+    private void OnDisable()
+    {
+        usarAccion.performed -= OnUsar;
+        rotarAccion.performed -= OnRotar;
+        usarAccion.Disable();
+        rotarAccion.Disable();
+    }
+
+    //esto es por si el juego esta pausado
+    private void OnUsar(InputAction.CallbackContext ctx)
+    {
+        if (Time.timeScale == 0f) return;
+        UsarSeleccionado();
+    }
+
+    private void OnRotar(InputAction.CallbackContext ctx)
+    {
+        if (Time.timeScale == 0f) return;
+        Rotar();
+    }
+
+        // teto estuvo por aca
 
     public void Agregar(PlayerPowerUps.TipoPowerUp tipo, int cantidad = 1)
     {
@@ -52,6 +86,7 @@ public class PlayerPowerUpInventory : MonoBehaviour
     public void UsarSeleccionado()
     {
         if (disponibles.Count == 0) return;
+        if (playerPowerUps.HayPowerUpActivo) return;
 
         var tipo = disponibles[indiceSeleccionado];
         playerPowerUps.ActivarPowerUp(tipo);
@@ -65,10 +100,6 @@ public class PlayerPowerUpInventory : MonoBehaviour
         }
         OnCambio?.Invoke();
     }
-
-
-    // teto estuvo por aqui
-
 
     
 }
