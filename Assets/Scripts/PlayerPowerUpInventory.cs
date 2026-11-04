@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class PlayerPowerUpInventory : MonoBehaviour
 {
-
     private readonly Dictionary<PlayerPowerUps.TipoPowerUp, int> cantidades = new();
     private readonly List<PlayerPowerUps.TipoPowerUp> disponibles = new();
     private int indiceSeleccionado = 0;
@@ -16,6 +15,7 @@ public class PlayerPowerUpInventory : MonoBehaviour
     public bool TieneAlgo => disponibles.Count > 0;
     public PlayerPowerUps.TipoPowerUp Seleccionado => disponibles[indiceSeleccionado];
     public int CantidadSeleccionado => cantidades[Seleccionado];
+    public int TiposDisponibles => disponibles.Count;
     
     // Para el teclado 
     private InputAction usarAccion;
@@ -27,11 +27,11 @@ public class PlayerPowerUpInventory : MonoBehaviour
         playerPowerUps = GetComponent<PlayerPowerUps>();
 
         usarAccion = new InputAction("UsarPowerUp", InputActionType.Button);
-        usarAccion.AddBinding("<Keyboard>/e");
+        usarAccion.AddBinding("<Keyboard>/q");
         usarAccion.AddBinding("<Gamepad>/buttonWest");
 
         rotarAccion = new InputAction("RotarPowerUp", InputActionType.Button);
-        rotarAccion.AddBinding("<Keyboard>/q");
+        rotarAccion.AddBinding("<Keyboard>/r");
         rotarAccion.AddBinding("<Gamepad>/rightShoulder");
 
     }

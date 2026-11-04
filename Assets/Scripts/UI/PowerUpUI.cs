@@ -15,6 +15,8 @@ public class PowerUpUI : MonoBehaviour
     [SerializeField] private IconoPowerUp[] iconos;
     [SerializeField] private Image imagenIcono;
     [SerializeField] private TMP_Text textoCantidad;
+    [SerializeField] private GameObject iconoUsar;
+    [SerializeField] private GameObject iconoRotar;
 
     private void OnEnable()
     {
@@ -29,7 +31,12 @@ public class PowerUpUI : MonoBehaviour
 
     private void Redibujar()
     {
-        if (!inventario.TieneAlgo)
+        bool hayAlgo = inventario.TieneAlgo;
+
+        iconoUsar.SetActive(hayAlgo);
+        iconoRotar.SetActive(inventario.TiposDisponibles > 1);
+
+        if (!hayAlgo)
         {
             imagenIcono.enabled = false;
             textoCantidad.text = "";
