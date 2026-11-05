@@ -12,6 +12,9 @@ public class PowerUp : MonoBehaviour
     
     private Vector3 posicionInicial;
 
+    // para el inventario nyejeje
+    [SerializeField] private bool irAlInventario = true;
+
     private void Awake()
     {
         if (visual == null) visual = transform;
@@ -40,7 +43,16 @@ public class PowerUp : MonoBehaviour
             return;
         }
 
-        playerPowerUps.ActivarPowerUp(tipoPowerUp);
+        if (irAlInventario)
+        {
+            PlayerPowerUpInventory inv = other.GetComponent<PlayerPowerUpInventory>();
+            if (inv != null) inv.Agregar(tipoPowerUp);
+            else Debug.LogWarning($"[PowerUp] {other.name} no tiene PlayerPowerUpInventory");
+        }
+        else
+        {
+            playerPowerUps.ActivarPowerUp(tipoPowerUp);
+        }
         Destroy(gameObject);
     }
 }
