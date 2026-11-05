@@ -4,18 +4,28 @@ using UnityEngine.SceneManagement;
 
 public class Creditos : MonoBehaviour
 {
-    [Header("Movimiento")]
     public float scrollSpeed = 40f;
     public float multiplicadorAcelerar = 3f;
     public float posicionFinalY = 2500f; 
 
-    public string escenaSiguiente = "PruebaApagon"; 
+    public GameObject panelCreditos;   
+    public GameObject panelMenuPausa; 
 
     private RectTransform rectTransform;
+    private Vector2 posicionInicial;
 
-    void Start()
+    void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
+        posicionInicial = rectTransform.anchoredPosition;
+    }
+
+    void OnEnable()
+    {
+        if (rectTransform != null)
+        {
+            rectTransform.anchoredPosition = posicionInicial;
+        }
     }
 
     void Update()
@@ -34,23 +44,28 @@ public class Creditos : MonoBehaviour
 
         if (salirTeclado || salirGamepad)
         {
-            TerminarCreditos();
+            CerrarCreditos();
             return;
         }
 
-        rectTransform.anchoredPosition += new Vector2(0f, velocidadActual * Time.deltaTime);
+        rectTransform.anchoredPosition += new Vector2(0f, velocidadActual * Time.unscaledDeltaTime);
 
         if (rectTransform.anchoredPosition.y >= posicionFinalY)
         {
-            TerminarCreditos();
+            CerrarCreditos();
         }
     }
 
-    private void TerminarCreditos()
+    public void CerrarCreditos()
     {
-        if (!string.IsNullOrEmpty(escenaSiguiente) && Application.CanStreamedLevelBeLoaded(escenaSiguiente))
+        if (panelCreditos != null)
         {
-            SceneManager.LoadScene(escenaSiguiente);
+            panelCreditos.SetActive(false);
+        }
+
+        if (panelMenuPausa != null)
+        {
+            panelMenuPausa.SetActive(true);
         }
     }
 }

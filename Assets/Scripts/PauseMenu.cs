@@ -12,8 +12,11 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     public GameObject opcionesUI;
 
+    public GameObject creditosUI;
+
     [SerializeField] private string saveSelectionSceneName = "SaveSelection";
     [SerializeField] private AchievementMenuUI achievementMenu;
+    public static string EscenaPreviaCreditos = "";
 
     void Update()
     {
@@ -21,20 +24,24 @@ public class PauseMenu : MonoBehaviour
             return;
 
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
+    {
+        if (opcionesUI.activeSelf)
         {
-            if (opcionesUI.activeSelf)
-            {
-                CerrarOpciones();
-            }
-            else if (JuegoEsPausado)
-            {
-                Reanudar();
-            }
-            else
-            {
-                Pausa();
-            }
+            CerrarOpciones();
         }
+        else if (creditosUI != null && creditosUI.activeSelf)
+            {
+                CerrarCreditos();
+            }
+        else if (JuegoEsPausado)
+            {
+            Reanudar();
+            }
+        else
+        {
+        Pausa();
+        }
+}
 
         if (!JuegoEsPausado && !UIBloqueaCursor && Mouse.current.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
         {
@@ -131,7 +138,17 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadScene(saveSelectionSceneName);
     }
 
-    
+public void AbrirCreditos()
+{
+    if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
+    if (creditosUI != null) creditosUI.SetActive(true);
+}
+
+public void CerrarCreditos()
+{
+    if (creditosUI != null) creditosUI.SetActive(false);
+    if (pauseMenuUI != null) pauseMenuUI.SetActive(true);
+}
 
 
 }
