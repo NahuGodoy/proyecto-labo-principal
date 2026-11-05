@@ -22,6 +22,8 @@ public class LobbyController : MonoBehaviour
     [SerializeField] private string map1SceneName = "EscenarioUno";
     [SerializeField] private string tutorialSceneName = "EscenarioTutorial";
     [SerializeField] private string map2SceneName = "EscenarioDos";
+    [SerializeField] private Toggle timeTrialToggle;
+    [SerializeField] private Toggle randomEventsToggle;
     [SerializeField] private TMP_Text activeSlotLabel;
     [SerializeField] private TMP_Text totalFichasLabel;
     [SerializeField] private TMP_Text tutorialTimeLabel;
@@ -269,6 +271,17 @@ public class LobbyController : MonoBehaviour
         {
             difficultyRoot.SetActive(portal == PortalKind.ScenarioOne || portal == PortalKind.ScenarioTwo);
         }
+        bool isScenarioPortal = portal == PortalKind.ScenarioOne || portal == PortalKind.ScenarioTwo;
+        if (timeTrialToggle != null)
+        {
+            timeTrialToggle.SetIsOnWithoutNotify(ScenarioModeSelection.TimeTrialEnabled);
+            timeTrialToggle.gameObject.SetActive(isScenarioPortal);
+        }
+        if (randomEventsToggle != null)
+        {
+            randomEventsToggle.SetIsOnWithoutNotify(ScenarioModeSelection.RandomEventsEnabled);
+            randomEventsToggle.gameObject.SetActive(isScenarioPortal);
+        }
         RefreshRecordLabel();
         RefreshDifficultyButtons();
         SetPromptVisible(false);
@@ -378,11 +391,13 @@ public class LobbyController : MonoBehaviour
         {
             sceneName = map1SceneName;
             ScenarioDifficultySelection.Select(ScenarioDifficultySelection.Selected);
+            SelectScenarioModes();
         }
         else
         {
             sceneName = map2SceneName;
             ScenarioDifficultySelection.Select(ScenarioDifficultySelection.Selected);
+            SelectScenarioModes();
         }
 
         if (!Application.CanStreamedLevelBeLoaded(sceneName))
@@ -394,6 +409,13 @@ public class LobbyController : MonoBehaviour
         Time.timeScale = 1f;
         PauseMenu.JuegoEsPausado = false;
         SceneManager.LoadScene(sceneName);
+    }
+
+    private void SelectScenarioModes()
+    {
+        ScenarioModeSelection.Select(
+            timeTrialToggle != null ? timeTrialToggle.isOn : ScenarioModeSelection.TimeTrialEnabled,
+            randomEventsToggle != null ? randomEventsToggle.isOn : ScenarioModeSelection.RandomEventsEnabled);
     }
 
     private void SetPromptVisible(bool visible)

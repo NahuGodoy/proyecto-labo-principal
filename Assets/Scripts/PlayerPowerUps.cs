@@ -10,6 +10,8 @@ public class PlayerPowerUps : MonoBehaviour
         ImanFichas,
     }
 
+    public bool HayPowerUpActivo => corrutinaInvencibilidad != null || corrutinaVelocidad != null || corrutinaIman != null;
+
     [Header("Invencibilidad")]
     [SerializeField] private float duracionInvencibilidad = 5f;
 
@@ -84,7 +86,7 @@ public class PlayerPowerUps : MonoBehaviour
             Debug.Log("No hay playerHealth");
             yield break;
         }
-
+        corrutinaInvencibilidad = null;
     }
     
     private IEnumerator VelocidadTemporal()
@@ -99,6 +101,7 @@ public class PlayerPowerUps : MonoBehaviour
             playerMovement.walkSpeed = walkBase;
             playerMovement.runSpeed = runBase;     
         }
+        corrutinaVelocidad = null;
     }
 
     private IEnumerator ImanTemporal()
