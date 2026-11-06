@@ -26,6 +26,7 @@ public class AchievementDefinition
 public class AchievementSystem : MonoBehaviour
 {
     public const string TutorialCompletedId = "tutorial_completed";
+    public const string Escenario2CompletedId = "escenario2_completed";
 
     private static AchievementSystem instance;
     [SerializeField] private AchievementCatalog catalog;
@@ -34,7 +35,7 @@ public class AchievementSystem : MonoBehaviour
     {
         new AchievementDefinition(TutorialCompletedId, "Tutorial completado", "Completa el recorrido del tutorial sin omitirlo."),
         new AchievementDefinition("placeholder_collector", "Coleccionista", "Logro en desarrollo.", true),
-        new AchievementDefinition("placeholder_speedrunner", "A toda velocidad", "Logro en desarrollo.", true),
+        new AchievementDefinition(Escenario2CompletedId, "Nivel 2 completado", "Completa el nivel 2 en cualquier dificultad."),
         new AchievementDefinition("placeholder_survivor", "Intocable", "Logro en desarrollo.", true),
         new AchievementDefinition("placeholder_explorer", "Explorador", "Logro en desarrollo.", true),
         new AchievementDefinition("placeholder_master", "Maestro", "Logro en desarrollo.", true)

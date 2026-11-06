@@ -12,12 +12,19 @@ public static class ScenarioDifficultySelection
 {
     public static ScenarioDifficulty Selected { get; private set; } = ScenarioDifficulty.Normal;
 
-    public static string LevelId => Selected switch
+    public static string LevelId => GetLevelId("escenario1");
+
+    public static string GetLevelId(string scenarioId)
     {
-        ScenarioDifficulty.Easy => "escenario1:facil",
-        ScenarioDifficulty.Hard => "escenario1:dificil",
-        _ => "escenario1:normal"
-    };
+        string difficultyId = Selected switch
+        {
+            ScenarioDifficulty.Easy => "facil",
+            ScenarioDifficulty.Hard => "dificil",
+            _ => "normal"
+        };
+
+        return $"{scenarioId}:{difficultyId}";
+    }
 
     public static void Select(ScenarioDifficulty difficulty)
     {
@@ -131,9 +138,11 @@ public class LevelTimer : MonoBehaviour
         finished = true;
         running = false;
 
-        string completedLevelId = levelId == "escenario1"
-            ? ScenarioDifficultySelection.LevelId
+        string completedLevelId = levelId == "escenario1" || levelId == "escenario2"
+            ? ScenarioDifficultySelection.GetLevelId(levelId)
             : levelId;
+
+            Debug.Log($"completeddLevelId='{completedLevelId}'");
 
         if (SaveManager.Instance != null && SaveManager.Instance.ActiveSave != null)
         {
@@ -148,6 +157,13 @@ public class LevelTimer : MonoBehaviour
             else if (recordTime)
             {
                 SaveManager.Instance.TrySetBestTime(completedLevelId, elapsedSeconds);
+                if(completedLevelId == "escenario2:facil" ||
+                completedLevelId == "escenario2:normal" ||
+                completedLevelId == "escenario2:dificil")
+                {
+                    AchievementSystem.Instance?.Unlock(AchievementSystem.Escenario2CompletedId);
+                }
+                
             }
         }
 
