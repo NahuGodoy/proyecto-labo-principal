@@ -1818,6 +1818,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1362390335}
   m_SourcePrefab: {fileID: 100100000, guid: 95a9442718b7ba74e828b938f4a8f1c3, type: 3}
+--- !u!114 &362554237 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1810029036752155273, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
+  m_PrefabInstance: {fileID: 4781390801009050632}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2675f965e3556c8468b0daf07f65f7f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryUI
 --- !u!1 &367962593 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8422892626600285392, guid: 214e08cd5e5d74c458e2a81b7ec2c84c, type: 3}
@@ -6161,6 +6172,17 @@ MonoBehaviour:
   cantidadDano: 1
   tiempoInvulnerabilidad: 1.5
   ignoraInvulnerabilidad: 0
+--- !u!114 &1151015580 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1468726361019397682, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
+  m_PrefabInstance: {fileID: 4781390801009050632}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22425ae9b2e63b0459c6b01f148c598d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthUI
 --- !u!1001 &1162124782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11215,7 +11237,7 @@ PrefabInstance:
     - target: {fileID: 2970164637437496227, guid: 25bb6f87a8fc9125a9f266ee522f0650, type: 3}
       propertyPath: onFichasCollected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 362554237}
     - target: {fileID: 2970164637437496227, guid: 25bb6f87a8fc9125a9f266ee522f0650, type: 3}
       propertyPath: onFichasCollected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: UpdateFichasTexto
@@ -11267,7 +11289,7 @@ PrefabInstance:
     - target: {fileID: 7825954708806688035, guid: 25bb6f87a8fc9125a9f266ee522f0650, type: 3}
       propertyPath: onDamageTaken.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1151015580}
     - target: {fileID: 7825954708806688035, guid: 25bb6f87a8fc9125a9f266ee522f0650, type: 3}
       propertyPath: onDamageTaken.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: UpdateVidasTexto
