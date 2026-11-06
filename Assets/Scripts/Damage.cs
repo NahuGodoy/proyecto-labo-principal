@@ -40,6 +40,7 @@ public class Damage : MonoBehaviour
                 try
                 {
                     playerHealth.perderVida();
+                    IntocableTracker.RegistrarGolpe();
                 }
                 finally
                 {
@@ -50,4 +51,5 @@ public class Damage : MonoBehaviour
             }
         }
     }
+    
 }

@@ -11,6 +11,9 @@ public class AchievementDefinition
     [TextArea] public string unlockedDescription;
     public Sprite icon;
     public bool isPlaceholder;
+    public const string IntocableId = "intocable";
+    public const string TutorialCompletedId = "tutorial_completed";
+    
 
     public AchievementDefinition(string id, string displayName, string description, bool isPlaceholder = false,
         string unlockedDescription = "")
@@ -26,6 +29,7 @@ public class AchievementDefinition
 public class AchievementSystem : MonoBehaviour
 {
     public const string TutorialCompletedId = "tutorial_completed";
+    public const string IntocableId = "intocable";
 
     private static AchievementSystem instance;
     [SerializeField] private AchievementCatalog catalog;
@@ -37,7 +41,9 @@ public class AchievementSystem : MonoBehaviour
         new AchievementDefinition("placeholder_speedrunner", "A toda velocidad", "Logro en desarrollo.", true),
         new AchievementDefinition("placeholder_survivor", "Intocable", "Logro en desarrollo.", true),
         new AchievementDefinition("placeholder_explorer", "Explorador", "Logro en desarrollo.", true),
-        new AchievementDefinition("placeholder_master", "Maestro", "Logro en desarrollo.", true)
+        new AchievementDefinition("placeholder_master", "Maestro", "Logro en desarrollo.", true),
+        new AchievementDefinition(IntocableId, "Intocable", "Completa un escenario sin recibir daño.", false,
+        "Completaste un escenario sin recibir daño.")
     };
 
     public static AchievementSystem Instance => instance;

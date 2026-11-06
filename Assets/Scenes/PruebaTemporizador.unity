@@ -1146,6 +1146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Damage
   cantidadDano: 1
   tiempoInvulnerabilidad: 1.5
+  ignoraInvulnerabilidad: 0
 --- !u!65 &334698646
 BoxCollider:
   m_ObjectHideFlags: 0

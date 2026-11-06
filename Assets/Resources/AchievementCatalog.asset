@@ -31,12 +31,12 @@ MonoBehaviour:
     unlockedDescription: Has terminado el recorrido a toda velocidad.
     icon: {fileID: 0}
     isPlaceholder: 1
-  - id: placeholder_survivor
+  - id: intocable
     displayName: Intocable
-    description: Logro en desarrollo.
-    unlockedDescription: "Has superado el desaf\xEDo sin recibir da\xF1o."
+    description: "Completa un escenario sin recibir da\xF1o."
+    unlockedDescription: "Completaste el escenario sin recibir da\xF1o."
     icon: {fileID: 0}
-    isPlaceholder: 1
+    isPlaceholder: 0
   - id: placeholder_explorer
     displayName: Explorador
     description: Logro en desarrollo.
