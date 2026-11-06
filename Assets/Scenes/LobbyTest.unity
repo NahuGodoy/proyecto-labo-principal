@@ -825,84 +825,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1001 &477650141
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 882740917}
-    m_Modifications:
-    - target: {fileID: 5708746303275326820, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: modoExhibicion
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606894506781796818, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.005
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606894506781796818, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.005
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606894506781796818, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.005
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606894506781796818, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606894506781796818, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.00708
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606894506781796818, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606894506781796818, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606894506781796818, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606894506781796818, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606894506781796818, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606894506781796818, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606894506781796818, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 8606894506781796818, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8951472016583373672, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-      propertyPath: m_Name
-      value: NecoArc EasterEgg (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
---- !u!4 &477650142 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8606894506781796818, guid: 210b1c5e7df55f0d389c4227d2b60932, type: 3}
-  m_PrefabInstance: {fileID: 477650141}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &564854838
 GameObject:
   m_ObjectHideFlags: 0
@@ -1349,7 +1271,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: ee145be8d86fd6c93ba66e58dae7cb19, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 477650142}
+      addedObject: {fileID: 1381462323}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ee145be8d86fd6c93ba66e58dae7cb19, type: 3}
       insertIndex: -1
@@ -2603,6 +2525,92 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1001 &1381462322
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 882740917}
+    m_Modifications:
+    - target: {fileID: 602400495094179880, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: modoExhibicion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.00004144771
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.00004144771
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.00004144771
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.00052685
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0065
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0002
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6724838528601250806, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7866475806851762175, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_Name
+      value: Miku EasterEgg (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8036112968235275610, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+--- !u!4 &1381462323 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+  m_PrefabInstance: {fileID: 1381462322}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1438258397
 PrefabInstance:
   m_ObjectHideFlags: 0
