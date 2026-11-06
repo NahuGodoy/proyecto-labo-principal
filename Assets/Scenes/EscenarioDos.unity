@@ -10503,6 +10503,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 71d9c9e132583f949872946ada6dc178, type: 3}
   m_PrefabInstance: {fileID: 1963947177}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1735371842 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3996906857551677193, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
+  m_PrefabInstance: {fileID: 4781390801009050632}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1745575069
 GameObject:
   m_ObjectHideFlags: 0
@@ -13017,6 +13022,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1810029036752155273, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2959018953319660015, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -13125,6 +13134,10 @@ PrefabInstance:
       propertyPath: inventario
       value: 
       objectReference: {fileID: 1380108957}
+    - target: {fileID: 6259365074211647138, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
+      propertyPath: 'elementosHUD.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1735371842}
     - target: {fileID: 6817668183849540778, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -50.440063
