@@ -142,6 +142,8 @@ public class LevelTimer : MonoBehaviour
             ? ScenarioDifficultySelection.GetLevelId(levelId)
             : levelId;
 
+            Debug.Log($"completeddLevelId='{completedLevelId}'");
+
         if (SaveManager.Instance != null && SaveManager.Instance.ActiveSave != null)
         {
             if (completedLevelId == "tutorial")
@@ -155,6 +157,13 @@ public class LevelTimer : MonoBehaviour
             else if (recordTime)
             {
                 SaveManager.Instance.TrySetBestTime(completedLevelId, elapsedSeconds);
+                if(completedLevelId == "escenario2:facil" ||
+                completedLevelId == "escenario2:normal" ||
+                completedLevelId == "escenario2:dificil")
+                {
+                    AchievementSystem.Instance?.Unlock(AchievementSystem.Escenario2CompletedId);
+                }
+                
             }
         }
 
