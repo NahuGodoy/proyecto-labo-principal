@@ -54,6 +54,7 @@ public class SaveManager : MonoBehaviour
     public void SelectSlot(int slotIndex)
     {
         ValidateSlotIndex(slotIndex);
+        bool changedSlot = activeSlotIndex != slotIndex;
 
         SaveData save = saves[slotIndex];
         if (!save.created)
@@ -63,6 +64,11 @@ public class SaveManager : MonoBehaviour
         }
 
         activeSlotIndex = slotIndex;
+        if (changedSlot)
+        {
+            IntocableTracker.ReiniciarProgresoDeEscenarios();
+        }
+
         ActiveProfileChanged?.Invoke();
     }
 
@@ -76,6 +82,7 @@ public class SaveManager : MonoBehaviour
         if (activeSlotIndex == slotIndex)
         {
             activeSlotIndex = -1;
+            IntocableTracker.ReiniciarProgresoDeEscenarios();
             ActiveProfileChanged?.Invoke();
         }
     }

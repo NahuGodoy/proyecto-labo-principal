@@ -142,8 +142,6 @@ public class LevelTimer : MonoBehaviour
             ? ScenarioDifficultySelection.GetLevelId(levelId)
             : levelId;
 
-            Debug.Log($"completeddLevelId='{completedLevelId}'");
-
         if (SaveManager.Instance != null && SaveManager.Instance.ActiveSave != null)
         {
             if (completedLevelId == "tutorial")

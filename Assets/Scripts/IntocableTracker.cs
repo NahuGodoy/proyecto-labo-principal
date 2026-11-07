@@ -31,7 +31,12 @@ public static class IntocableTracker
         Intocable = false;
     }
 
-    
+    public static void ReiniciarProgresoDeEscenarios()
+    {
+        escenariosConLogro.Clear();
+        Intocable = true;
+    }
+
     public static bool RegistrarVictoria()
     {
         if (!Intocable) return false;
@@ -42,15 +47,16 @@ public static class IntocableTracker
         // Se registra por escenario y nunca se pisa lo anterior
         bool nuevoEnEsteEscenario = escenariosConLogro.Add(escenario);
 
-        if (AchievementSystem.Instance != null)
+        if (AchievementSystem.Instance != null && escenariosConLogro.Count >= 2)
+        {
             AchievementSystem.Instance.Unlock(AchievementSystem.IntocableId);
+        }
 
         if (nuevoEnEsteEscenario)
         {
-            Debug.Log("Intocable en " + escenario + " (total en la sesion: " + escenariosConLogro.Count + ")");
             OnLogroObtenido?.Invoke(escenario);
         }
-
+        Debug.Log("Count escenario: " + escenariosConLogro.Count);
         return nuevoEnEsteEscenario;
     }
 
