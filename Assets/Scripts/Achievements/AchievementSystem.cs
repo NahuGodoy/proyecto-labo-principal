@@ -29,11 +29,8 @@ public class AchievementDefinition
 public class AchievementSystem : MonoBehaviour
 {
     public const string TutorialCompletedId = "tutorial_completed";
-<<<<<<< HEAD
     public const string Escenario2CompletedId = "escenario2_completed";
-=======
     public const string IntocableId = "intocable";
->>>>>>> feature/logro-intocable
 
     private static AchievementSystem instance;
     [SerializeField] private AchievementCatalog catalog;
@@ -43,11 +40,10 @@ public class AchievementSystem : MonoBehaviour
         new AchievementDefinition(TutorialCompletedId, "Tutorial completado", "Completa el recorrido del tutorial sin omitirlo."),
         new AchievementDefinition("placeholder_collector", "Coleccionista", "Logro en desarrollo.", true),
         new AchievementDefinition(Escenario2CompletedId, "Nivel 2 completado", "Completa el nivel 2 en cualquier dificultad."),
-        new AchievementDefinition("placeholder_survivor", "Intocable", "Logro en desarrollo.", true),
+        new AchievementDefinition(IntocableId, "Intocable", "Completa un escenario sin recibir daño.", false,
+        "Completaste un escenario sin recibir daño."),
         new AchievementDefinition("placeholder_explorer", "Explorador", "Logro en desarrollo.", true),
         new AchievementDefinition("placeholder_master", "Maestro", "Logro en desarrollo.", true),
-        new AchievementDefinition(IntocableId, "Intocable", "Completa un escenario sin recibir daño.", false,
-        "Completaste un escenario sin recibir daño.")
     };
 
     public static AchievementSystem Instance => instance;
