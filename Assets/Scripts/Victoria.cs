@@ -17,6 +17,7 @@ public class Victoria : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            IntocableTracker.RegistrarVictoria();
             if (GameManager.Instance != null)
             {
                 GameManager.Instance.Victoria();

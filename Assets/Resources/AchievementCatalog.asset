@@ -25,6 +25,7 @@ MonoBehaviour:
     unlockedDescription: "Has reunido una colecci\xF3n digna de admiraci\xF3n."
     icon: {fileID: 0}
     isPlaceholder: 1
+<<<<<<< HEAD
   - id: escenario2_completed
     displayName: Nivel 2 completado
     description: Completa el nivel 2 en cualquier difcultad.
@@ -32,11 +33,20 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: 31c0148bb3459ce77817c26b343a2040, type: 3}
     isPlaceholder: 0
   - id: placeholder_survivor
-    displayName: Intocable
+=======
+  - id: placeholder_speedrunner
+    displayName: A toda velocidad
     description: Logro en desarrollo.
-    unlockedDescription: "Has superado el desaf\xEDo sin recibir da\xF1o."
+    unlockedDescription: Has terminado el recorrido a toda velocidad.
     icon: {fileID: 0}
     isPlaceholder: 1
+  - id: intocable
+>>>>>>> feature/logro-intocable
+    displayName: Intocable
+    description: "Completa un escenario sin recibir da\xF1o."
+    unlockedDescription: "Completaste el escenario sin recibir da\xF1o."
+    icon: {fileID: 0}
+    isPlaceholder: 0
   - id: placeholder_explorer
     displayName: Explorador
     description: Logro en desarrollo.
