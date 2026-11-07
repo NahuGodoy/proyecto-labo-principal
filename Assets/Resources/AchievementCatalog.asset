@@ -19,7 +19,7 @@ MonoBehaviour:
     unlockedDescription: 'Bien ahi capo, sabes saltar y mover la camara. '
     icon: {fileID: 21300000, guid: 31c0148bb3459ce77817c26b343a2040, type: 3}
     isPlaceholder: 0
-  - id: placeholder_collector
+  - id: escenario1
     displayName: Coleccionista
     description: Logro en desarrollo.
     unlockedDescription: "Has reunido una colecci\xF3n digna de admiraci\xF3n."
@@ -37,13 +37,13 @@ MonoBehaviour:
     unlockedDescription: "Completaste el escenario sin recibir da\xF1o."
     icon: {fileID: 0}
     isPlaceholder: 0
-  - id: placeholder_explorer
+  - id: todosloscoleccionables
     displayName: Explorador
     description: Logro en desarrollo.
     unlockedDescription: "No dejaste ning\xFAn rinc\xF3n sin explorar."
     icon: {fileID: 0}
     isPlaceholder: 1
-  - id: placeholder_master
+  - id: libredeuda
     displayName: Maestro
     description: Logro en desarrollo.
     unlockedDescription: Has demostrado que dominas el juego.
