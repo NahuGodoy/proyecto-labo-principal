@@ -102,18 +102,25 @@ public class Tienda : MonoBehaviour
             return;
         }
 
-        #if UNITY_EDITOR
+/*        #if UNITY_EDITOR
             if (SaveManager.Instance == null || SaveManager.Instance.ActiveSave == null)
             {
                 Debug.LogWarning("[Tienda] Modo prueba: compra gratis (no hay perfil)");
                 inventario.Agregar(data.tipo);
                 return;
             }
-        #endif
+        #endif */
 
-        if (SaveManager.Instance == null || !SaveManager.Instance.TrySpendFichas(data.precio))
+        var save = SaveManager.Instance;
+        if ( save == null || save.ActiveSave == null)
         {
-            Debug.Log("No tenes suficientes fichas bleeeh");
+            Debug.Log("[Tienda] No hay SaveManager activo tontin");
+            return;
+        }
+
+        if ( !save.TrySpendFichas(data.precio))
+        {
+            Debug.Log("[Tienda] No tenes suficientes fichas bleeeh");
             return;
         }
 
