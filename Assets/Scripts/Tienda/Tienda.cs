@@ -112,19 +112,32 @@ public class Tienda : MonoBehaviour
         #endif */
 
         var save = SaveManager.Instance;
+        var sharedStats = SharedPlayerStats.GetOrCreate();
         if ( save == null || save.ActiveSave == null)
         {
             Debug.Log("[Tienda] No hay SaveManager activo tontin");
             return;
         }
 
-        if ( !save.TrySpendFichas(data.precio))
+        if (sharedStats.cantFichas < data.precio || save.ActiveSave.totalFichas < data.precio)
         {
             Debug.Log("[Tienda] No tenes suficientes fichas bleeeh");
             return;
         }
 
+        if (!save.TrySpendFichas(data.precio))
+        {
+            Debug.Log("[Tienda] Error al gastar fichas en el guardado");
+            return;
+        }
+        
+        if (sharedStats != null)
+        {
+            sharedStats.perderFichas(data.precio); 
+        }
+
         inventario.Agregar(data.tipo);
+        Debug.Log($"[Tienda] Compra exitosa de {data.nombre}");
     }
 
 
