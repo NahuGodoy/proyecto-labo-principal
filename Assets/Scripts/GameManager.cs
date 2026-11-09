@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject victoriaPanel;
     public LevelTimer levelTimer;
+    [SerializeField] private VictoryPanelUI victoryPanelUI;
     [SerializeField] private string lobbySceneName = "LobbyTest";
     public TemporizadorContrarreloj temporizador;
     [SerializeField] private TMP_Text textoMotivoDerrota; // opcional
@@ -125,9 +126,39 @@ public void GameOver()
             levelTimer.CompleteLevel();
         }
 
-        if (SaveManager.Instance != null && SaveManager.Instance.ActiveSave != null && SharedPlayerStats.Instance != null)
+        bool isScenario = levelTimer != null && levelTimer.IsScenarioLevel;
+        int fichasRecolectadas = SharedPlayerStats.Instance != null ? SharedPlayerStats.Instance.cantFichas : 0;
+        int multiplicador = isScenario ? ScenarioDifficultySelection.Multiplier : 1;
+        int fichasAcreditadas = fichasRecolectadas * multiplicador;
+
+        if (SaveManager.Instance != null && SaveManager.Instance.ActiveSave != null)
         {
-            SaveManager.Instance.AddFichas(SharedPlayerStats.Instance.cantFichas);
+            SaveManager.Instance.AddFichas(fichasAcreditadas);
+        }
+
+        if (victoryPanelUI == null && victoriaPanel != null)
+        {
+            victoryPanelUI = victoriaPanel.GetComponent<VictoryPanelUI>();
+            if (victoryPanelUI == null)
+            {
+                victoryPanelUI = victoriaPanel.GetComponentInChildren<VictoryPanelUI>(true);
+            }
+        }
+
+        if (victoryPanelUI != null)
+        {
+            float bestTime = SaveManager.Instance != null && SaveManager.Instance.ActiveSave != null && levelTimer != null
+                ? SaveManager.Instance.ActiveSave.GetBestTime(levelTimer.CurrentLevelId)
+                : SaveManager.NoBestTime;
+            victoryPanelUI.Show(
+                isScenario ? ScenarioDifficultySelection.DifficultyLabel : "Tutorial",
+                isScenario,
+                levelTimer != null ? levelTimer.ElapsedSeconds : 0f,
+                bestTime,
+                levelTimer != null && levelTimer.LastCompletionWasNewRecord,
+                fichasRecolectadas,
+                multiplicador,
+                fichasAcreditadas);
         }
 
         finalizarPartida();
