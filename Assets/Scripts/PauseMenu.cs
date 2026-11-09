@@ -23,6 +23,8 @@ public class PauseMenu : MonoBehaviour
         if (GameManager.Instance != null && GameManager.Instance.JuegoTerminado)
             return;
 
+        if (Tienda.HayTiendaAbierta || Time.frameCount == Tienda.FrameCierre) return;
+        
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
     {
         if (opcionesUI.activeSelf)
