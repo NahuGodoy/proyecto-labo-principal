@@ -13,6 +13,7 @@ public class AchievementDefinition
     public bool isPlaceholder;
     public const string IntocableId = "intocable";
     public const string TutorialCompletedId = "tutorial_completed";
+    public const string TodosLosColeccionablesId = "todosloscoleccionables";
     
 
     public AchievementDefinition(string id, string displayName, string description, bool isPlaceholder = false,
@@ -32,6 +33,8 @@ public class AchievementSystem : MonoBehaviour
     public const string Escenario2CompletedId = "escenario2_completed";
     public const string IntocableId = "intocable";
     public const string LibreDeDeudaId = "libre_de_deuda";
+
+    public const string TodosLosColeccionablesId = "todosloscoleccionables";
 
     private static AchievementSystem instance;
     [SerializeField] private AchievementCatalog catalog;
