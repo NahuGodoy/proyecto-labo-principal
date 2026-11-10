@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject victoriaPanel;
     public LevelTimer levelTimer;
+    [SerializeField] private LevelTimerUI levelTimerUI;
     [SerializeField] private VictoryPanelUI victoryPanelUI;
     [SerializeField] private string lobbySceneName = "LobbyTest";
     public TemporizadorContrarreloj temporizador;
@@ -124,6 +125,16 @@ public void GameOver()
         if (levelTimer != null)
         {
             levelTimer.CompleteLevel();
+        }
+
+        if (levelTimerUI == null)
+        {
+            levelTimerUI = FindAnyObjectByType<LevelTimerUI>();
+        }
+
+        if (levelTimerUI != null)
+        {
+            levelTimerUI.Hide();
         }
 
         bool isScenario = levelTimer != null && levelTimer.IsScenarioLevel;

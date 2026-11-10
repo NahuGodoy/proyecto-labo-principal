@@ -28,6 +28,11 @@ public class LevelTimerUI : MonoBehaviour
         UpdateDisplay();
     }
 
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void UpdateDisplay()
     {
         if (levelTimer == null || timerText == null)

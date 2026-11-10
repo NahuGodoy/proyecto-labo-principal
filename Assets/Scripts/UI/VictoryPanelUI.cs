@@ -23,19 +23,19 @@ public class VictoryPanelUI : MonoBehaviour
     {
         if (dificultadText != null)
         {
-            dificultadText.text = esEscenario ? $"Dificultad: {dificultad}" : dificultad;
+            dificultadText.text = esEscenario ? $"{dificultad}" : dificultad;
         }
 
         if (tiempoPartidaText != null)
         {
-            tiempoPartidaText.text = $"Tu tiempo: {FormatTime(tiempoPartida)}";
+            tiempoPartidaText.text = $"{FormatTime(tiempoPartida)}";
         }
 
         if (recordTiempoText != null)
         {
             recordTiempoText.text = mejorTiempo < 0f
-                ? "Récord: sin tiempo"
-                : $"Récord: {FormatTime(mejorTiempo)}";
+                ? ""
+                : $"{FormatTime(mejorTiempo)}";
         }
 
         if (estadoRecordText != null)
@@ -47,17 +47,17 @@ public class VictoryPanelUI : MonoBehaviour
 
         if (fichasRecolectadasText != null)
         {
-            fichasRecolectadasText.text = $"Fichas recolectadas: {fichasRecolectadas}";
+            fichasRecolectadasText.text = $"{fichasRecolectadas}";
         }
 
         if (multiplicadorText != null)
         {
-            multiplicadorText.text = $"Multiplicador: x{multiplicador}";
+            multiplicadorText.text = $"x{multiplicador}";
         }
 
         if (fichasAcreditadasText != null)
         {
-            fichasAcreditadasText.text = $"Fichas acreditadas: {fichasAcreditadas}";
+            fichasAcreditadasText.text = $"{fichasAcreditadas}";
         }
     }
 
