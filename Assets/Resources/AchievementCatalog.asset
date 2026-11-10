@@ -38,14 +38,14 @@ MonoBehaviour:
     icon: {fileID: 0}
     isPlaceholder: 0
   - id: todosloscoleccionables
-    displayName: Explorador
-    description: Logro en desarrollo.
-    unlockedDescription: "No dejaste ning\xFAn rinc\xF3n sin explorar."
+    displayName: Coleccionista
+    description: Encuentra los 6 easter eggs que estan escondidos por los mapas.
+    unlockedDescription: Bien ahi genio, encontraste todo.
     icon: {fileID: 0}
-    isPlaceholder: 1
+    isPlaceholder: 0
   - id: libre_de_deuda
     displayName: Libre de deuda
-    description: Pagaste tu deuda
+    description: Paga tu deuda
     unlockedDescription: El casino no te perseguira, se feliz :3
     icon: {fileID: 21300000, guid: 4c6cd485e8f3be9dfbda805443d695f0, type: 3}
     isPlaceholder: 0

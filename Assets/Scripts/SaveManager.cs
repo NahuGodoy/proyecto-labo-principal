@@ -250,4 +250,16 @@ public class SaveManager : MonoBehaviour
             throw new ArgumentOutOfRangeException(nameof(slotIndex));
         }
     }
+
+    public int ObtenerCantidadEasterEggs()
+    {
+        if (ActiveSave != null)
+        {
+            return ActiveSave.ContarEasterEggs();
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }
