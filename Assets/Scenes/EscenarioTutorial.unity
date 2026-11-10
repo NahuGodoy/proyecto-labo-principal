@@ -748,6 +748,63 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2959018953319660015, guid: 9e8d947f836038ef6abd5896ac8f9895, type: 3}
   m_PrefabInstance: {fileID: 1027181331}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &328734569
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 17.12184
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.414507
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 18.054447
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111907051734457584, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7866475806851762175, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
+      propertyPath: m_Name
+      value: Miku EasterEgg
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c9b05550ce6822f46b6204bde4891ac0, type: 3}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -4713,6 +4770,8 @@ MonoBehaviour:
   cameraController: {fileID: 0}
   victoriaPanel: {fileID: 435912308}
   levelTimer: {fileID: 840495272}
+  levelTimerUI: {fileID: 0}
+  victoryPanelUI: {fileID: 0}
   lobbySceneName: LobbyTest
   temporizador: {fileID: 0}
   textoMotivoDerrota: {fileID: 0}
@@ -5303,3 +5362,4 @@ SceneRoots:
   - {fileID: 1190207579}
   - {fileID: 371000111}
   - {fileID: 1027181331}
+  - {fileID: 328734569}
