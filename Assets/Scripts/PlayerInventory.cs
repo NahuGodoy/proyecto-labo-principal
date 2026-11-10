@@ -20,14 +20,8 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddFicha()
     {
-        sharedStats?.AddFicha();
-        
+        sharedStats.AddFicha();
         onFichasCollected?.Invoke(this);
-
-        if (SaveManager.Instance != null && SaveManager.Instance.ActiveSave != null)
-        {
-            SaveManager.Instance.AddFichas(1);
-        }
 
         MostrarEfectoFicha();
     }

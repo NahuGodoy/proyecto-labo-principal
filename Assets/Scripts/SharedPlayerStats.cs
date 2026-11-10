@@ -85,19 +85,12 @@ public class SharedPlayerStats : MonoBehaviour
         return cantVidas;
     }
 
-    public int perderFichas(int cantidad)
+    public int perderFichas(int cantidad = 5)
     {
         cantFichas = Mathf.Max(0, cantFichas - cantidad);
         FichasChanged?.Invoke(cantFichas);
         return cantFichas;
     }
-
-    /*public int perderFichas(int cantidad = 5)
-    {
-        cantFichas = Mathf.Max(0, cantFichas - cantidad);
-        FichasChanged?.Invoke(cantFichas);
-        return cantFichas;
-    }*/
 
     
 

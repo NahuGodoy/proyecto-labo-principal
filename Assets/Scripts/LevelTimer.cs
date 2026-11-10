@@ -11,6 +11,19 @@ public enum ScenarioDifficulty
 public static class ScenarioDifficultySelection
 {
     public static ScenarioDifficulty Selected { get; private set; } = ScenarioDifficulty.Normal;
+    public static int Multiplier => Selected switch
+    {
+        ScenarioDifficulty.Easy => 1,
+        ScenarioDifficulty.Hard => 3,
+        _ => 2
+    };
+
+    public static string DifficultyLabel => Selected switch
+    {
+        ScenarioDifficulty.Easy => "Fácil",
+        ScenarioDifficulty.Hard => "Difícil",
+        _ => "Normal"
+    };
 
     public static string LevelId => GetLevelId("escenario1");
 
@@ -83,6 +96,11 @@ public class LevelTimer : MonoBehaviour
 
     public float ElapsedSeconds => elapsedSeconds;
     public bool IsRunning => running;
+    public bool IsScenarioLevel => levelId == "escenario1" || levelId == "escenario2";
+    public string CurrentLevelId => IsScenarioLevel
+        ? ScenarioDifficultySelection.GetLevelId(levelId)
+        : levelId;
+    public bool LastCompletionWasNewRecord { get; private set; }
 
     private void OnEnable()
     {
@@ -137,16 +155,17 @@ public class LevelTimer : MonoBehaviour
 
         finished = true;
         running = false;
+        LastCompletionWasNewRecord = false;
 
-        string completedLevelId = levelId == "escenario1" || levelId == "escenario2"
-            ? ScenarioDifficultySelection.GetLevelId(levelId)
-            : levelId;
+        string completedLevelId = CurrentLevelId;
 
         if (SaveManager.Instance != null && SaveManager.Instance.ActiveSave != null)
         {
             if (completedLevelId == "tutorial")
             {
+                float previousBestTime = SaveManager.Instance.ActiveSave.GetBestTime(completedLevelId);
                 SaveManager.Instance.CompleteTutorial(recordTime ? elapsedSeconds : -1f);
+                LastCompletionWasNewRecord = recordTime && (previousBestTime < 0f || elapsedSeconds < previousBestTime);
                 if (recordTime)
                 {
                     AchievementSystem.Instance?.Unlock(AchievementSystem.TutorialCompletedId);
@@ -154,7 +173,7 @@ public class LevelTimer : MonoBehaviour
             }
             else if (recordTime)
             {
-                SaveManager.Instance.TrySetBestTime(completedLevelId, elapsedSeconds);
+                LastCompletionWasNewRecord = SaveManager.Instance.TrySetBestTime(completedLevelId, elapsedSeconds);
                 if(completedLevelId == "escenario2:facil" ||
                 completedLevelId == "escenario2:normal" ||
                 completedLevelId == "escenario2:dificil")

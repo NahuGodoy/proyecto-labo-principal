@@ -41,11 +41,6 @@ public class SaveData
     public List<BoolProgressEntry> achievements = new List<BoolProgressEntry>();
     public List<LevelBestTime> bestTimes = new List<LevelBestTime>();
 
-    private static readonly string[] EasterEggIds = new string[]
-{
-    "vik", "nahu", "enzo", "vicu", "leo", "juan"
-};
-
     public static SaveData CreateEmpty(int slotId)
     {
         return new SaveData
@@ -178,18 +173,4 @@ public class SaveData
 
         entry.unlocked = unlocked;
     }
-
-    public int ContarEasterEggs()
-{
-    int count = 0;
-    foreach (string id in EasterEggIds)
-    {
-        if (HasCollectible(id))
-        {
-            count++;
-            Debug.Log("llevas " + count + " coleccionables de 6");
-        }
-    }
-    return count;
-}
 }
