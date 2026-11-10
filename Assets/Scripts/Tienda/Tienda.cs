@@ -136,7 +136,21 @@ public class Tienda : MonoBehaviour
             sharedStats.perderFichas(data.precio); 
         }
 
-        inventario.Agregar(data.tipo);
+        switch (data.categoria)
+        {
+            case CategoriaItem.PowerUp:
+                inventario.Agregar(data.tipo);
+                break;
+
+            case CategoriaItem.LibreDeDeuda:
+                bool ok = AchievementSystem.Instance != null && AchievementSystem.Instance.Unlock(AchievementSystem.LibreDeDeudaId);
+                Debug.Log($"[Tienda] Unlock libre_de_deuda: {ok}");
+                break;
+
+            case CategoriaItem.DobleSalto:
+                // pendiente
+                break;
+        }
         Debug.Log($"[Tienda] Compra exitosa de {data.nombre}");
     }
 
