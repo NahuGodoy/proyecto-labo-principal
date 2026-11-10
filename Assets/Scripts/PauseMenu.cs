@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject pauseMenuUI;
     public GameObject opcionesUI;
+    [SerializeField] private Button botonControles;
+    [SerializeField] private GameObject controlesUI;
+    private bool volverAOpcionesDesdeControles;
 
     public GameObject creditosUI;
 
@@ -27,7 +31,17 @@ public class PauseMenu : MonoBehaviour
         
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
     {
-        if (opcionesUI.activeSelf)
+        if (controlesUI != null && controlesUI.activeSelf)
+        {
+            ControlsMenuUI controlsMenu = FindAnyObjectByType<ControlsMenuUI>(FindObjectsInactive.Include);
+            if (controlsMenu != null && controlsMenu.CancelRebindingIfActive())
+            {
+                return;
+            }
+
+            CerrarControles();
+        }
+        else if (opcionesUI != null && opcionesUI.activeSelf)
         {
             CerrarOpciones();
         }
@@ -54,6 +68,16 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
+        if (botonControles != null)
+        {
+            botonControles.onClick.AddListener(AbrirControles);
+        }
+
+        if (controlesUI != null)
+        {
+            controlesUI.SetActive(false);
+        }
+
         if (pauseMenuUI != null)
         {
             AchievementSystem achievementSystem = AchievementSystem.Instance;
@@ -85,6 +109,14 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = false;
     }
 
+    private void OnDestroy()
+    {
+        if (botonControles != null)
+        {
+            botonControles.onClick.RemoveListener(AbrirControles);
+        }
+    }
+
     public void AbrirOpciones()
     {
         pauseMenuUI.SetActive(false);
@@ -95,6 +127,47 @@ public class PauseMenu : MonoBehaviour
     {
         opcionesUI.SetActive(false);
         pauseMenuUI.SetActive(true);
+    }
+
+    public void AbrirControles()
+    {
+        if (controlesUI == null)
+        {
+            Debug.LogWarning("Asigna el panel de controles en PauseMenu.", this);
+            return;
+        }
+
+        volverAOpcionesDesdeControles = opcionesUI != null && opcionesUI.activeSelf;
+        if (volverAOpcionesDesdeControles)
+        {
+            opcionesUI.SetActive(false);
+        }
+
+        if (pauseMenuUI != null)
+        {
+            pauseMenuUI.SetActive(false);
+        }
+
+        controlesUI.SetActive(true);
+    }
+
+    public void CerrarControles()
+    {
+        if (controlesUI != null)
+        {
+            controlesUI.SetActive(false);
+        }
+
+        if (volverAOpcionesDesdeControles && opcionesUI != null)
+        {
+            opcionesUI.SetActive(true);
+        }
+        else if (pauseMenuUI != null && JuegoEsPausado)
+        {
+            pauseMenuUI.SetActive(true);
+        }
+
+        volverAOpcionesDesdeControles = false;
     }
 
     public void AbrirLogros()
