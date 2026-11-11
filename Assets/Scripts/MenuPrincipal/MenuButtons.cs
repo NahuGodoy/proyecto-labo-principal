@@ -20,4 +20,9 @@ public class MenuButtons : MonoBehaviour
         SceneManager.LoadScene("SaveSelection");
     }
 
+    public void MenuPrincipal()
+    {
+        SceneManager.LoadScene("MenuPrincipal");
+    }
+
 }
