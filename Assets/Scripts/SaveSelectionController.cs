@@ -3,9 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Events;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+
 
 public class SaveSelectionController : MonoBehaviour
 {
@@ -51,16 +49,6 @@ public class SaveSelectionController : MonoBehaviour
             : tutorialSceneName;
         SceneManager.LoadScene(destination);
     }
-
-    public void ExitGame()
-    {
-#if UNITY_EDITOR
-        EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
-
     public void ResetSlot(int slotIndex)
     {
         pendingDeleteSlot = slotIndex;

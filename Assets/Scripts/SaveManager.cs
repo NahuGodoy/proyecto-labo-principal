@@ -54,6 +54,7 @@ public class SaveManager : MonoBehaviour
     public void SelectSlot(int slotIndex)
     {
         ValidateSlotIndex(slotIndex);
+        bool changedSlot = activeSlotIndex != slotIndex;
 
         SaveData save = saves[slotIndex];
         if (!save.created)
@@ -63,6 +64,11 @@ public class SaveManager : MonoBehaviour
         }
 
         activeSlotIndex = slotIndex;
+        if (changedSlot)
+        {
+            IntocableTracker.ReiniciarProgresoDeEscenarios();
+        }
+
         ActiveProfileChanged?.Invoke();
     }
 
@@ -76,6 +82,7 @@ public class SaveManager : MonoBehaviour
         if (activeSlotIndex == slotIndex)
         {
             activeSlotIndex = -1;
+            IntocableTracker.ReiniciarProgresoDeEscenarios();
             ActiveProfileChanged?.Invoke();
         }
     }
@@ -241,6 +248,18 @@ public class SaveManager : MonoBehaviour
         if (slotIndex < 0 || slotIndex >= SlotCount)
         {
             throw new ArgumentOutOfRangeException(nameof(slotIndex));
+        }
+    }
+
+    public int ObtenerCantidadEasterEggs()
+    {
+        if (ActiveSave != null)
+        {
+            return ActiveSave.ContarEasterEggs();
+        }
+        else
+        {
+            return 0;
         }
     }
 }

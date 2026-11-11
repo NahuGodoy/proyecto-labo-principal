@@ -19,33 +19,33 @@ MonoBehaviour:
     unlockedDescription: 'Bien ahi capo, sabes saltar y mover la camara. '
     icon: {fileID: 21300000, guid: 31c0148bb3459ce77817c26b343a2040, type: 3}
     isPlaceholder: 0
-  - id: placeholder_collector
-    displayName: Coleccionista
-    description: Logro en desarrollo.
-    unlockedDescription: "Has reunido una colecci\xF3n digna de admiraci\xF3n."
-    icon: {fileID: 0}
-    isPlaceholder: 1
-  - id: placeholder_speedrunner
-    displayName: A toda velocidad
-    description: Logro en desarrollo.
-    unlockedDescription: Has terminado el recorrido a toda velocidad.
-    icon: {fileID: 0}
-    isPlaceholder: 1
-  - id: placeholder_survivor
+  - id: escenario1_completed
+    displayName: Nivel 1 completado
+    description: Completa el nivel 1 en cualquier difcultad.
+    unlockedDescription: Completaste el nivel 1 en cualquier difcultad :3
+    icon: {fileID: 21300000, guid: 31c0148bb3459ce77817c26b343a2040, type: 3}
+    isPlaceholder: 0
+  - id: escenario2_completed
+    displayName: Nivel 2 completado
+    description: Completa el nivel 2 en cualquier difcultad.
+    unlockedDescription: Completaste el nivel 2 en cualquier difcultad :3
+    icon: {fileID: 21300000, guid: 31c0148bb3459ce77817c26b343a2040, type: 3}
+    isPlaceholder: 0
+  - id: intocable
     displayName: Intocable
-    description: Logro en desarrollo.
-    unlockedDescription: "Has superado el desaf\xEDo sin recibir da\xF1o."
+    description: "Completa un escenario sin recibir da\xF1o."
+    unlockedDescription: "Completaste el escenario sin recibir da\xF1o."
     icon: {fileID: 0}
-    isPlaceholder: 1
-  - id: placeholder_explorer
-    displayName: Explorador
-    description: Logro en desarrollo.
-    unlockedDescription: "No dejaste ning\xFAn rinc\xF3n sin explorar."
+    isPlaceholder: 0
+  - id: todosloscoleccionables
+    displayName: Coleccionista
+    description: Encuentra los 6 easter eggs que estan escondidos por los mapas.
+    unlockedDescription: Bien ahi genio, encontraste todo.
     icon: {fileID: 0}
-    isPlaceholder: 1
-  - id: placeholder_master
-    displayName: Maestro
-    description: Logro en desarrollo.
-    unlockedDescription: Has demostrado que dominas el juego.
-    icon: {fileID: 0}
-    isPlaceholder: 1
+    isPlaceholder: 0
+  - id: libre_de_deuda
+    displayName: Libre de deuda
+    description: Paga tu deuda
+    unlockedDescription: El casino no te perseguira, se feliz :3
+    icon: {fileID: 21300000, guid: 4c6cd485e8f3be9dfbda805443d695f0, type: 3}
+    isPlaceholder: 0

@@ -26,6 +26,7 @@ public class Damage : MonoBehaviour
 
     private void IntentarHacerDano(GameObject playerObject)
     {
+        IntocableTracker.RegistrarGolpe();
         if (Time.time >= ultimoDanoDado + tiempoInvulnerabilidad)
         {
             PlayerHealth playerHealth = playerObject.GetComponent<PlayerHealth>();
@@ -40,6 +41,7 @@ public class Damage : MonoBehaviour
                 try
                 {
                     playerHealth.perderVida();
+                    
                 }
                 finally
                 {
@@ -50,4 +52,5 @@ public class Damage : MonoBehaviour
             }
         }
     }
+    
 }

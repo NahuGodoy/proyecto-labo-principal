@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -11,9 +12,14 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject pauseMenuUI;
     public GameObject opcionesUI;
+    [SerializeField] private Button botonControles;
+    [SerializeField] private GameObject controlesUI;
+    private bool volverAOpcionesDesdeControles;
+    public GameObject creditosUI;
 
     [SerializeField] private string saveSelectionSceneName = "SaveSelection";
     [SerializeField] private AchievementMenuUI achievementMenu;
+    public static string EscenaPreviaCreditos = "";
 
     void Update()
     {
@@ -21,20 +27,34 @@ public class PauseMenu : MonoBehaviour
             return;
 
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
+    {
+        if (controlesUI != null && controlesUI.activeSelf)
         {
-            if (opcionesUI.activeSelf)
+            ControlsMenuUI controlsMenu = FindAnyObjectByType<ControlsMenuUI>(FindObjectsInactive.Include);
+            if (controlsMenu != null && controlsMenu.CancelRebindingIfActive())
             {
-                CerrarOpciones();
+                return;
             }
-            else if (JuegoEsPausado)
-            {
-                Reanudar();
-            }
-            else
-            {
-                Pausa();
-            }
+
+            CerrarControles();
         }
+        else if (opcionesUI != null && opcionesUI.activeSelf)
+        {
+            CerrarOpciones();
+        }
+        else if (creditosUI != null && creditosUI.activeSelf)
+            {
+                CerrarCreditos();
+            }
+        else if (JuegoEsPausado)
+            {
+            Reanudar();
+            }
+        else
+        {
+        Pausa();
+        }
+}
 
         if (!JuegoEsPausado && !UIBloqueaCursor && Mouse.current.leftButton.wasPressedThisFrame && Cursor.lockState != CursorLockMode.Locked)
         {
@@ -45,6 +65,15 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
+        if (botonControles != null)
+        {
+            botonControles.onClick.AddListener(AbrirControles);
+        }
+
+        if (controlesUI != null)
+        {
+            controlesUI.SetActive(false);
+        }
         if (pauseMenuUI != null)
         {
             AchievementSystem achievementSystem = AchievementSystem.Instance;
@@ -75,13 +104,58 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-
+    private void OnDestroy()
+    {
+        if (botonControles != null)
+        {
+            botonControles.onClick.RemoveListener(AbrirControles);
+        }
+    }
     public void AbrirOpciones()
     {
         pauseMenuUI.SetActive(false);
         opcionesUI.SetActive(true);
     }
+    public void AbrirControles()
+    {
+        if (controlesUI == null)
+        {
+            Debug.LogWarning("Asigna el panel de controles en PauseMenu.", this);
+            return;
+        }
 
+        volverAOpcionesDesdeControles = opcionesUI != null && opcionesUI.activeSelf;
+        if (volverAOpcionesDesdeControles)
+        {
+            opcionesUI.SetActive(false);
+        }
+
+        if (pauseMenuUI != null)
+        {
+            pauseMenuUI.SetActive(false);
+        }
+
+        controlesUI.SetActive(true);
+    }
+
+    public void CerrarControles()
+    {
+        if (controlesUI != null)
+        {
+            controlesUI.SetActive(false);
+        }
+
+        if (volverAOpcionesDesdeControles && opcionesUI != null)
+        {
+            opcionesUI.SetActive(true);
+        }
+        else if (pauseMenuUI != null && JuegoEsPausado)
+        {
+            pauseMenuUI.SetActive(true);
+        }
+
+        volverAOpcionesDesdeControles = false;
+    }
     public void CerrarOpciones()
     {
         opcionesUI.SetActive(false);
@@ -131,7 +205,17 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadScene(saveSelectionSceneName);
     }
 
-    
+public void AbrirCreditos()
+{
+    if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
+    if (creditosUI != null) creditosUI.SetActive(true);
+}
+
+public void CerrarCreditos()
+{
+    if (creditosUI != null) creditosUI.SetActive(false);
+    if (pauseMenuUI != null) pauseMenuUI.SetActive(true);
+}
 
 
 }

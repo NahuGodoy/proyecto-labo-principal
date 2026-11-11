@@ -11,17 +11,49 @@ public enum ScenarioDifficulty
 public static class ScenarioDifficultySelection
 {
     public static ScenarioDifficulty Selected { get; private set; } = ScenarioDifficulty.Normal;
-
-    public static string LevelId => Selected switch
+    public static int Multiplier => Selected switch
     {
-        ScenarioDifficulty.Easy => "escenario1:facil",
-        ScenarioDifficulty.Hard => "escenario1:dificil",
-        _ => "escenario1:normal"
+        ScenarioDifficulty.Easy => 1,
+        ScenarioDifficulty.Hard => 3,
+        _ => 2
     };
+
+    public static string DifficultyLabel => Selected switch
+    {
+        ScenarioDifficulty.Easy => "Fácil",
+        ScenarioDifficulty.Hard => "Difícil",
+        _ => "Normal"
+    };
+
+    public static string LevelId => GetLevelId("escenario1");
+
+    public static string GetLevelId(string scenarioId)
+    {
+        string difficultyId = Selected switch
+        {
+            ScenarioDifficulty.Easy => "facil",
+            ScenarioDifficulty.Hard => "dificil",
+            _ => "normal"
+        };
+
+        return $"{scenarioId}:{difficultyId}";
+    }
 
     public static void Select(ScenarioDifficulty difficulty)
     {
         Selected = difficulty;
+    }
+}
+
+public static class ScenarioModeSelection
+{
+    public static bool TimeTrialEnabled { get; private set; } = true;
+    public static bool RandomEventsEnabled { get; private set; } = true;
+
+    public static void Select(bool timeTrialEnabled, bool randomEventsEnabled)
+    {
+        TimeTrialEnabled = timeTrialEnabled;
+        RandomEventsEnabled = randomEventsEnabled;
     }
 }
 
@@ -46,8 +78,29 @@ public class LevelTimer : MonoBehaviour
     private bool running;
     private bool finished;
 
+    private void Awake()
+    {
+        if (levelId != "escenario1" && levelId != "escenario2")
+        {
+            return;
+        }
+
+        countdown = ScenarioModeSelection.TimeTrialEnabled;
+
+        EventosAleatoriosManager eventManager = FindAnyObjectByType<EventosAleatoriosManager>(FindObjectsInactive.Include);
+        if (eventManager != null)
+        {
+            eventManager.gameObject.SetActive(ScenarioModeSelection.RandomEventsEnabled);
+        }
+    }
+
     public float ElapsedSeconds => elapsedSeconds;
     public bool IsRunning => running;
+    public bool IsScenarioLevel => levelId == "escenario1" || levelId == "escenario2";
+    public string CurrentLevelId => IsScenarioLevel
+        ? ScenarioDifficultySelection.GetLevelId(levelId)
+        : levelId;
+    public bool LastCompletionWasNewRecord { get; private set; }
 
     private void OnEnable()
     {
@@ -102,16 +155,17 @@ public class LevelTimer : MonoBehaviour
 
         finished = true;
         running = false;
+        LastCompletionWasNewRecord = false;
 
-        string completedLevelId = levelId == "escenario1"
-            ? ScenarioDifficultySelection.LevelId
-            : levelId;
+        string completedLevelId = CurrentLevelId;
 
         if (SaveManager.Instance != null && SaveManager.Instance.ActiveSave != null)
         {
             if (completedLevelId == "tutorial")
             {
+                float previousBestTime = SaveManager.Instance.ActiveSave.GetBestTime(completedLevelId);
                 SaveManager.Instance.CompleteTutorial(recordTime ? elapsedSeconds : -1f);
+                LastCompletionWasNewRecord = recordTime && (previousBestTime < 0f || elapsedSeconds < previousBestTime);
                 if (recordTime)
                 {
                     AchievementSystem.Instance?.Unlock(AchievementSystem.TutorialCompletedId);
@@ -119,7 +173,20 @@ public class LevelTimer : MonoBehaviour
             }
             else if (recordTime)
             {
-                SaveManager.Instance.TrySetBestTime(completedLevelId, elapsedSeconds);
+                LastCompletionWasNewRecord = SaveManager.Instance.TrySetBestTime(completedLevelId, elapsedSeconds);
+                if(completedLevelId == "escenario2:facil" ||
+                completedLevelId == "escenario2:normal" ||
+                completedLevelId == "escenario2:dificil")
+                {
+                    AchievementSystem.Instance?.Unlock(AchievementSystem.Escenario2CompletedId);
+                }
+                if(completedLevelId == "escenario1:facil" ||
+                completedLevelId == "escenario1:normal" ||
+                completedLevelId == "escenario1:dificil")
+                {
+                    AchievementSystem.Instance?.Unlock(AchievementSystem.Escenario1CompletedId);
+                }
+                
             }
         }
 

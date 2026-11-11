@@ -47,6 +47,7 @@ public class PlayerHealth : MonoBehaviour
             return;
         }
         int vidasRestantes = sharedStats.PerderVida();
+        IntocableTracker.RegistrarGolpe();
         onDamageTaken?.Invoke(this);
         Respawn();
 

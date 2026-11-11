@@ -1,10 +1,25 @@
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AchievementMenuUI : MonoBehaviour
 {
+    private struct AchievementNotification
+    {
+        public string title;
+        public string message;
+        public Sprite icon;
+
+        public AchievementNotification(string title, string message, Sprite icon)
+        {
+            this.title = title;
+            this.message = message;
+            this.icon = icon;
+        }
+    }
+
     private static readonly Color UnlockedRowColor = ParseHexColor("#266b53");
     private static readonly Color LockedRowColor = ParseHexColor("#303030");
     private static readonly Color UnlockedIconColor = ParseHexColor("#fffefd");
@@ -27,6 +42,7 @@ public class AchievementMenuUI : MonoBehaviour
 
     private AchievementSystem achievementSystem;
     private Coroutine notificationRoutine;
+    private readonly Queue<AchievementNotification> notificationQueue = new Queue<AchievementNotification>();
 
     public bool IsOpen => panel != null && panel.activeSelf;
 
@@ -230,34 +246,38 @@ public class AchievementMenuUI : MonoBehaviour
             return;
         }
 
-        if (notificationTitle != null)
+        notificationQueue.Enqueue(new AchievementNotification(title, message, icon));
+        if (notificationRoutine == null)
         {
-            notificationTitle.text = title;
+            notificationRoutine = StartCoroutine(ShowQueuedNotifications());
         }
-
-        if (notificationAchievementName != null)
-        {
-            notificationAchievementName.text = message;
-        }
-
-        if (notificationIcon != null)
-        {
-            notificationIcon.sprite = icon;
-            notificationIcon.enabled = icon != null;
-        }
-
-        notificationPanel.SetActive(true);
-        if (notificationRoutine != null)
-        {
-            StopCoroutine(notificationRoutine);
-        }
-
-        notificationRoutine = StartCoroutine(HideNotificationAfterDelay());
     }
 
-    private IEnumerator HideNotificationAfterDelay()
+    private IEnumerator ShowQueuedNotifications()
     {
-        yield return new WaitForSecondsRealtime(notificationDuration);
+        while (notificationQueue.Count > 0)
+        {
+            AchievementNotification notification = notificationQueue.Dequeue();
+            if (notificationTitle != null)
+            {
+                notificationTitle.text = notification.title;
+            }
+
+            if (notificationAchievementName != null)
+            {
+                notificationAchievementName.text = notification.message;
+            }
+
+            if (notificationIcon != null)
+            {
+                notificationIcon.sprite = notification.icon;
+                notificationIcon.enabled = notification.icon != null;
+            }
+
+            notificationPanel.SetActive(true);
+            yield return new WaitForSecondsRealtime(notificationDuration);
+        }
+
         notificationPanel.SetActive(false);
         notificationRoutine = null;
     }
