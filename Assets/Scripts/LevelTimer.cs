@@ -180,6 +180,12 @@ public class LevelTimer : MonoBehaviour
                 {
                     AchievementSystem.Instance?.Unlock(AchievementSystem.Escenario2CompletedId);
                 }
+                if(completedLevelId == "escenario1:facil" ||
+                completedLevelId == "escenario1:normal" ||
+                completedLevelId == "escenario1:dificil")
+                {
+                    AchievementSystem.Instance?.Unlock(AchievementSystem.Escenario1CompletedId);
+                }
                 
             }
         }

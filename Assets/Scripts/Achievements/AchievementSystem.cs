@@ -30,6 +30,7 @@ public class AchievementDefinition
 public class AchievementSystem : MonoBehaviour
 {
     public const string TutorialCompletedId = "tutorial_completed";
+    public const string Escenario1CompletedId = "escenario1_completed";
     public const string Escenario2CompletedId = "escenario2_completed";
     public const string IntocableId = "intocable";
     public const string LibreDeDeudaId = "libre_de_deuda";
@@ -41,7 +42,7 @@ public class AchievementSystem : MonoBehaviour
     private readonly List<AchievementDefinition> fallbackAchievements = new List<AchievementDefinition>
     {
         new AchievementDefinition(TutorialCompletedId, "Tutorial completado", "Completa el recorrido del tutorial sin omitirlo."),
-        new AchievementDefinition("placeholder_collector", "Coleccionista", "Logro en desarrollo.", true),
+        new AchievementDefinition(Escenario1CompletedId, "Nivel 1 completado", "Completa el nivel 1 en cualquier dificultad."),
         new AchievementDefinition(Escenario2CompletedId, "Nivel 2 completado", "Completa el nivel 2 en cualquier dificultad."),
         new AchievementDefinition(IntocableId, "Intocable", "Completa un escenario sin recibir daño.", false,
         "Completaste un escenario sin recibir daño."),
