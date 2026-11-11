@@ -1053,6 +1053,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1887088160559534483, guid: da0ed74ba6ab38b4bb7f4bb03e38a04c, type: 3}
+      propertyPath: modoExhibicion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080154509283162919, guid: da0ed74ba6ab38b4bb7f4bb03e38a04c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
