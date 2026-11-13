@@ -63,6 +63,6 @@ public class VictoryPanelUI : MonoBehaviour
 
     private static string FormatTime(float seconds)
     {
-        return $"{Mathf.Max(0f, seconds):F2} s";
+        return $"{Mathf.Max(0f, seconds):F2}s";
     }
 }

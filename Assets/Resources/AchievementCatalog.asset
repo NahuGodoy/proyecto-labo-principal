@@ -41,7 +41,7 @@ MonoBehaviour:
     displayName: Coleccionista
     description: Encuentra los 6 easter eggs que estan escondidos por los mapas.
     unlockedDescription: Bien ahi genio, encontraste todo.
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 8220c6e379212d542ac604f12ea31893, type: 3}
     isPlaceholder: 0
   - id: libre_de_deuda
     displayName: Libre de deuda

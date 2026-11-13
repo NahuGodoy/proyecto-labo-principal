@@ -43,6 +43,7 @@ public class SaveSelectionController : MonoBehaviour
 
     public void SelectSlot(int slotIndex)
     {
+        PlayerPowerUpInventory.LimpiarEstadosPersistentes();
         SaveManager.Instance.SelectSlot(slotIndex);
         string destination = SaveManager.Instance.ActiveSave.tutorialCompleted
             ? lobbySceneName

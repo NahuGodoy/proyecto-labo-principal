@@ -112,14 +112,13 @@ public class Tienda : MonoBehaviour
         #endif */
 
         var save = SaveManager.Instance;
-        var sharedStats = SharedPlayerStats.GetOrCreate();
         if ( save == null || save.ActiveSave == null)
         {
             Debug.Log("[Tienda] No hay SaveManager activo tontin");
             return;
         }
 
-        if (sharedStats.cantFichas < data.precio || save.ActiveSave.totalFichas < data.precio)
+        if (save.ActiveSave.totalFichas < data.precio)
         {
             Debug.Log("[Tienda] No tenes suficientes fichas bleeeh");
             return;
@@ -131,11 +130,6 @@ public class Tienda : MonoBehaviour
             return;
         }
         
-        if (sharedStats != null)
-        {
-            sharedStats.perderFichas(data.precio); 
-        }
-
         switch (data.categoria)
         {
             case CategoriaItem.PowerUp:
